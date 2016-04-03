@@ -1,0 +1,13 @@
+[13-Jan-2016 06:50:56 America/Denver] PHP Warning:  PHP Startup: imagick: Unable to initialize module
+Module compiled with module API=20131226
+PHP    compiled with module API=20100525
+These options need to match
+ in Unknown on line 0
+[13-Jan-2016 06:50:56 America/Denver] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/php/56/usr/lib64/php/modules/pdo_mysql.so' - /usr/php/56/usr/lib64/php/modules/pdo_mysql.so: undefined symbol: mysqlnd_allocator in Unknown on line 0
+[13-Jan-2016 06:50:56 America/Denver] PHP Warning:  PHP Startup: pdo_sqlite: Unable to initialize module
+Module compiled with module API=20131226
+PHP    compiled with module API=20100525
+These options need to match
+ in Unknown on line 0
+[13-Jan-2016 06:50:56 America/Denver] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/php/56/usr/lib64/php/modules/pdo_pgsql.so' - /usr/php/56/usr/lib64/php/modules/pdo_pgsql.so: undefined symbol: pdo_handle_error in Unknown on line 0
+[13-Jan-2016 06:50:57 America/Denver] PHP Fatal error:  Call to undefined function get_header() in /home1/imagiok2/public_html/wp-content/themes/twentyfifteen/404.php on line 10

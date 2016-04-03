@@ -1,0 +1,133 @@
+[29-Aug-2015 10:27:05 America/Denver] PHP Fatal error:  Call to undefined function feed_content_type() in /home1/imagiok2/public_html/wp-includes/feed-rss2-comments.php on line 8
+[29-Aug-2015 10:27:08 America/Denver] PHP Fatal error:  Call to undefined function _deprecated_file() in /home1/imagiok2/public_html/wp-includes/registration-functions.php on line 7
+[29-Aug-2015 10:27:08 America/Denver] PHP Fatal error:  Class 'Walker' not found in /home1/imagiok2/public_html/wp-includes/comment-template.php on line 1662
+[29-Aug-2015 10:27:08 America/Denver] PHP Fatal error:  Call to undefined function add_shortcode() in /home1/imagiok2/public_html/wp-includes/media.php on line 815
+[29-Aug-2015 10:27:12 America/Denver] PHP Fatal error:  Call to undefined function feed_content_type() in /home1/imagiok2/public_html/wp-includes/feed-atom-comments.php on line 8
+[29-Aug-2015 10:27:12 America/Denver] PHP Fatal error:  Call to undefined function add_filter() in /home1/imagiok2/public_html/wp-includes/class-wp-embed.php on line 26
+[29-Aug-2015 10:27:17 America/Denver] PHP Fatal error:  Call to undefined function feed_content_type() in /home1/imagiok2/public_html/wp-includes/feed-rdf.php on line 8
+[29-Aug-2015 10:27:22 America/Denver] PHP Fatal error:  Call to undefined function _deprecated_file() in /home1/imagiok2/public_html/wp-includes/registration.php on line 7
+[29-Aug-2015 10:27:25 America/Denver] PHP Fatal error:  Call to undefined function feed_content_type() in /home1/imagiok2/public_html/wp-includes/feed-rss.php on line 8
+[29-Aug-2015 10:27:25 America/Denver] PHP Fatal error:  Call to undefined function _deprecated_file() in /home1/imagiok2/public_html/wp-includes/class-snoopy.php on line 6
+[29-Aug-2015 10:27:27 America/Denver] PHP Fatal error:  Class 'Walker' not found in /home1/imagiok2/public_html/wp-includes/post-template.php on line 1292
+[29-Aug-2015 10:27:27 America/Denver] PHP Notice:  Use of undefined constant ABSPATH - assumed 'ABSPATH' in /home1/imagiok2/public_html/wp-includes/class-feed.php on line 4
+[29-Aug-2015 10:27:27 America/Denver] PHP Notice:  Use of undefined constant WPINC - assumed 'WPINC' in /home1/imagiok2/public_html/wp-includes/class-feed.php on line 4
+[29-Aug-2015 10:27:27 America/Denver] PHP Warning:  require_once(ABSPATHWPINC/class-simplepie.php): failed to open stream: No such file or directory in /home1/imagiok2/public_html/wp-includes/class-feed.php on line 4
+[29-Aug-2015 10:27:27 America/Denver] PHP Fatal error:  require_once(): Failed opening required 'ABSPATHWPINC/class-simplepie.php' (include_path='.:/usr/php/54/usr/lib64:/usr/php/54/usr/share/pear') in /home1/imagiok2/public_html/wp-includes/class-feed.php on line 4
+[29-Aug-2015 10:27:28 America/Denver] PHP Fatal error:  Class 'IXR_Server' not found in /home1/imagiok2/public_html/wp-includes/class-wp-xmlrpc-server.php on line 23
+[29-Aug-2015 10:27:29 America/Denver] PHP Fatal error:  Call to undefined function feed_content_type() in /home1/imagiok2/public_html/wp-includes/feed-atom.php on line 8
+[29-Aug-2015 10:27:31 America/Denver] PHP Fatal error:  Class 'WP_Image_Editor' not found in /home1/imagiok2/public_html/wp-includes/class-wp-image-editor-gd.php on line 17
+[29-Aug-2015 10:27:34 America/Denver] PHP Fatal error:  Call to undefined function is_admin() in /home1/imagiok2/public_html/wp-includes/vars.php on line 23
+[29-Aug-2015 10:27:36 America/Denver] PHP Fatal error:  Call to undefined function is_main_site() in /home1/imagiok2/public_html/wp-includes/update.php on line 666
+[29-Aug-2015 10:27:36 America/Denver] PHP Fatal error:  Call to undefined function add_action() in /home1/imagiok2/public_html/wp-includes/ms-default-constants.php on line 153
+[29-Aug-2015 10:27:36 America/Denver] PHP Notice:  Use of undefined constant ABSPATH - assumed 'ABSPATH' in /home1/imagiok2/public_html/wp-includes/ms-settings.php on line 14
+[29-Aug-2015 10:27:36 America/Denver] PHP Notice:  Use of undefined constant WPINC - assumed 'WPINC' in /home1/imagiok2/public_html/wp-includes/ms-settings.php on line 14
+[29-Aug-2015 10:27:36 America/Denver] PHP Warning:  require_once(ABSPATHWPINC/ms-load.php): failed to open stream: No such file or directory in /home1/imagiok2/public_html/wp-includes/ms-settings.php on line 14
+[29-Aug-2015 10:27:36 America/Denver] PHP Fatal error:  require_once(): Failed opening required 'ABSPATHWPINC/ms-load.php' (include_path='.:/usr/php/54/usr/lib64:/usr/php/54/usr/share/pear') in /home1/imagiok2/public_html/wp-includes/ms-settings.php on line 14
+[29-Aug-2015 10:27:37 America/Denver] PHP Fatal error:  Call to undefined function is_robots() in /home1/imagiok2/public_html/wp-includes/template-loader.php on line 28
+[29-Aug-2015 10:27:38 America/Denver] PHP Fatal error:  Call to undefined function _deprecated_file() in /home1/imagiok2/public_html/wp-includes/rss-functions.php on line 8
+[29-Aug-2015 10:27:39 America/Denver] PHP Fatal error:  Class 'IXR_Client' not found in /home1/imagiok2/public_html/wp-includes/class-wp-http-ixr-client.php on line 9
+[29-Aug-2015 10:27:40 America/Denver] PHP Fatal error:  Class 'WP_Dependencies' not found in /home1/imagiok2/public_html/wp-includes/class.wp-scripts.php on line 19
+[29-Aug-2015 10:27:40 America/Denver] PHP Fatal error:  Class 'Walker' not found in /home1/imagiok2/public_html/wp-includes/category-template.php on line 912
+[29-Aug-2015 10:27:41 America/Denver] PHP Notice:  Use of undefined constant ABSPATH - assumed 'ABSPATH' in /home1/imagiok2/public_html/wp-includes/class-simplepie.php on line 5
+[29-Aug-2015 10:27:41 America/Denver] PHP Notice:  Use of undefined constant WPINC - assumed 'WPINC' in /home1/imagiok2/public_html/wp-includes/class-simplepie.php on line 5
+[29-Aug-2015 10:27:41 America/Denver] PHP Fatal error:  require(): Failed opening required 'ABSPATHWPINC/SimplePie/Misc.php' (include_path='.:/usr/php/54/usr/lib64:/usr/php/54/usr/share/pear') in /home1/imagiok2/public_html/wp-includes/class-simplepie.php on line 5
+[29-Aug-2015 10:27:44 America/Denver] PHP Fatal error:  Call to undefined function add_filter() in /home1/imagiok2/public_html/wp-includes/default-filters.php on line 17
+[29-Aug-2015 10:27:49 America/Denver] PHP Notice:  Use of undefined constant ABSPATH - assumed 'ABSPATH' in /home1/imagiok2/public_html/wp-includes/functions.php on line 8
+[29-Aug-2015 10:27:49 America/Denver] PHP Notice:  Use of undefined constant WPINC - assumed 'WPINC' in /home1/imagiok2/public_html/wp-includes/functions.php on line 8
+[29-Aug-2015 10:27:49 America/Denver] PHP Fatal error:  require(): Failed opening required 'ABSPATHWPINC/option.php' (include_path='.:/usr/php/54/usr/lib64:/usr/php/54/usr/share/pear') in /home1/imagiok2/public_html/wp-includes/functions.php on line 8
+[29-Aug-2015 10:27:50 America/Denver] PHP Notice:  Use of undefined constant ABSPATH - assumed 'ABSPATH' in /home1/imagiok2/public_html/wp-includes/script-loader.php on line 25
+[29-Aug-2015 10:27:50 America/Denver] PHP Notice:  Use of undefined constant WPINC - assumed 'WPINC' in /home1/imagiok2/public_html/wp-includes/script-loader.php on line 25
+[29-Aug-2015 10:27:50 America/Denver] PHP Fatal error:  require(): Failed opening required 'ABSPATHWPINC/class.wp-dependencies.php' (include_path='.:/usr/php/54/usr/lib64:/usr/php/54/usr/share/pear') in /home1/imagiok2/public_html/wp-includes/script-loader.php on line 25
+[29-Aug-2015 10:27:52 America/Denver] PHP Fatal error:  Call to undefined function add_action() in /home1/imagiok2/public_html/wp-includes/ms-default-filters.php on line 17
+[29-Aug-2015 10:27:54 America/Denver] PHP Fatal error:  Call to undefined function _deprecated_file() in /home1/imagiok2/public_html/wp-includes/rss.php on line 19
+[29-Aug-2015 10:27:55 America/Denver] PHP Fatal error:  Class 'WP_Widget' not found in /home1/imagiok2/public_html/wp-includes/default-widgets.php on line 14
+[29-Aug-2015 10:27:56 America/Denver] PHP Fatal error:  Class 'WP_Image_Editor' not found in /home1/imagiok2/public_html/wp-includes/class-wp-image-editor-imagick.php on line 17
+[29-Aug-2015 10:27:56 America/Denver] PHP Fatal error:  Class 'Walker' not found in /home1/imagiok2/public_html/wp-includes/nav-menu-template.php on line 16
+[29-Aug-2015 10:27:57 America/Denver] PHP Fatal error:  Class 'WP_Dependencies' not found in /home1/imagiok2/public_html/wp-includes/class.wp-styles.php on line 19
+[29-Aug-2015 10:27:57 America/Denver] PHP Fatal error:  Call to undefined function feed_content_type() in /home1/imagiok2/public_html/wp-includes/feed-rss2.php on line 8
+[02-Sep-2015 06:20:04 America/Denver] PHP Fatal error:  Call to undefined function feed_content_type() in /home1/imagiok2/public_html/wp-includes/feed-rss.php on line 8
+[02-Sep-2015 06:20:04 America/Denver] PHP Fatal error:  Class 'WP_Image_Editor' not found in /home1/imagiok2/public_html/wp-includes/class-wp-image-editor-imagick.php on line 17
+[02-Sep-2015 06:20:10 America/Denver] PHP Fatal error:  Call to undefined function is_robots() in /home1/imagiok2/public_html/wp-includes/template-loader.php on line 28
+[02-Sep-2015 06:20:56 America/Denver] PHP Fatal error:  Class 'WP_Dependencies' not found in /home1/imagiok2/public_html/wp-includes/class.wp-styles.php on line 19
+[25-Nov-2015 07:13:28 America/Denver] PHP Fatal error:  Class 'WP_Image_Editor' not found in /home1/imagiok2/public_html/wp-includes/class-wp-image-editor-gd.php on line 17
+[25-Nov-2015 07:13:28 America/Denver] PHP Fatal error:  Call to undefined function is_admin() in /home1/imagiok2/public_html/wp-includes/vars.php on line 23
+[25-Nov-2015 07:13:28 America/Denver] PHP Fatal error:  Class 'IXR_Server' not found in /home1/imagiok2/public_html/wp-includes/class-wp-xmlrpc-server.php on line 23
+[25-Nov-2015 07:13:28 America/Denver] PHP Fatal error:  Class 'Walker' not found in /home1/imagiok2/public_html/wp-includes/comment-template.php on line 1680
+[25-Nov-2015 07:13:28 America/Denver] PHP Fatal error:  Class 'WP_Widget' not found in /home1/imagiok2/public_html/wp-includes/default-widgets.php on line 14
+[25-Nov-2015 07:13:28 America/Denver] PHP Notice:  Use of undefined constant ABSPATH - assumed 'ABSPATH' in /home1/imagiok2/public_html/wp-includes/class-feed.php on line 4
+[25-Nov-2015 07:13:28 America/Denver] PHP Notice:  Use of undefined constant WPINC - assumed 'WPINC' in /home1/imagiok2/public_html/wp-includes/class-feed.php on line 4
+[25-Nov-2015 07:13:28 America/Denver] PHP Warning:  require_once(ABSPATHWPINC/class-simplepie.php): failed to open stream: No such file or directory in /home1/imagiok2/public_html/wp-includes/class-feed.php on line 4
+[25-Nov-2015 07:13:28 America/Denver] PHP Fatal error:  require_once(): Failed opening required 'ABSPATHWPINC/class-simplepie.php' (include_path='.:/usr/php/54/usr/lib64:/usr/php/54/usr/share/pear') in /home1/imagiok2/public_html/wp-includes/class-feed.php on line 4
+[25-Nov-2015 07:13:28 America/Denver] PHP Fatal error:  Class 'Walker' not found in /home1/imagiok2/public_html/wp-includes/nav-menu-template.php on line 16
+[25-Nov-2015 07:13:28 America/Denver] PHP Notice:  Use of undefined constant ABSPATH - assumed 'ABSPATH' in /home1/imagiok2/public_html/wp-includes/functions.php on line 8
+[25-Nov-2015 07:13:28 America/Denver] PHP Notice:  Use of undefined constant WPINC - assumed 'WPINC' in /home1/imagiok2/public_html/wp-includes/functions.php on line 8
+[25-Nov-2015 07:13:28 America/Denver] PHP Fatal error:  require(): Failed opening required 'ABSPATHWPINC/option.php' (include_path='.:/usr/php/54/usr/lib64:/usr/php/54/usr/share/pear') in /home1/imagiok2/public_html/wp-includes/functions.php on line 8
+[25-Nov-2015 07:13:29 America/Denver] PHP Fatal error:  Call to undefined function _deprecated_file() in /home1/imagiok2/public_html/wp-includes/class-snoopy.php on line 6
+[25-Nov-2015 07:13:29 America/Denver] PHP Fatal error:  Call to undefined function add_filter() in /home1/imagiok2/public_html/wp-includes/class-wp-embed.php on line 28
+[25-Nov-2015 07:13:29 America/Denver] PHP Fatal error:  Class 'Walker' not found in /home1/imagiok2/public_html/wp-includes/post-template.php on line 1325
+[25-Nov-2015 07:13:29 America/Denver] PHP Notice:  Use of undefined constant ABSPATH - assumed 'ABSPATH' in /home1/imagiok2/public_html/wp-includes/script-loader.php on line 25
+[25-Nov-2015 07:13:29 America/Denver] PHP Notice:  Use of undefined constant WPINC - assumed 'WPINC' in /home1/imagiok2/public_html/wp-includes/script-loader.php on line 25
+[25-Nov-2015 07:13:29 America/Denver] PHP Fatal error:  require(): Failed opening required 'ABSPATHWPINC/class.wp-dependencies.php' (include_path='.:/usr/php/54/usr/lib64:/usr/php/54/usr/share/pear') in /home1/imagiok2/public_html/wp-includes/script-loader.php on line 25
+[25-Nov-2015 07:13:29 America/Denver] PHP Fatal error:  Call to undefined function add_filter() in /home1/imagiok2/public_html/wp-includes/default-filters.php on line 17
+[25-Nov-2015 07:13:29 America/Denver] PHP Fatal error:  Call to undefined function feed_content_type() in /home1/imagiok2/public_html/wp-includes/feed-rss2-comments.php on line 8
+[25-Nov-2015 07:13:29 America/Denver] PHP Fatal error:  Call to undefined function _deprecated_file() in /home1/imagiok2/public_html/wp-includes/rss.php on line 19
+[25-Nov-2015 07:13:29 America/Denver] PHP Fatal error:  Call to undefined function feed_content_type() in /home1/imagiok2/public_html/wp-includes/feed-atom.php on line 8
+[25-Nov-2015 07:13:29 America/Denver] PHP Notice:  Use of undefined constant ABSPATH - assumed 'ABSPATH' in /home1/imagiok2/public_html/wp-includes/ms-settings.php on line 14
+[25-Nov-2015 07:13:29 America/Denver] PHP Notice:  Use of undefined constant WPINC - assumed 'WPINC' in /home1/imagiok2/public_html/wp-includes/ms-settings.php on line 14
+[25-Nov-2015 07:13:29 America/Denver] PHP Warning:  require_once(ABSPATHWPINC/ms-load.php): failed to open stream: No such file or directory in /home1/imagiok2/public_html/wp-includes/ms-settings.php on line 14
+[25-Nov-2015 07:13:29 America/Denver] PHP Fatal error:  require_once(): Failed opening required 'ABSPATHWPINC/ms-load.php' (include_path='.:/usr/php/54/usr/lib64:/usr/php/54/usr/share/pear') in /home1/imagiok2/public_html/wp-includes/ms-settings.php on line 14
+[25-Nov-2015 07:13:29 America/Denver] PHP Fatal error:  Call to undefined function feed_content_type() in /home1/imagiok2/public_html/wp-includes/feed-atom-comments.php on line 8
+[25-Nov-2015 07:13:29 America/Denver] PHP Fatal error:  Call to undefined function feed_content_type() in /home1/imagiok2/public_html/wp-includes/feed-rss2.php on line 8
+[25-Nov-2015 07:13:30 America/Denver] PHP Fatal error:  Call to undefined function _deprecated_file() in /home1/imagiok2/public_html/wp-includes/rss-functions.php on line 8
+[25-Nov-2015 07:13:31 America/Denver] PHP Fatal error:  Class 'WP_Dependencies' not found in /home1/imagiok2/public_html/wp-includes/class.wp-styles.php on line 19
+[25-Nov-2015 07:13:31 America/Denver] PHP Fatal error:  Call to undefined function is_robots() in /home1/imagiok2/public_html/wp-includes/template-loader.php on line 28
+[25-Nov-2015 07:13:31 America/Denver] PHP Fatal error:  Call to undefined function add_action() in /home1/imagiok2/public_html/wp-includes/ms-default-filters.php on line 16
+[25-Nov-2015 07:13:32 America/Denver] PHP Fatal error:  Call to undefined function _deprecated_file() in /home1/imagiok2/public_html/wp-includes/registration.php on line 7
+[25-Nov-2015 07:13:32 America/Denver] PHP Fatal error:  Class 'IXR_Client' not found in /home1/imagiok2/public_html/wp-includes/class-wp-http-ixr-client.php on line 9
+[25-Nov-2015 07:13:32 America/Denver] PHP Fatal error:  Call to undefined function add_shortcode() in /home1/imagiok2/public_html/wp-includes/media.php on line 831
+[25-Nov-2015 07:13:32 America/Denver] PHP Fatal error:  Call to undefined function feed_content_type() in /home1/imagiok2/public_html/wp-includes/feed-rss.php on line 8
+[25-Nov-2015 07:13:32 America/Denver] PHP Fatal error:  Class 'Walker' not found in /home1/imagiok2/public_html/wp-includes/category-template.php on line 967
+[25-Nov-2015 07:13:33 America/Denver] PHP Fatal error:  Call to undefined function _deprecated_file() in /home1/imagiok2/public_html/wp-includes/registration-functions.php on line 7
+[25-Nov-2015 07:13:33 America/Denver] PHP Fatal error:  Class 'WP_Dependencies' not found in /home1/imagiok2/public_html/wp-includes/class.wp-scripts.php on line 19
+[25-Nov-2015 07:13:33 America/Denver] PHP Fatal error:  Call to undefined function is_main_site() in /home1/imagiok2/public_html/wp-includes/update.php on line 678
+[25-Nov-2015 07:13:33 America/Denver] PHP Notice:  Use of undefined constant ABSPATH - assumed 'ABSPATH' in /home1/imagiok2/public_html/wp-includes/class-simplepie.php on line 5
+[25-Nov-2015 07:13:33 America/Denver] PHP Notice:  Use of undefined constant WPINC - assumed 'WPINC' in /home1/imagiok2/public_html/wp-includes/class-simplepie.php on line 5
+[25-Nov-2015 07:13:33 America/Denver] PHP Fatal error:  require(): Failed opening required 'ABSPATHWPINC/SimplePie/Misc.php' (include_path='.:/usr/php/54/usr/lib64:/usr/php/54/usr/share/pear') in /home1/imagiok2/public_html/wp-includes/class-simplepie.php on line 5
+[25-Nov-2015 07:13:34 America/Denver] PHP Fatal error:  Call to undefined function feed_content_type() in /home1/imagiok2/public_html/wp-includes/feed-rdf.php on line 8
+[25-Nov-2015 07:13:35 America/Denver] PHP Fatal error:  Class 'WP_Image_Editor' not found in /home1/imagiok2/public_html/wp-includes/class-wp-image-editor-imagick.php on line 17
+[22-Jan-2016 13:40:19 America/Denver] PHP Warning:  PHP Startup: imagick: Unable to initialize module
+Module compiled with module API=20131226
+PHP    compiled with module API=20100525
+These options need to match
+ in Unknown on line 0
+[22-Jan-2016 13:40:19 America/Denver] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/php/56/usr/lib64/php/modules/pdo_mysql.so' - /usr/php/56/usr/lib64/php/modules/pdo_mysql.so: undefined symbol: mysqlnd_allocator in Unknown on line 0
+[22-Jan-2016 13:40:19 America/Denver] PHP Warning:  PHP Startup: pdo_sqlite: Unable to initialize module
+Module compiled with module API=20131226
+PHP    compiled with module API=20100525
+These options need to match
+ in Unknown on line 0
+[22-Jan-2016 13:40:19 America/Denver] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/php/56/usr/lib64/php/modules/pdo_pgsql.so' - /usr/php/56/usr/lib64/php/modules/pdo_pgsql.so: undefined symbol: pdo_handle_error in Unknown on line 0
+[22-Jan-2016 17:21:34 America/Denver] PHP Warning:  PHP Startup: imagick: Unable to initialize module
+Module compiled with module API=20131226
+PHP    compiled with module API=20100525
+These options need to match
+ in Unknown on line 0
+[22-Jan-2016 17:21:34 America/Denver] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/php/56/usr/lib64/php/modules/pdo_mysql.so' - /usr/php/56/usr/lib64/php/modules/pdo_mysql.so: undefined symbol: mysqlnd_allocator in Unknown on line 0
+[22-Jan-2016 17:21:34 America/Denver] PHP Warning:  PHP Startup: pdo_sqlite: Unable to initialize module
+Module compiled with module API=20131226
+PHP    compiled with module API=20100525
+These options need to match
+ in Unknown on line 0
+[22-Jan-2016 17:21:34 America/Denver] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/php/56/usr/lib64/php/modules/pdo_pgsql.so' - /usr/php/56/usr/lib64/php/modules/pdo_pgsql.so: undefined symbol: pdo_handle_error in Unknown on line 0
+[15-Mar-2016 23:38:38 America/Denver] PHP Warning:  PHP Startup: imagick: Unable to initialize module
+Module compiled with module API=20131226
+PHP    compiled with module API=20100525
+These options need to match
+ in Unknown on line 0
+[15-Mar-2016 23:38:38 America/Denver] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/php/56/usr/lib64/php/modules/pdo_mysql.so' - /usr/php/56/usr/lib64/php/modules/pdo_mysql.so: undefined symbol: mysqlnd_allocator in Unknown on line 0
+[15-Mar-2016 23:38:38 America/Denver] PHP Warning:  PHP Startup: pdo_sqlite: Unable to initialize module
+Module compiled with module API=20131226
+PHP    compiled with module API=20100525
+These options need to match
+ in Unknown on line 0
+[15-Mar-2016 23:38:38 America/Denver] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/php/56/usr/lib64/php/modules/pdo_pgsql.so' - /usr/php/56/usr/lib64/php/modules/pdo_pgsql.so: undefined symbol: pdo_handle_error in Unknown on line 0
