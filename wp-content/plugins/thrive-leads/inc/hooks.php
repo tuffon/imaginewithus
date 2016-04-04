@@ -177,14 +177,15 @@ function tve_leads_query_group() {
 		return;
 	}
 
+	$blacklist_post_types = array(
+		TVE_LEADS_POST_FORM_TYPE,
+		TVE_LEADS_POST_GROUP_TYPE,
+		TVE_LEADS_POST_SHORTCODE_TYPE,
+		'tcb_lightbox'
+	);
+
 	/* first, some general basic restrictions */
-	if ( is_singular( array(
-			TVE_LEADS_POST_FORM_TYPE,
-			TVE_LEADS_POST_GROUP_TYPE,
-			TVE_LEADS_POST_SHORTCODE_TYPE,
-			'tcb_lightbox'
-		) ) || is_editor_page_raw()
-	) {
+	if ( ( is_singular() && in_array( get_post_type(), $blacklist_post_types ) ) || is_editor_page_raw() ) {
 		return;
 	}
 	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
@@ -207,9 +208,14 @@ function tve_leads_query_group() {
 		'completed_tests' => false
 	) );
 
+	global $wp_query;
+	$should_reset_queried_object = is_null( $wp_query->queried_object );
+
 	foreach ( $groups as $group ) {
 		$savedOptions = new Thrive_Leads_Group_Options( $group->ID );
 		$savedOptions->initOptions();
+		/* if at least one is_page() check is made, we need to unset the queried_object field */
+		$should_reset_queried_object = $should_reset_queried_object && true;
 		if ( $savedOptions->displayGroup() ) {
 			if ( isset( $_COOKIE[ 'tl_inbound_link_params_' . $group->ID ] ) ) {
 				$inbound_link_params = unserialize( stripslashes( $_COOKIE[ 'tl_inbound_link_params_' . $group->ID ] ) );
@@ -223,6 +229,15 @@ function tve_leads_query_group() {
 			);
 			break;
 		}
+	}
+	/**
+	 * in some custom setups, this has the potential of redirecting the user an incorrect URL:
+	 * there is this condition in wp-includes/canonical.php: } elseif ( is_page() && !is_feed() && isset($wp_query->queried_object) && 'page' == get_option('show_on_front') && $wp_query->queried_object->ID == get_option('page_on_front')  && ! $redirect_url ) {
+	 * in our case, $wp_query->queried_object will be set and on homepage, if the URL of the page is not the same it will cause a redirect
+	 */
+	if ( $should_reset_queried_object && isset( $wp_query->queried_object ) ) {
+		unset( $wp_query->queried_object );
+		unset( $wp_query->queried_object_id );
 	}
 
 	if ( ! empty( $tve_lead_group ) ) {

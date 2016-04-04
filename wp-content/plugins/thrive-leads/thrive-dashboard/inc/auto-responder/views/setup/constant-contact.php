@@ -54,17 +54,19 @@
 
 
 <script type="text/javascript">
-	(function ($) {
-		var _token_url = $("#btn-get-token").attr('href');
+	(
+		function ( $ ) {
+			var _token_url = $( "#btn-get-token" ).attr( 'href' );
 
-		$("#btn-get-token").click(function () {
-			var api_key = $("#tvd-cc-api-key").val(),
-				$this = $(this);
-			if (!api_key) {
-				alert('<?php echo __( "Please enter the API Key in order to get the token !", TVE_DASH_TRANSLATE_DOMAIN ) ?>');
-				return false;
-			}
-			$this.attr('href', _token_url + api_key);
-		});
-	})(jQuery);
+			$( "#btn-get-token" ).click( function () {
+				var api_key = $( "#tvd-cc-api-key" ).val(),
+					$this = $( this );
+				if ( ! api_key ) {
+					alert( '<?php echo __( "Please enter the API Key in order to get the token !", TVE_DASH_TRANSLATE_DOMAIN ) ?>' );
+					return false;
+				}
+				$this.attr( 'href', _token_url + api_key );
+			} );
+		}
+	)( jQuery );
 </script>

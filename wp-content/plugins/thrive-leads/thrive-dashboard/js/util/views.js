@@ -10,8 +10,7 @@
 var TVE_Dash = TVE_Dash || {};
 TVE_Dash.views = TVE_Dash.views || {};
 
-(
-	function ( $ ) {
+(function ( $ ) {
 
 		/**
 		 * base class for modals
@@ -107,9 +106,9 @@ TVE_Dash.views = TVE_Dash.views || {};
 				$root = $root || this.$el;
 
 				var $inputs = $root.find( 'input:not(.tvd-select-dropdown),textarea,.tve-confirm-delete-action' );
-				$inputs.filter( ':visible' ).filter( ':not(.tvd-no-focus)' ).first().focus();
+				$inputs.filter( ':visible' ).filter( ':not(.tvd-no-focus)' ).first().focus().select();
 
-				$root.add( $inputs ).off( 'keyup.tvd-save' ).on( 'keyup.tvd-save', function ( e ) {
+				$root.add( $inputs ).not( '.tvd-skip-modal-save' ).off( 'keyup.tvd-save' ).on( 'keyup.tvd-save', function ( e ) {
 					if ( e.which === 13 ) {
 						$root.find( '.tvd-modal-submit' ).filter( ':visible' ).first().click();
 						return false;
@@ -247,5 +246,4 @@ TVE_Dash.views = TVE_Dash.views || {};
 			}
 		} );
 
-	}
-)( jQuery );
+	})( jQuery );

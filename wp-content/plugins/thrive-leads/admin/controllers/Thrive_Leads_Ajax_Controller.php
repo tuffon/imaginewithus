@@ -708,7 +708,7 @@ class Thrive_Leads_Ajax_Controller extends Thrive_Leads_Request_Handler {
 	public function displayGroupSettingsAction() {
 		$memory_limit = (int) ini_get( 'memory_limit' );
 		if ( $memory_limit < 256 ) {
-			ini_set( 'memory_limit', '256M' );
+			@ini_set( 'memory_limit', '256M' );
 		}
 		require_once plugin_dir_path( __FILE__ ) . '../inc/classes/display_settings/Thrive_Leads_Display_Settings_Manager.php';
 		$displaySettingsManager = new Thrive_Leads_Display_Settings_Manager( TVE_LEADS_VERSION );

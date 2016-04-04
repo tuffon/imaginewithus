@@ -393,10 +393,11 @@ jQuery(document).ready(function($, undefined) {
 
 			$.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
 				
-				if ($goPricingAdmin.find('form')[0].name != "impex-form" || ( $goPricingAdmin.find('form')[0].name == "impex-form"  && $goPricingAdmin.find('[name="_action_type"]').val() != 'import' ) ) {
+				if (!formdata || $goPricingAdmin.find('form')[0].name != "impex-form" && $goPricingAdmin.find('form')[0].name != "plugin-update-form" || ( $goPricingAdmin.find('form')[0].name == "impex-form"  && $goPricingAdmin.find('[name="_action_type"]').val() != 'import' ) ) {
 					options = originalOptions;
 					return;
 				}
+				
 				options.global = false;	
 				options.processData = false;
 				options.contentType = false;
@@ -901,6 +902,12 @@ jQuery(document).ready(function($, undefined) {
 				hideLoader();
 				return;
 			}
+			
+			/* Plugin update page */
+			if (formName == "plugin-update-form" && !supportsAjaxUpload()) {
+				hideLoader();
+				return;
+			}			
 						
 			ajaxRq = $.ajax({  
 				type: 'post',
@@ -922,7 +929,7 @@ jQuery(document).ready(function($, undefined) {
 				if ($ajaxResponse.find('#download_url').length) window.location.href = $ajaxResponse.find('#download_url').text();
 				
 				/* Page specific codes */
-				
+
 				/* Table manager page */
 				if (formName == "tm-form") {
 					if ( $ajaxResponse.find('.gwa-thumbs').length ) {
@@ -959,7 +966,7 @@ jQuery(document).ready(function($, undefined) {
 	
 				if (formName == "import-form" || formName == "impex-form") {
 					
-					formdata = false;
+					formdata = null;
 					
 					if ( $ajaxResponse.find('.gwa-pcontent').length ) {
 						$('.gwa-wrap').find('.gwa-pcontent').html( $ajaxResponse.find('.gwa-pcontent').html() )
@@ -970,6 +977,17 @@ jQuery(document).ready(function($, undefined) {
 					}										
 					$goPricingAdmin.find('select').trigger('change');
 				};
+				
+				/* Plugin update page */
+				if (formName == "plugin-update-form") {
+					
+					formdata = null;
+					
+					if ( $ajaxResponse.find('.gwa-pcontent').length ) {
+						$('.gwa-wrap').find('.gwa-pcontent').html( $ajaxResponse.find('.gwa-pcontent').html() )
+					}
+					
+				}				
 				
 				if ( $ajaxResponse.find('#result').length && typeof $ajaxResponse.find('#result')[0].className !== "undefined" ) {
 					setTimeout(function() { 

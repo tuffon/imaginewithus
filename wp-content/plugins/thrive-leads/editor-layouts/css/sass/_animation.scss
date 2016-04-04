@@ -295,7 +295,7 @@
     -webkit-transform: translateZ(-250px) rotateY(89deg);
   }
   100% {
-    -webkit-transform: translateZ(0) rotateY(0deg);
+    -webkit-transform: translateZ(0.1px) rotateY(0deg);
   }
 }
 @-moz-keyframes tl-slit {
@@ -305,7 +305,7 @@
     opacity: .5;
   }
   100% {
-    -moz-transform: translateZ(0) rotateY(0deg);
+    -moz-transform: translateZ(0.1px) rotateY(0deg);
     opacity: 1;
   }
 }
@@ -315,7 +315,7 @@
     transform: translateZ(-250px) rotateY(89deg);
   }
   100% {
-    transform: translateZ(0) rotateY(0deg);
+    transform: translateZ(0.1px) rotateY(0deg);
   }
 }
 @-webkit-keyframes tl-make-way {
@@ -943,9 +943,9 @@ html.tve-l-open {
   &.tl-anim-3d_slit {
     .tl-anim-3d_slit {
       .tve_p_lb_background {
-        -webkit-backface-visibility: hidden;
-        -moz-backface-visibility: hidden;
-        backface-visibility: hidden;
+        -webkit-backface-visibility: visible;
+        -moz-backface-visibility: visible;
+        backface-visibility: visible;
         -webkit-perspective: 1500px;
         -moz-perspective: 1500px;
         perspective: 1500px;

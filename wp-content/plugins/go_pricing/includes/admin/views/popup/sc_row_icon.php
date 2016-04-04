@@ -19,7 +19,7 @@ $user_id = get_current_user_id();
 									<th><label><?php _e( 'Iconset', 'go_pricing_textdomain' ); ?></label></th>
 									<td>
 										<select name="shortcode">                                
-											<option value="fa"><?php _e( 'Font Awesome 4.4 (674)', 'go_pricing_textdomain' ); ?></option>
+											<option value="fa"><?php _e( 'Font Awesome 4.5 (694)', 'go_pricing_textdomain' ); ?></option>
 											<option value="linecon"><?php _e( 'Linecon (48)', 'go_pricing_textdomain' ); ?></option>
 											<option value="icomoon"><?php _e( 'Icomoon (491)', 'go_pricing_textdomain' ); ?></option>
 											<option value="material"><?php _e( 'Material Icons (795)', 'go_pricing_textdomain' ); ?></option>											

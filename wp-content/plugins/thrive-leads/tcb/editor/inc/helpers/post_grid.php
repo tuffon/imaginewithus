@@ -305,7 +305,7 @@ class PostGridHelper {
 
 		?><span class="tve-post-grid-title <?php echo $item_title_class; ?>"
 		        style="<?php echo $font_size . $style_line_height . $font_family; ?>"><a <?php echo $custom_item_headline ?>
-			href="<?php echo get_permalink( $post ) ?>"><?php echo $post->post_title ?></a></span><?php
+			href="<?php echo get_permalink( $post ) ?>"><?php echo get_the_title( $post->ID ); ?></a></span><?php
 	}
 
 	function tve_post_grid_display_post_read_more( $post, $config ) {

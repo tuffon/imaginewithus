@@ -41,6 +41,7 @@ function tve_hooked_in_template_redirect() {
 		'coming-soon-page/coming_soon.php',
 		'cc-coming-soon/cc-coming-soon.php',
 		'wordpress-seo/wp-seo.php',
+		'membermouse/index.php',
 	);
 
 	foreach ( $hooked_in_template_redirect as $plugin ) {
@@ -223,7 +224,7 @@ function tve_membership_plugin_can_display_content() {
 	 */
 	if ( function_exists( 'wc_memberships_is_post_content_restricted' ) && wc_memberships_is_post_content_restricted() && ! doing_filter( 'get_the_excerpt' ) ) {
 		if ( ! current_user_can( 'wc_memberships_view_restricted_post_content', $post->ID ) ) {
-			return true;
+			return false;
 		}
 	}
 

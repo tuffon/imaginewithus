@@ -226,7 +226,12 @@ if ( ! class_exists( 'YITH_WCWL_Admin_Init' ) ) {
 			foreach ( YITH_WCWL_Init()->colors_options as $name => $option ) {
 				foreach ( $option as $id => $color ) {
 					$default_value = isset( $colors_options[$name][$id] ) ? $colors_options[$name][$id] : '';
-					$colors_options[$name][$id] = isset( $_POST['yith_wcwl_color_' . $name . '_' . $id] ) && ! empty( $_POST['yith_wcwl_color_' . $name . '_' . $id] ) ? woocommerce_format_hex( $_POST['yith_wcwl_color_' . $name . '_' . $id] ) : $default_value;
+					if( isset( $_POST['yith_wcwl_color_' . $name . '_' . $id] ) && ! empty( $_POST['yith_wcwl_color_' . $name . '_' . $id] ) ){
+						$colors_options[$name][$id] = function_exists( 'wc_format_hex' ) ? wc_format_hex( $_POST['yith_wcwl_color_' . $name . '_' . $id] ) : woocommerce_format_hex( $_POST['yith_wcwl_color_' . $name . '_' . $id] );
+					}
+					else{
+						$colors_options[$name][$id] = $default_value;
+					}
 				}
 			}
 
@@ -1396,7 +1401,7 @@ of YITH WOOCOMMERCE WISHLIST to benefit from all features!', 'yith-woocommerce-w
 				'parent_slug'   => '',
 				'page_title'    => __( 'Wishlist', 'yith-woocommerce-wishlist' ),
 				'menu_title'    => __( 'Wishlist', 'yith-woocommerce-wishlist' ),
-				'capability'    => 'manage_options',
+				'capability'    => apply_filters( 'yith_wcwl_settings_panel_capability', 'manage_options' ),
 				'parent'        => '',
 				'parent_page'   => 'yit_plugin_panel',
 				'page'          => 'yith_wcwl_panel',

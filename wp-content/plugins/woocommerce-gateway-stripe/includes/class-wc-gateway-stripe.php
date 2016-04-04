@@ -61,6 +61,7 @@ class WC_Gateway_Stripe extends WC_Payment_Gateway {
 		$this->secret_key             = $this->testmode ? $this->get_option( 'test_secret_key' ) : $this->get_option( 'secret_key' );
 		$this->publishable_key        = $this->testmode ? $this->get_option( 'test_publishable_key' ) : $this->get_option( 'publishable_key' );
 		$this->bitcoin                = $accept_bitcoin;
+		$this->logging                = $this->get_option( 'logging' ) === 'yes' ? true : false;
 
 		if ( $this->stripe_checkout ) {
 			$this->order_button_text = __( 'Continue to payment', 'woocommerce-gateway-stripe' );
@@ -75,6 +76,7 @@ class WC_Gateway_Stripe extends WC_Payment_Gateway {
 		add_action( 'wp_enqueue_scripts', array( $this, 'payment_scripts' ) );
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
+
 	}
 
 	/**
@@ -290,6 +292,13 @@ class WC_Gateway_Stripe extends WC_Payment_Gateway {
 				'description' => __( 'If enabled, users will be able to pay with a saved card during checkout. Card details are saved on Stripe servers, not on your store.', 'woocommerce-gateway-stripe' ),
 				'default'     => 'no'
 			),
+			'logging' => array(
+				'title'       => __( 'Logging', 'woocommerce-gateway-stripe' ),
+				'label'       => __( 'Log debug messages', 'woocommerce-gateway-stripe' ),
+				'type'        => 'checkbox',
+				'description' => __( 'Save debug messages to the WooCommerce System Status log.', 'woocommerce-gateway-stripe' ),
+				'default'     => 'no'
+			),
 		) );
 	}
 
@@ -442,6 +451,8 @@ class WC_Gateway_Stripe extends WC_Payment_Gateway {
 			$customer_id = 0;
 		}
 
+		$this->log( "Info: Beginning processing payment for order $order_id for the amount of {$order->order_total}" );
+
 		// Use Stripe CURL API for payment
 		try {
 			$post_data = array();
@@ -553,7 +564,9 @@ class WC_Gateway_Stripe extends WC_Payment_Gateway {
 				$order->payment_complete( $response->id );
 
 				// Add order note
-				$order->add_order_note( sprintf( __( 'Stripe charge complete (Charge ID: %s)', 'woocommerce-gateway-stripe' ), $response->id ) );
+				$complete_message = sprintf( __( 'Stripe charge complete (Charge ID: %s)', 'woocommerce-gateway-stripe' ), $response->id );
+				$order->add_order_note( $complete_message );
+				$this->log( "Success: $complete_message" );
 
 			} else {
 
@@ -562,7 +575,9 @@ class WC_Gateway_Stripe extends WC_Payment_Gateway {
 				add_post_meta( $order->id, '_transaction_id', $response->id, true );
 
 				// Mark as on-hold
-				$order->update_status( 'on-hold', sprintf( __( 'Stripe charge authorized (Charge ID: %s). Process order to take payment, or cancel to remove the pre-authorization.', 'woocommerce-gateway-stripe' ), $response->id ) );
+				$authorized_message = sprintf( __( 'Stripe charge authorized (Charge ID: %s). Process order to take payment, or cancel to remove the pre-authorization.', 'woocommerce-gateway-stripe' ), $response->id );
+				$order->update_status( 'on-hold', $authorized_message );
+				$this->log( "Success: $authorized_message" );
 
 				// Reduce stock levels
 				$order->reduce_order_stock();
@@ -579,6 +594,7 @@ class WC_Gateway_Stripe extends WC_Payment_Gateway {
 
 		} catch ( Exception $e ) {
 			wc_add_notice( $e->getMessage(), 'error' );
+			$this->log( sprintf( __( 'Error: %s', 'woocommerce-gateway-stripe' ), $e->getMessage() ) );
 
 			$order_note = $e->getMessage();
 			$order->update_status( 'failed', $order_note );
@@ -612,12 +628,17 @@ class WC_Gateway_Stripe extends WC_Payment_Gateway {
 			);
 		}
 
+		$this->log( "Info: Beginning refund for order $order_id for the amount of {$amount}" );
+
 		$response = $this->stripe_request( $body, 'charges/' . $order->get_transaction_id() . '/refunds' );
 
 		if ( is_wp_error( $response ) ) {
+			$this->log( "Error: " . $response->get_error_message() );
 			return $response;
 		} elseif ( ! empty( $response->id ) ) {
-			$order->add_order_note( sprintf( __( 'Refunded %s - Refund ID: %s - Reason: %s', 'woocommerce' ), wc_price( $response->amount / 100 ), $response->id, $reason ) );
+			$refund_message = sprintf( __( 'Refunded %s - Refund ID: %s - Reason: %s', 'woocommerce' ), wc_price( $response->amount / 100 ), $response->id, $reason );
+			$order->add_order_note( $refund_message );
+			$this->log( "Success: " . html_entity_decode( strip_tags( $refund_message ) ) );
 			return true;
 		}
 	}
@@ -654,7 +675,9 @@ class WC_Gateway_Stripe extends WC_Payment_Gateway {
 				return $response->id;
 			}
 		}
-		return new WP_Error( 'error', __( 'Unable to add customer', 'woocommerce-gateway-stripe' ) );
+		$error_message = __( 'Unable to add customer', 'woocommerce-gateway-stripe' );
+		$this->log( sprintf( __( 'Error: %s', 'woocommerce-gateway-stripe' ), $error_message ) );
+		return new WP_Error( 'error', $error_message );
 	}
 
 	/**
@@ -720,6 +743,20 @@ class WC_Gateway_Stripe extends WC_Payment_Gateway {
 			return new WP_Error( ! empty( $parsed_response->error->code ) ? $parsed_response->error->code : 'stripe_error', $parsed_response->error->message );
 		} else {
 			return $parsed_response;
+		}
+	}
+
+	/**
+	 * Send the request to Stripe's API
+	 *
+	 * @since 2.6.10
+	 *
+	 * @param string $context
+	 * @param string $message
+	 */
+	public function log( $message ) {
+		if ( $this->logging ) {
+			WC_Stripe_Logger::log( $message );
 		}
 	}
 }

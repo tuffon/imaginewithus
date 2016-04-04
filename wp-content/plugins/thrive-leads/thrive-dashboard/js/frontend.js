@@ -3,8 +3,7 @@
  *
  */
 var TVE_Dash = TVE_Dash || {};
-(
-	function ( $ ) {
+(function ( $ ) {
 		TVE_Dash.ajax_sent = false;
 		var ajax_data = {},
 			callbacks = {};
@@ -75,5 +74,4 @@ var TVE_Dash = TVE_Dash || {};
 				TVE_Dash.ajax_sent = true;
 			} );
 		} );
-	}
-)( jQuery );
+	})( jQuery );

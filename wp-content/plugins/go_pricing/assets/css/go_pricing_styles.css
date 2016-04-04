@@ -4,7 +4,7 @@
 	Plugin URI: http://go-pricing.com
 	Description: The New Generation Pricing Tables. If you like traditional Pricing Tables, but you would like get much more out of it, then this rodded product is a useful tool for you.
 	Author: Granth
-	Version: 3.1.2
+	Version: 3.2.1
 	Author http://granthweb.com/
 
 	+----------------------------------------------------+
@@ -191,8 +191,10 @@
 	
 	/* other */
 	.gw-go i { 
+		display:inline-block;	
 		position:relative;
 		vertical-align:middle;
+		text-align:left;
 		top:-1px;
 	}
 	.gw-go b, .gw-go strong { font-weight:bold; }

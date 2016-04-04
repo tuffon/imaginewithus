@@ -2429,7 +2429,6 @@ td, th {
   border: 1px solid #e0e0e0;
   border-radius: 2px;
   font-size: .813rem;
-  overflow: hidden;
   position: relative; }
   .tvd-collection.tvd-collection-no-border {
     border: 0;
@@ -2444,6 +2443,12 @@ td, th {
     padding: 10px 20px;
     margin: 0;
     border-bottom: 1px solid #e0e0e0; }
+    .tvd-collection .tvd-collection-item:last-child {
+      border-bottom-left-radius: 2px;
+      border-bottom-right-radius: 2px; }
+    .tvd-collection .tvd-collection-item:first-child {
+      border-top-left-radius: 2px;
+      border-top-right-radius: 2px; }
     .tvd-collection .tvd-collection-item:last-child {
       border-bottom: none; }
     .tvd-collection .tvd-collection-item.active {
@@ -2462,6 +2467,8 @@ td, th {
     .tvd-collection a.tvd-collection-item:not(.active):hover {
       background-color: #ddd; }
   .tvd-collection.tvd-with-header .tvd-collection-header {
+    border-top-right-radius: 2px;
+    border-top-left-radius: 2px;
     background-color: #e0e0e0;
     border-bottom: 1px solid #e0e0e0;
     padding: 10px 20px; }
@@ -2528,7 +2535,9 @@ table.tvd-collection {
   table.tvd-collection tr:last-child td {
     border-bottom: 0; }
   table.tvd-collection td {
-    border-bottom: 1px solid #e0e0e0; }
+    border-bottom: 1px solid #e0e0e0;
+    border-radius: 0;
+    line-height: 1.3em; }
   table.tvd-collection tfoot tr {
     background-color: #fff;
     line-height: 1.5rem;
@@ -2628,6 +2637,7 @@ table.tvd-collection {
       left: 0;
       transform: translateY(-80%);
       transition: all .2s ease;
+      text-align: left;
       opacity: 0;
       visibility: hidden; }
     .tvd-truncate-on-small:hover:after {
@@ -2695,6 +2705,9 @@ table.tvd-collection {
 .tvd-inline-block {
   display: inline-block;
   vertical-align: middle; }
+
+.tvd-block {
+  display: block; }
 
 #wpbody .tvd-btn-icon-only {
   color: #a9a9a9; }
@@ -3066,6 +3079,9 @@ table.tvd-collection {
 
 .tvd-icon-trophy:before {
   content: '\f091'; }
+
+.tvd-icon-chevron-right:before {
+  content: '\e614'; }
 
 .tvd-container {
   max-width: 1400px;
@@ -3633,6 +3649,9 @@ html body #wpbody, html body .tvd-modal {
 #wpbody .tvd-light, .tvd-modal .tvd-light {
   font-weight: 300; }
 
+#wpbody .tvd-normal, .tvd-modal .tvd-normal {
+  font-weight: 400; }
+
 #wpbody .tvd-thin, .tvd-modal .tvd-thin {
   font-weight: 200; }
 
@@ -3650,6 +3669,9 @@ html body #wpbody, html body .tvd-modal {
 
 #wpbody .tvd-margin-right, .tvd-modal .tvd-margin-right {
   margin-right: 2em; }
+
+#wpbody .tvd-margin-left, .tvd-modal .tvd-margin-left {
+  margin-left: 1.5em; }
 
 #wpbody .tvd-no-margin-right, .tvd-modal .tvd-no-margin-right {
   margin-right: 0 !important; }
@@ -3973,26 +3995,33 @@ html body #wpbody, html body .tvd-modal {
     bottom: 0;
     padding: 0 20px 20px; }
 
-#tvd-toast-container {
-  display: block;
+.tvd-toast-container {
   position: fixed;
-  z-index: 100000; }
+  z-index: 100000;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex; }
   @media only screen and (max-width: 740px) {
-    #tvd-toast-container {
+    .tvd-toast-container {
       min-width: 100%;
       bottom: 0%; } }
   @media only screen and (min-width: 741px) and (max-width: 1509px) {
-    #tvd-toast-container {
+    .tvd-toast-container {
       min-width: 30%;
       left: 5%;
       right: 5%;
       bottom: 7%; } }
   @media only screen and (min-width: 1510px) {
-    #tvd-toast-container {
+    .tvd-toast-container {
       min-width: 8%;
-      top: 10%;
+      top: 6%;
       right: 7%;
       left: 7%; } }
+  .tvd-toast-container#tvd-toast-container-bottom {
+    top: auto;
+    bottom: 6%; }
 
 .tvd-toast {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.22);
@@ -4000,7 +4029,6 @@ html body #wpbody, html body .tvd-modal {
   top: 0;
   width: auto;
   clear: both;
-  margin-top: 10px;
   position: relative;
   max-width: 100%;
   height: auto;
@@ -4012,17 +4040,15 @@ html body #wpbody, html body .tvd-modal {
   font-size: 1.1rem;
   font-weight: 300;
   color: #fff;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
+  margin: 10px auto 0;
   -webkit-flex-align: center;
   -ms-flex-align: center;
   -webkit-align-items: center;
   align-items: center;
   -webkit-justify-content: space-between;
   justify-content: space-between; }
+  #tvd-toast-container-top .tvd-toast {
+    top: -100px; }
   .tvd-toast .tvd-btn, .tvd-toast .tvd-btn-large, .tvd-toast .tvd-btn-small, .tvd-toast .tvd-btn-flat {
     margin: 0;
     margin-left: 3rem; }
@@ -4031,13 +4057,8 @@ html body #wpbody, html body .tvd-modal {
   @media only screen and (max-width: 740px) {
     .tvd-toast {
       width: 100%;
+      display: block;
       border-radius: 0; } }
-  @media only screen and (min-width: 741px) and (max-width: 1509px) {
-    .tvd-toast {
-      float: left; } }
-  @media only screen and (min-width: 1510px) {
-    .tvd-toast {
-      float: right; } }
 
 .tvd-tabs {
   display: -webkit-box;
@@ -4118,7 +4139,7 @@ html body #wpbody, html body .tvd-modal {
   position: absolute;
   top: -9999px; }
 
-.tvd-material-tooltip {
+.tvd-material-tooltip, .tvd-tooltip-visible {
   padding: 10px 8px;
   font-size: 1rem;
   z-index: 2000;
@@ -4136,6 +4157,40 @@ html body #wpbody, html body .tvd-modal {
   left: 0;
   top: 0;
   will-change: top, left; }
+
+.tvd-tooltip-visible {
+  min-height: 40px;
+  display: block;
+  opacity: 1;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  min-width: 200px;
+  background-color: #323232; }
+  .tvd-tooltip-visible.tvd-fixed-bottom {
+    top: 100%;
+    margin-top: 25px;
+    -webkit-transform: translate(-50%, 0);
+    -moz-transform: translate(-50%, 0);
+    -ms-transform: translate(-50%, 0);
+    -o-transform: translate(-50%, 0);
+    transform: translate(-50%, 0); }
+  .tvd-tooltip-visible.tvd-fixed-top {
+    margin-top: -25px;
+    -webkit-transform: translate(-50%, -100%);
+    -moz-transform: translate(-50%, -100%);
+    -ms-transform: translate(-50%, -100%);
+    -o-transform: translate(-50%, -100%);
+    transform: translate(-50%, -100%); }
+  .tvd-tooltip-visible.tvd-fixed-right {
+    left: 100%;
+    top: 50%;
+    margin-left: 25px;
+    -webkit-transform: translate(0, -50%);
+    -moz-transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%);
+    -o-transform: translate(0, -50%);
+    transform: translate(0, -50%); }
 
 .tvd-backdrop {
   position: absolute;
@@ -4331,7 +4386,8 @@ button.tvd-btn-floating {
     .tvd-btn-flat.tvd-disabled:hover {
       background: none; }
   .tvd-btn-flat span[class*='icon'] {
-    margin-right: 5px; }
+    margin-right: 5px;
+    vertical-align: top; }
 
 .tvd-btn-flat-dark:hover {
   background: rgba(169, 169, 169, 0.2); }
@@ -4780,7 +4836,7 @@ button:focus {
 
 label {
   box-sizing: border-box;
-  font-size: 0.625rem;
+  font-size: 0.75rem;
   color: #a3a3a3; }
 
 /***************************
@@ -4867,9 +4923,11 @@ textarea.tvd-materialize-textarea {
   input[type=number]:disabled,
   input[type=search]:disabled,
   textarea.tvd-materialize-textarea:disabled {
-    color: #ddd;
-    border-bottom: 1px dotted #ddd;
-    box-shadow: none; }
+    color: #ccc;
+    border-bottom: 1px dotted #ccc;
+    box-shadow: none;
+    -webkit-text-fill-color: #cccccc;
+    -webkit-opacity: 1; }
   input[type=text]:disabled + label,
   input[type=password]:disabled + label,
   input[type=email]:disabled + label,
@@ -4881,7 +4939,7 @@ textarea.tvd-materialize-textarea {
   input[type=number]:disabled + label,
   input[type=search]:disabled + label,
   textarea.tvd-materialize-textarea:disabled + label {
-    color: #ddd; }
+    color: #ccc; }
   input[type=text][readonly="readonly"],
   input[type=password][readonly="readonly"],
   input[type=email][readonly="readonly"],
@@ -5098,31 +5156,52 @@ textarea.tvd-materialize-textarea {
   textarea.tvd-materialize-textarea:focus.tvd-invalid + label {
     color: #ef3131; }
   input[type=text].tvd-invalid + label:after,
-  input[type=text]:focus.tvd-invalid + label:after,
   input[type=password].tvd-invalid + label:after,
-  input[type=password]:focus.tvd-invalid + label:after,
   input[type=email].tvd-invalid + label:after,
-  input[type=email]:focus.tvd-invalid + label:after,
   input[type=url].tvd-invalid + label:after,
-  input[type=url]:focus.tvd-invalid + label:after,
   input[type=time].tvd-invalid + label:after,
-  input[type=time]:focus.tvd-invalid + label:after,
   input[type=date].tvd-invalid + label:after,
-  input[type=date]:focus.tvd-invalid + label:after,
   input[type=datetime-local].tvd-invalid + label:after,
-  input[type=datetime-local]:focus.tvd-invalid + label:after,
   input[type=tel].tvd-invalid + label:after,
-  input[type=tel]:focus.tvd-invalid + label:after,
   input[type=number].tvd-invalid + label:after,
-  input[type=number]:focus.tvd-invalid + label:after,
   input[type=search].tvd-invalid + label:after,
+  textarea.tvd-materialize-textarea.tvd-invalid + label:after {
+    content: attr(data-error);
+    color: #ef3131;
+    font-size: .75rem;
+    font-weight: 400;
+    min-width: 300px;
+    opacity: 1;
+    top: 30px; }
+  input[type=text]:focus.tvd-invalid + label:after,
+  input[type=password]:focus.tvd-invalid + label:after,
+  input[type=email]:focus.tvd-invalid + label:after,
+  input[type=url]:focus.tvd-invalid + label:after,
+  input[type=time]:focus.tvd-invalid + label:after,
+  input[type=date]:focus.tvd-invalid + label:after,
+  input[type=datetime-local]:focus.tvd-invalid + label:after,
+  input[type=tel]:focus.tvd-invalid + label:after,
+  input[type=number]:focus.tvd-invalid + label:after,
   input[type=search]:focus.tvd-invalid + label:after,
-  textarea.tvd-materialize-textarea.tvd-invalid + label:after,
   textarea.tvd-materialize-textarea:focus.tvd-invalid + label:after {
     content: attr(data-error);
     color: #ef3131;
-    min-width: 150px;
-    opacity: 1; }
+    font-size: .75rem;
+    min-width: 300px;
+    opacity: 1;
+    top: 50px; }
+  input[type=text].tvd-invalid + label.tvd-active:after,
+  input[type=password].tvd-invalid + label.tvd-active:after,
+  input[type=email].tvd-invalid + label.tvd-active:after,
+  input[type=url].tvd-invalid + label.tvd-active:after,
+  input[type=time].tvd-invalid + label.tvd-active:after,
+  input[type=date].tvd-invalid + label.tvd-active:after,
+  input[type=datetime-local].tvd-invalid + label.tvd-active:after,
+  input[type=tel].tvd-invalid + label.tvd-active:after,
+  input[type=number].tvd-invalid + label.tvd-active:after,
+  input[type=search].tvd-invalid + label.tvd-active:after,
+  textarea.tvd-materialize-textarea.tvd-invalid + label.tvd-active:after {
+    top: 50px; }
   input[type=text] + label:after,
   input[type=password] + label:after,
   input[type=email] + label:after,
@@ -5137,7 +5216,7 @@ textarea.tvd-materialize-textarea {
     display: block;
     content: "";
     position: absolute;
-    top: 45px;
+    top: 50px;
     opacity: 0;
     transition: .2s opacity ease-out, .2s color ease-out; }
 
@@ -5166,7 +5245,8 @@ textarea.tvd-materialize-textarea {
     -ms-transform: translateY(-110%);
     -o-transform: translateY(-110%);
     transform: translateY(-110%);
-    font-size: 0.625rem; }
+    font-size: 0.75rem;
+    font-weight: 400; }
   .tvd-input-field.tvd-prefix [class*='tvd-icon'] {
     -webkit-transition: color 0.2s;
     -moz-transition: color 0.2s;
@@ -5283,27 +5363,27 @@ textarea {
 
 /* Disabled Radio */
 [type="radio"]:disabled:checked + label:before {
-  border: 2px solid #ddd; }
+  border: 2px solid #ccc; }
 
 [type="radio"]:disabled:checked + label:after {
   border: none;
-  background-color: #ddd; }
+  background-color: #ccc; }
 
 /* Disabled style */
 [type="radio"]:disabled:not(:checked) + label:before,
 [type="radio"]:disabled:checked + label:before {
   background-color: transparent;
-  border-color: #ddd; }
+  border-color: #ccc; }
 
 [type="radio"]:disabled + label {
-  color: #ddd; }
+  color: #ccc; }
 
 [type="radio"]:disabled:not(:checked) + label:before {
-  border-color: #ddd; }
+  border-color: #ccc; }
 
 [type="radio"]:disabled:checked + label:after {
-  background-color: #ddd;
-  border-color: #ddd; }
+  background-color: #ccc;
+  border-color: #ccc; }
 
 /***************
    Checkboxes
@@ -5355,14 +5435,14 @@ form p:last-child {
     z-index: 0; }
   [type="checkbox"]:not(:checked):disabled + label:before {
     border: none;
-    background-color: #ddd; }
+    background-color: #ccc; }
 
 [type="checkbox"]:checked + label:before {
   -webkit-backface-visibility: hidden; }
 
 [type="checkbox"]:checked:disabled + label:before {
-  border-right: 2px solid #ddd;
-  border-bottom: 2px solid #ddd; }
+  border-right: 2px solid #ccc;
+  border-bottom: 2px solid #ccc; }
 
 /* Indeterminate checkbox */
 [type="checkbox"]:indeterminate + label:before {
@@ -5387,7 +5467,7 @@ form p:last-child {
   -webkit-backface-visibility: hidden; }
 
 [type="checkbox"]:indeterminate:disabled + label:before {
-  border-right: 2px solid #ddd;
+  border-right: 2px solid #ccc;
   background-color: transparent; }
 
 [type="checkbox"] + label:after {
@@ -5448,7 +5528,7 @@ form p:last-child {
   border: 2px solid transparent; }
 
 [type="checkbox"]:disabled:not(:checked) + label:after {
-  border: 2px solid #ddd;
+  border: 2px solid #ccc;
   background-color: transparent; }
 
 [type="checkbox"]:disabled:checked + label:before {
@@ -5457,8 +5537,12 @@ form p:last-child {
   border-bottom-color: rgba(255, 255, 255, 0.5); }
 
 [type="checkbox"]:disabled:checked + label:after {
-  background-color: #ddd;
-  border-color: #ddd; }
+  background-color: #ccc;
+  border-color: #ccc; }
+
+[type="checkbox"]:disabled + label {
+  color: #ccc;
+  cursor: default; }
 
 /***************
      Switch
@@ -5524,7 +5608,7 @@ input[type=checkbox]:not(:disabled) ~ .tvd-lever:active:after {
 
 .tvd-switch label input[type=checkbox][disabled] + .tvd-lever:after,
 .tvd-switch label input[type=checkbox][disabled]:checked + .tvd-lever:after {
-  background: #ddd;
+  background: #ccc;
   box-shadow: none; }
 
 .tvd-switch-disabled {
@@ -5568,7 +5652,7 @@ input[type=checkbox]:not(:disabled) ~ .tvd-lever:active:after {
   .tvd-select-wrapper + label {
     position: absolute;
     top: -14px;
-    font-size: 0.625rem; }
+    font-size: 0.75rem; }
 
 select.tvd-initialized {
   display: none !important; }
@@ -5791,6 +5875,9 @@ body {
 
 .tvd-input-field-small {
   max-width: 50px; }
+
+.tvd-input-field-medium {
+  max-width: 90px; }
 
 .tvd-input-field-limit {
   max-width: 70%; }
@@ -6839,6 +6926,9 @@ time picker styles
   z-index: 0;
   user-select: none;
   -webkit-backface-visibility: hidden; }
+  .tvd-timepicker-left .picker {
+    right: auto;
+    left: 0; }
   .picker.picker--opened {
     transform: translate3d(0, -50%, 0);
     z-index: 10000;

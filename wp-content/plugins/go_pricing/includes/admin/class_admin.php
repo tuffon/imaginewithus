@@ -72,7 +72,7 @@ class GW_GoPricing_Admin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'localization' ) );		
 					
 		// Register menu pages
-		add_action( 'admin_menu', array( $this, 'register_menu_pages' ) );
+		add_action( 'admin_menu', array( $this, 'register_menu_pages' ) );	
 		
 		// Handle ajax actions
 		add_action( 'wp_ajax_go_pricing_ajax_action', array( __CLASS__, 'ajax_action_router' ) );
@@ -193,6 +193,7 @@ class GW_GoPricing_Admin {
 		include_once ( $this->plugin_path . 'includes/admin/class_admin_page_general_settings.php');
 		include_once ( $this->plugin_path . 'includes/admin/class_admin_page_impex.php');
 		include_once ( $this->plugin_path . 'includes/admin/class_admin_page_db_update.php');
+		include_once ( $this->plugin_path . 'includes/admin/class_admin_page_update.php');		
 		
 		// Include VC extend class
 		include_once ( $this->plugin_path . 'includes/vendors/vc/class_vc_extend.php');
@@ -222,6 +223,7 @@ class GW_GoPricing_Admin {
 	public function delete_temporary_uploads() {
 		
 		$uploads = get_option( self::$plugin_prefix . '_uploads', array() );
+		
 		if ( get_transient( self::$plugin_prefix . '_uploads' ) !== false ) return;
 
 		$new_uploads = array();
@@ -242,7 +244,7 @@ class GW_GoPricing_Admin {
 		}
 		
 		if ( $uploads != $new_uploads ) update_option( self::$plugin_prefix . '_uploads', $new_uploads );
-		set_transient( self::$plugin_prefix . '_uploads', '', 30 * 60 );
+		set_transient( self::$plugin_prefix . '_uploads', 'uploads', 5 * 60 );
 		
 	}	
 	
@@ -338,7 +340,7 @@ class GW_GoPricing_Admin {
 			self::$plugin_slug, 
 			array( __CLASS__, 'admin_page_router' ),
 			$this->plugin_url . 'assets/admin/images/go_logo_nav.png',
-			90.123
+			90.1298
 		);
 		
 		self::$screen_hooks[$screen_id] = array( __CLASS__, 'main_page' );
@@ -360,6 +362,21 @@ class GW_GoPricing_Admin {
 			self::$plugin_slug . '-import-export',
 			array( $this, 'impex_page' )
 		);
+		
+		if ( !is_multisite() || ( is_multisite() && get_current_blog_id() == 1 ) ) {
+		
+			$capability = is_multisite() ? 'manage_network' : ( isset( $general_settings['capability'] ) ? $general_settings['capability'] : 'manage_options' );
+		
+			// Plugin Update page
+			self::add_submenu_page(
+				__( 'Update', 'go_pricing_textdomain' ),
+				__( 'Update', 'go_pricing_textdomain' ),
+				$capability, 
+				self::$plugin_slug . '-update',
+				array( $this, 'plugin_updater_page' )
+			);	
+	
+		}
 		
 		// Admin menu page action
 		do_action( 'go_pricing_menu_pages' );	
@@ -427,6 +444,21 @@ class GW_GoPricing_Admin {
 	
 	
 	/**
+	 * Plugin updater page
+	 *
+	 * @return void
+	 */
+	 
+	public static function plugin_updater_page() {
+		
+		$page = new GW_GoPricing_AdminPage_Update( __METHOD__ );
+		$page->title( sprintf( 'Go Pricing - %s',  __( 'Update', 'go_pricing_textdomain' ) ) );
+		echo $page->render();
+		
+	}	
+	
+	
+	/**
 	 * Add submenu page
 	 *
 	 * @return void
@@ -476,7 +508,7 @@ class GW_GoPricing_Admin {
 	 
 	public static function admin_page_router() {
 
-		$screen = get_current_screen();
+		$screen = get_current_screen();		
 		
 		if ( !empty( $screen->id ) && !empty( self::$screen_hooks[$screen->id] ) ) {
 

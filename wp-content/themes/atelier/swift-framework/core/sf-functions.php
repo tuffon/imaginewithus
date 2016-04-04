@@ -425,6 +425,9 @@
 			if ( function_exists( 'is_product_category' ) && is_product_category() && $woo_shop_slider == "swift-slider") {
 				$page_has_swiftslider = true;
 			}
+			if ( is_singular('swift-slider') ) {
+				$page_has_swiftslider = true;
+			}
 			
 			if ( !$page_has_swiftslider && $page_slider != "swift-slider" ) {
 				wp_dequeue_style( 'swift-slider' );
@@ -549,7 +552,8 @@
                     "spb_multilayer_parallax_layer",
                     "spb_image_banner",
                     "spb_icon_box_grid",
-                    "spb_icon_box_grid_element"
+                    "spb_icon_box_grid_element",
+                    "spb_section"
                 ) );
             // opening tag
             $rep = preg_replace( "/(<p>)?\[($block)(\s[^\]]+)?\](<\/p>|<br \/>)?/", "[$2$3]", $content );

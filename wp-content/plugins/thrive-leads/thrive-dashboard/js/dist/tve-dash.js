@@ -5,8 +5,7 @@
  */
 var TVE_Dash = TVE_Dash || {};
 
-(
-	function ( $ ) {
+(function ( $ ) {
 		/**
 		 * instantiate an Object
 		 *
@@ -43,7 +42,7 @@ var TVE_Dash = TVE_Dash || {};
 
 			if ( opts.model instanceof Backbone.Model ) {
 				_.each( opts.model.toJSON(), function ( _value, _key ) {
-					if ( typeof opts[ _key ] === 'undefined' && _.indexOf( reserved, _key ) === - 1 ) {
+					if ( typeof opts[_key] === 'undefined' && _.indexOf( reserved, _key ) === - 1 ) {
 						opts[_key] = _value;
 					}
 				} );
@@ -74,10 +73,10 @@ var TVE_Dash = TVE_Dash || {};
 			} );
 
 			$root.find( '.tvd-dropdown-button' ).each( function () {
-				jQuery( this ).dropdown()
+				jQuery( this ).tvd_dropdown()
 			} );
 			$root.find( '.tvd-tabs' ).each( function () {
-				jQuery( this ).tabs()
+				jQuery( this ).tvd_tabs()
 			} );
 
 			//initialize sliders
@@ -202,7 +201,8 @@ var TVE_Dash = TVE_Dash || {};
 		 * @param {function} callback optional, a callback to be executed when the toast is hidden
 		 */
 		TVE_Dash.err = function ( message, duration, callback ) {
-			Materialize.toast( message, duration || 3000, 'tvd-toast tvd-red', callback );
+			$( '.tvd-toast' ).remove();
+			Materialize.toast( message, duration || 3000, 'tvd-toast tvd-red', callback, 'bottom' );
 		};
 
 		/**
@@ -213,11 +213,11 @@ var TVE_Dash = TVE_Dash || {};
 		 * @param {function} callback optional, a callback to be executed when the toast is hidden
 		 */
 		TVE_Dash.success = function ( message, duration, callback ) {
+			$( '.tvd-toast' ).remove();
 			Materialize.toast( message, duration || 3000, 'tvd-toast tvd-green', callback );
 		};
 
-	}
-)( jQuery );
+	})( jQuery );
 ;/**
  * contains general backbone views definitions
  */
@@ -230,8 +230,7 @@ var TVE_Dash = TVE_Dash || {};
 var TVE_Dash = TVE_Dash || {};
 TVE_Dash.views = TVE_Dash.views || {};
 
-(
-	function ( $ ) {
+(function ( $ ) {
 
 		/**
 		 * base class for modals
@@ -327,9 +326,9 @@ TVE_Dash.views = TVE_Dash.views || {};
 				$root = $root || this.$el;
 
 				var $inputs = $root.find( 'input:not(.tvd-select-dropdown),textarea,.tve-confirm-delete-action' );
-				$inputs.filter( ':visible' ).filter( ':not(.tvd-no-focus)' ).first().focus();
+				$inputs.filter( ':visible' ).filter( ':not(.tvd-no-focus)' ).first().focus().select();
 
-				$root.add( $inputs ).off( 'keyup.tvd-save' ).on( 'keyup.tvd-save', function ( e ) {
+				$root.add( $inputs ).not( '.tvd-skip-modal-save' ).off( 'keyup.tvd-save' ).on( 'keyup.tvd-save', function ( e ) {
 					if ( e.which === 13 ) {
 						$root.find( '.tvd-modal-submit' ).filter( ':visible' ).first().click();
 						return false;
@@ -467,8 +466,7 @@ TVE_Dash.views = TVE_Dash.views || {};
 			}
 		} );
 
-	}
-)( jQuery );;/*
+	})( jQuery );;/*
  * jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
  *
  * Uses the built in easing capabilities added In jQuery 1.1
@@ -740,7 +738,7 @@ if (jQuery) {
 			return this;
 		};
 
-		$.fn.dropdown = function ( option ) {
+		$.fn.tvd_dropdown = function ( option ) {
 			var defaults = {
 				inDuration: 100,
 				outDuration: 225,
@@ -981,7 +979,7 @@ if (jQuery) {
 		}; // End dropdown plugin
 
 		$( document ).ready( function () {
-			$( '.tvd-dropdown-button' ).dropdown();
+			$( '.tvd-dropdown-button' ).tvd_dropdown();
 		} );
 	}( jQuery )
 );;(function($) {
@@ -1472,7 +1470,7 @@ if (jQuery) {
 					$select.parent().find( 'span.tvd-caret' ).remove();
 					$select.parent().find( 'input,label.tvd-dropdown-label' ).remove();
 
-					$select.unwrap().off('tvderror tvdclear');
+					$select.unwrap().off( 'tvderror tvdclear' );
 					$( 'ul#tvd-select-options-' + lastID ).remove();
 				}
 
@@ -1631,7 +1629,7 @@ if (jQuery) {
 
 				// Check if section element is disabled
 				if ( ! $select.is( ':disabled' ) ) {
-					$newSelect.dropdown( {'hover': false, 'closeOnClick': false} );
+					$newSelect.tvd_dropdown( {'hover': false, 'closeOnClick': false} );
 				}
 
 				// Copy tabindex
@@ -1669,14 +1667,15 @@ if (jQuery) {
 					}, 150 );
 				} );
 
-				$select.on({
-					'tvderror': function () {
-						$newSelect.parent().addClass('tvd-invalid');
+				$select.on( {
+					'tvderror': function ( event, err_message ) {
+						$newSelect.parent().addClass( 'tvd-invalid' );
+						err_label.attr( 'data-error', err_message );
 					},
 					'tvdclear': function () {
-						$newSelect.parent().removeClass('tvd-invalid');
+						$newSelect.parent().removeClass( 'tvd-invalid' );
 					}
-				});
+				} );
 
 				options.hover( function () {
 					optionsHover = true;
@@ -2314,7 +2313,7 @@ if (jQuery) {
 			}
 		};
 
-		$.fn.tabs = function ( methodOrOptions ) {
+		$.fn.tvd_tabs = function ( methodOrOptions ) {
 			if ( methods[methodOrOptions] ) {
 				return methods[methodOrOptions].apply( this, Array.prototype.slice.call( arguments, 1 ) );
 			} else if ( typeof methodOrOptions === 'object' || ! methodOrOptions ) {
@@ -2326,7 +2325,7 @@ if (jQuery) {
 		};
 
 		$( document ).ready( function () {
-			$( 'ul.tvd-tabs' ).tabs();
+			$( 'ul.tvd-tabs' ).tvd_tabs();
 		} );
 	}( jQuery )
 );
@@ -4924,310 +4923,329 @@ if (jQuery) {
     // });
   });
 }( jQuery ));
-;(function ($) {
-    function hide_tooltip(newTooltip, backdrop, onComplete) {
-        // Animate back
-        newTooltip.velocity({
-                opacity: 0, marginTop: 0, marginLeft: 0
-            }, {duration: 225, queue: false, delay: 225}
-        );
-        backdrop.velocity({opacity: 0, scale: 1}, {
-            duration: 225,
-            delay: 275, queue: false,
-            complete: function () {
-                backdrop.css('display', 'none');
-                newTooltip.css('display', 'none');
-                onComplete.call();
-            }
-        });
-    }
-    function display_tooltip(origin, newTooltip, backdrop, margin) {
-        newTooltip.css({display: 'block', left: '0px', top: '0px'});
+;(
+	function ( $ ) {
+		function hide_tooltip( newTooltip, backdrop, onComplete ) {
+			// Animate back
+			newTooltip.velocity( {
+					opacity: 0, marginTop: 0, marginLeft: 0
+				}, {duration: 200, queue: false, delay: 50}
+			);
+			backdrop.velocity( {opacity: 0, scale: 1}, {
+				duration: 200,
+				delay: 150, queue: false,
+				complete: function () {
+					backdrop.css( 'display', 'none' );
+					newTooltip.css( 'display', 'none' );
+					onComplete.call();
+				}
+			} );
+		}
 
-        // Set Tooltip text
-        newTooltip.children('span').text(origin.attr('data-tooltip'));
+		function display_tooltip( origin, newTooltip, backdrop, margin ) {
+			newTooltip.css( {display: 'block', left: '0px', top: '0px'} );
 
-        // Tooltip positioning
-        var originWidth = origin.outerWidth();
-        var originHeight = origin.outerHeight();
-        var tooltipPosition = origin.attr('data-position');
-        var tooltipHeight = newTooltip.outerHeight();
-        var tooltipWidth = newTooltip.outerWidth();
-        var tooltipVerticalMovement = '0px';
-        var scale_factor = 8;
-        var tooltipHorizontalMovement = '0px';
-        var targetTop, targetLeft, newCoordinates;
+			// Set Tooltip text
+			newTooltip.children( 'span' ).text( origin.attr( 'data-tooltip' ) );
 
-        if (tooltipPosition === "top") {
-            // Top Position
-            targetTop = origin.offset().top - tooltipHeight - margin;
-            targetLeft = origin.offset().left + originWidth / 2 - tooltipWidth / 2;
-            newCoordinates = repositionWithinScreen(targetLeft, targetTop, tooltipWidth, tooltipHeight);
+			// Tooltip positioning
+			var originWidth = origin.outerWidth();
+			var originHeight = origin.outerHeight();
+			var tooltipPosition = origin.attr( 'data-position' );
+			var tooltipHeight = newTooltip.outerHeight();
+			var tooltipWidth = newTooltip.outerWidth();
+			var tooltipVerticalMovement = '0px';
+			var scale_factor = 8;
+			var tooltipHorizontalMovement = '0px';
+			var targetTop, targetLeft, newCoordinates;
 
-            tooltipVerticalMovement = '-5px';
-            backdrop.css({
-                borderRadius: '14px 14px 0 0',
-                transformOrigin: '50% 90%',
-                marginTop: tooltipHeight,
-                marginLeft: (tooltipWidth / 2) - (backdrop.width() / 2)
-            });
-        }
-        // Left Position
-        else if (tooltipPosition === "left") {
-            targetTop = origin.offset().top + originHeight / 2 - tooltipHeight / 2;
-            targetLeft = origin.offset().left - tooltipWidth - margin;
-            newCoordinates = repositionWithinScreen(targetLeft, targetTop, tooltipWidth, tooltipHeight);
+			if ( tooltipPosition === "top" ) {
+				// Top Position
+				targetTop = origin.offset().top - tooltipHeight - margin;
+				targetLeft = origin.offset().left + originWidth / 2 - tooltipWidth / 2;
+				newCoordinates = repositionWithinScreen( targetLeft, targetTop, tooltipWidth, tooltipHeight );
 
-            tooltipHorizontalMovement = '-10px';
-            backdrop.css({
-                width: '14px',
-                height: '14px',
-                borderRadius: '14px 0 0 14px',
-                transformOrigin: '95% 50%',
-                marginTop: tooltipHeight / 2,
-                marginLeft: tooltipWidth
-            });
-        }
-        // Right Position
-        else if (tooltipPosition === "right") {
-            targetTop = origin.offset().top + originHeight / 2 - tooltipHeight / 2;
-            targetLeft = origin.offset().left + originWidth + margin;
-            newCoordinates = repositionWithinScreen(targetLeft, targetTop, tooltipWidth, tooltipHeight);
+				tooltipVerticalMovement = '-5px';
+				backdrop.css( {
+					borderRadius: '14px 14px 0 0',
+					transformOrigin: '50% 90%',
+					marginTop: tooltipHeight,
+					marginLeft: (
+						            tooltipWidth / 2
+					            ) - (
+						            backdrop.width() / 2
+					            )
+				} );
+			}
+			// Left Position
+			else if ( tooltipPosition === "left" ) {
+				targetTop = origin.offset().top + originHeight / 2 - tooltipHeight / 2;
+				targetLeft = origin.offset().left - tooltipWidth - margin;
+				newCoordinates = repositionWithinScreen( targetLeft, targetTop, tooltipWidth, tooltipHeight );
 
-            tooltipHorizontalMovement = '+10px';
-            backdrop.css({
-                width: '14px',
-                height: '14px',
-                borderRadius: '0 14px 14px 0',
-                transformOrigin: '5% 50%',
-                marginTop: tooltipHeight / 2,
-                marginLeft: '0px'
-            });
-        }
-        else {
-            // Bottom Position
-            targetTop = origin.offset().top + origin.outerHeight() + margin;
-            targetLeft = origin.offset().left + originWidth / 2 - tooltipWidth / 2;
-            newCoordinates = repositionWithinScreen(targetLeft, targetTop, tooltipWidth, tooltipHeight);
-            tooltipVerticalMovement = '+10px';
-            backdrop.css({
-                marginLeft: (tooltipWidth / 2) - (backdrop.width() / 2)
-            });
-        }
+				tooltipHorizontalMovement = '-10px';
+				backdrop.css( {
+					width: '14px',
+					height: '14px',
+					borderRadius: '14px 0 0 14px',
+					transformOrigin: '95% 50%',
+					marginTop: tooltipHeight / 2,
+					marginLeft: tooltipWidth
+				} );
+			}
+			// Right Position
+			else if ( tooltipPosition === "right" ) {
+				targetTop = origin.offset().top + originHeight / 2 - tooltipHeight / 2;
+				targetLeft = origin.offset().left + originWidth + margin;
+				newCoordinates = repositionWithinScreen( targetLeft, targetTop, tooltipWidth, tooltipHeight );
 
-        // Set tooptip css placement
-        newTooltip.css({
-            top: newCoordinates.y,
-            left: newCoordinates.x
-        });
+				tooltipHorizontalMovement = '+10px';
+				backdrop.css( {
+					width: '14px',
+					height: '14px',
+					borderRadius: '0 14px 14px 0',
+					transformOrigin: '5% 50%',
+					marginTop: tooltipHeight / 2,
+					marginLeft: '0px'
+				} );
+			}
+			else {
+				// Bottom Position
+				targetTop = origin.offset().top + origin.outerHeight() + margin;
+				targetLeft = origin.offset().left + originWidth / 2 - tooltipWidth / 2;
+				newCoordinates = repositionWithinScreen( targetLeft, targetTop, tooltipWidth, tooltipHeight );
+				tooltipVerticalMovement = '+10px';
+				backdrop.css( {
+					marginLeft: (
+						            tooltipWidth / 2
+					            ) - (
+						            backdrop.width() / 2
+					            )
+				} );
+			}
 
-        // Calculate Scale to fill
-        scale_factor = tooltipWidth / 8;
-        if (scale_factor < 8) {
-            scale_factor = 8;
-        }
-        if (tooltipPosition === "right" || tooltipPosition === "left") {
-            scale_factor = tooltipWidth / 10;
-            if (scale_factor < 6)
-                scale_factor = 6;
-        }
+			// Set tooptip css placement
+			newTooltip.css( {
+				top: newCoordinates.y,
+				left: newCoordinates.x
+			} );
 
-        newTooltip.velocity({marginTop: tooltipVerticalMovement, marginLeft: tooltipHorizontalMovement}, {duration: 350, queue: false})
-            .velocity({opacity: 1}, {duration: 300, delay: 50, queue: false});
-        backdrop.css({display: 'block'})
-            .velocity({opacity: 1}, {duration: 55, delay: 0, queue: false})
-            .velocity({scale: scale_factor}, {duration: 300, delay: 0, queue: false, easing: 'easeInOutQuad'});
-    }
+			// Calculate Scale to fill
+			scale_factor = tooltipWidth / 8;
+			if ( scale_factor < 8 ) {
+				scale_factor = 8;
+			}
+			if ( tooltipPosition === "right" || tooltipPosition === "left" ) {
+				scale_factor = tooltipWidth / 10;
+				if ( scale_factor < 6 ) {
+					scale_factor = 6;
+				}
+			}
 
-    $.fn.live_tooltip = function (options) {
-        var timeout = null,
-            counter = null,
-            started = false,
-            counterInterval = null,
-            margin = 5;
+			newTooltip.velocity( {marginTop: tooltipVerticalMovement, marginLeft: tooltipHorizontalMovement}, {duration: 350, queue: false} )
+			          .velocity( {opacity: 1}, {duration: 300, delay: 50, queue: false} );
+			backdrop.css( {display: 'block'} )
+			        .velocity( {opacity: 1}, {duration: 55, delay: 0, queue: false} )
+			        .velocity( {scale: scale_factor}, {duration: 300, delay: 0, queue: false, easing: 'easeInOutQuad'} );
+		}
 
-        // Defaults
-        var defaults = {
-            delay: 100
-        };
+		$.fn.live_tooltip = function ( options ) {
+			var timeout = null,
+				counter = null,
+				started = false,
+				counterInterval = null,
+				margin = 5;
 
-        // Remove tooltip from the activator
-        if (options === "remove") {
-            this.each(function () {
-                $('#' + $(this).attr('data-tooltip-id')).remove();
-            });
-            return false;
-        }
+			// Defaults
+			var defaults = {
+				delay: 0
+			};
 
-        options = $.extend(defaults, options);
+			// Remove tooltip from the activator
+			if ( options === 'remove' || options === 'destroy' ) {
+				this.find( '.tvd-tooltipped' ).each( function () {
+					var $this = $( this );
+					$( '#' + $this.attr( 'data-tooltip-id' ) ).remove();
+					$this.removeAttr( 'data-tooltip-id' );
+				} );
+				return false;
+			}
+
+			options = $.extend( defaults, options );
+
+			return this.each( function () {
+				var $container = $( this );
+
+				function setup( $element ) {
+					if ( $element.attr( 'data-tooltip-id' ) ) {
+						return $element;
+					}
+					var tooltipId = Materialize.guid();
+					$element.attr( 'data-tooltip-id', tooltipId );
+
+					// Create Text span
+					var tooltip_text = $( '<span></span>' ).text( $element.attr( 'data-tooltip' ) );
+
+					// Create tooltip
+					var newTooltip = $( '<div></div>' );
+					newTooltip.addClass( 'tvd-material-tooltip' ).append( tooltip_text )
+					          .appendTo( $( 'body' ) )
+					          .attr( 'id', tooltipId );
+
+					$element.data( 'tvd-new-tooltip', newTooltip );
+
+					var backdrop = $( '<div></div>' ).addClass( 'tvd-backdrop' );
+					backdrop.appendTo( newTooltip );
+					backdrop.css( {top: 0, left: 0} );
+
+					$element.data( 'tvd-backdrop', backdrop );
+
+					return $element;
+				}
+
+				//Destroy previously binded events
+
+				$container.off( 'mouseenter.tooltip mouseleave.tooltip' );
+
+				$container.on( 'mouseenter.tooltip', '.tvd-tooltipped', function ( e ) {
+					var origin = setup( $( this ) ),
+						newTooltip = origin.data( 'tvd-new-tooltip' ),
+						backdrop = origin.data( 'tvd-backdrop' ),
+						tooltip_delay = origin.data( "delay" );
+					tooltip_delay = (
+						tooltip_delay === undefined || tooltip_delay === ''
+					) ? options.delay : tooltip_delay;
+					counter = 0;
+					if ( tooltip_delay === 0 ) {
+						started = true;
+						display_tooltip( origin, newTooltip, backdrop, margin );
+					} else {
+						counterInterval = setInterval( function () {
+							counter += 10;
+							if ( counter >= tooltip_delay && started === false ) {
+								started = true;
+								display_tooltip( origin, newTooltip, backdrop, margin );
+							}
+						}, 10 ); // End Interval
+					}
+				} );
+
+				$container.on( 'mouseleave.tooltip', '.tvd-tooltipped', function () {
+					var $element = $( this ),
+						newTooltip = $element.data( 'tvd-new-tooltip' ),
+						backdrop = $element.data( 'tvd-backdrop' );
+
+					// Reset State
+					clearInterval( counterInterval );
+					counter = 0;
+
+					hide_tooltip( newTooltip, backdrop, function () {
+						started = false;
+					} );
+
+				} );
+
+			} );
+		};
+
+		$.fn.tooltip = function ( options ) {
+			var timeout = null,
+				counter = null,
+				started = false,
+				counterInterval = null,
+				margin = 5;
+
+			// Defaults
+			var defaults = {
+				delay: 100
+			};
+
+			// Remove tooltip from the activator
+			if ( options === "remove" ) {
+				this.each( function () {
+					$( '#' + $( this ).attr( 'data-tooltip-id' ) ).remove();
+				} );
+				return false;
+			}
+
+			options = $.extend( defaults, options );
+
+			return this.each( function () {
+				var tooltipId = Materialize.guid();
+				var origin = $( this );
+
+				origin.attr( 'data-tooltip-id', tooltipId );
+				// Create Text span
+				var tooltip_text = $( '<span></span>' ).text( origin.attr( 'data-tooltip' ) );
+
+				// Create tooltip
+				var newTooltip = $( '<div></div>' );
+				newTooltip.addClass( 'tvd-material-tooltip' ).append( tooltip_text )
+				          .appendTo( $( 'body' ) )
+				          .attr( 'id', tooltipId );
+
+				var backdrop = $( '<div></div>' ).addClass( 'tvd-backdrop' );
+				backdrop.appendTo( newTooltip );
+				backdrop.css( {top: 0, left: 0} );
 
 
-        return this.each(function () {
-            var $container = $(this);
+				//Destroy previously binded events
+				origin.off( 'mouseenter.tvd-tooltip mouseleave.tvd-tooltip' );
+				// Mouse In
+				origin.on( {
+					'mouseenter.tooltip': function ( e ) {
+						var tooltip_delay = origin.data( "delay" );
+						tooltip_delay = (
+							tooltip_delay === undefined || tooltip_delay === ''
+						) ? options.delay : tooltip_delay;
+						counter = 0;
+						counterInterval = setInterval( function () {
+							counter += 10;
+							if ( counter >= tooltip_delay && started === false ) {
+								started = true;
+								display_tooltip( origin, newTooltip, backdrop, margin );
+							}
+						}, 10 ); // End Interval
 
-            function setup($element) {
-                if ($element.attr('data-tooltip-id')) {
-                    return $element;
-                }
-                var tooltipId = Materialize.guid();
-                $element.attr('data-tooltip-id', tooltipId);
+						// Mouse Out
+					},
+					'mouseleave.tooltip': function () {
+						// Reset State
+						clearInterval( counterInterval );
+						counter = 0;
 
-                // Create Text span
-                var tooltip_text = $('<span></span>').text($element.attr('data-tooltip'));
+						hide_tooltip( newTooltip, backdrop, function () {
+							started = false;
+						} );
+					}
+				} );
+			} );
+		};
 
-                // Create tooltip
-                var newTooltip = $('<div></div>');
-                newTooltip.addClass('tvd-material-tooltip').append(tooltip_text)
-                    .appendTo($('body'))
-                    .attr('id', tooltipId);
+		var repositionWithinScreen = function ( x, y, width, height ) {
+			var newX = x
+			var newY = y;
 
-                $element.data('tvd-new-tooltip', newTooltip);
+			if ( newX < 0 ) {
+				newX = 4;
+			} else if ( newX + width > window.innerWidth ) {
+				newX -= newX + width - window.innerWidth;
+			}
 
-                var backdrop = $('<div></div>').addClass('tvd-backdrop');
-                backdrop.appendTo(newTooltip);
-                backdrop.css({top: 0, left: 0});
+			if ( newY < 0 ) {
+				newY = 4;
+			} else if ( newY + height > window.innerHeight + $( window ).scrollTop ) {
+				newY -= newY + height - window.innerHeight;
+			}
 
-                $element.data('tvd-backdrop', backdrop);
+			return {x: newX, y: newY};
+		};
 
-                return $element;
-            }
-
-            //Destroy previously binded events
-
-            $container.off('mouseenter.tooltip mouseleave.tooltip');
-
-            $container.on('mouseenter.tooltip', '.tvd-tooltipped', function (e) {
-                var origin = setup($(this)),
-                    newTooltip = origin.data('tvd-new-tooltip'),
-                    backdrop = origin.data('tvd-backdrop'),
-                    tooltip_delay = origin.data("delay");
-                tooltip_delay = (tooltip_delay === undefined || tooltip_delay === '') ? options.delay : tooltip_delay;
-                counter = 0;
-
-                setup(origin);
-
-                counterInterval = setInterval(function () {
-                    counter += 10;
-                    if (counter >= tooltip_delay && started === false) {
-                        started = true;
-                        display_tooltip(origin, newTooltip, backdrop, margin);
-                    }
-                }, 10); // End Interval
-            });
-
-            $container.on('mouseleave.tooltip', '.tvd-tooltipped', function () {
-                var $element = $(this),
-                    newTooltip = $element.data('tvd-new-tooltip'),
-                    backdrop = $element.data('tvd-backdrop');
-
-                // Reset State
-                clearInterval(counterInterval);
-                counter = 0;
-
-                hide_tooltip(newTooltip, backdrop, function () {
-                    started = false;
-                });
-
-            });
-
-        });
-    };
-
-    $.fn.tooltip = function (options) {
-        var timeout = null,
-            counter = null,
-            started = false,
-            counterInterval = null,
-            margin = 5;
-
-        // Defaults
-        var defaults = {
-            delay: 100
-        };
-
-        // Remove tooltip from the activator
-        if (options === "remove") {
-            this.each(function () {
-                $('#' + $(this).attr('data-tooltip-id')).remove();
-            });
-            return false;
-        }
-
-        options = $.extend(defaults, options);
-
-        return this.each(function () {
-            var tooltipId = Materialize.guid();
-            var origin = $(this);
-
-            origin.attr('data-tooltip-id', tooltipId);
-            // Create Text span
-            var tooltip_text = $('<span></span>').text(origin.attr('data-tooltip'));
-
-            // Create tooltip
-            var newTooltip = $('<div></div>');
-            newTooltip.addClass('tvd-material-tooltip').append(tooltip_text)
-                .appendTo($('body'))
-                .attr('id', tooltipId);
-
-            var backdrop = $('<div></div>').addClass('tvd-backdrop');
-            backdrop.appendTo(newTooltip);
-            backdrop.css({top: 0, left: 0});
-
-
-            //Destroy previously binded events
-            origin.off('mouseenter.tvd-tooltip mouseleave.tvd-tooltip');
-            // Mouse In
-            origin.on({
-                'mouseenter.tooltip': function (e) {
-                    var tooltip_delay = origin.data("delay");
-                    tooltip_delay = (tooltip_delay === undefined || tooltip_delay === '') ? options.delay : tooltip_delay;
-                    counter = 0;
-                    counterInterval = setInterval(function () {
-                        counter += 10;
-                        if (counter >= tooltip_delay && started === false) {
-                            started = true;
-                            display_tooltip(origin, newTooltip, backdrop, margin);
-                        }
-                    }, 10); // End Interval
-
-                    // Mouse Out
-                },
-                'mouseleave.tooltip': function () {
-                    // Reset State
-                    clearInterval(counterInterval);
-                    counter = 0;
-
-                    hide_tooltip(newTooltip, backdrop, function () {
-                        started = false;
-                    });
-                }
-            });
-        });
-    };
-
-    var repositionWithinScreen = function (x, y, width, height) {
-        var newX = x
-        var newY = y;
-
-        if (newX < 0) {
-            newX = 4;
-        } else if (newX + width > window.innerWidth) {
-            newX -= newX + width - window.innerWidth;
-        }
-
-        if (newY < 0) {
-            newY = 4;
-        } else if (newY + height > window.innerHeight + $(window).scrollTop) {
-            newY -= newY + height - window.innerHeight;
-        }
-
-        return {x: newX, y: newY};
-    };
-
-    $(document).ready(function () {
-        $('body').live_tooltip();
-    });
-}(jQuery));
+		$( document ).ready( function () {
+			$( 'body' ).live_tooltip();
+		} );
+	}( jQuery )
+);
 ;(function ($) {
   $(document).ready(function() {
 
@@ -7054,9 +7072,14 @@ function closure ( target, options ){
 			},
 			update: function () {
 			},
-			format: wNumb({
-				decimals: 0
-			}),
+			format: {
+				to: function ( value ) {
+					return Math.round(value);
+				},
+				from: function ( value ) {
+					return Math.round(value);
+				}
+			},
 			pips: {
 				mode: 'range',
 				density: 3
@@ -7079,13 +7102,11 @@ function closure ( target, options ){
 		if (opts.input && opts.input.length) {
 			opts.input.on('change', function () {
 				var _value = parseFloat(this.value);
-				if (isNaN(_value) || _value < 0 || _value > 100) {
-					_value = 10;
-				}
 				element.noUiSlider.set(_value);
 			});
 			element.noUiSlider.on('update', function (_value) {
-				opts.input.val(_value[0]);
+				var _val = Math.round(parseInt(_value[0]));
+				opts.input.val(_val);
 			});
 		}
 
@@ -7100,812 +7121,818 @@ function closure ( target, options ){
  * Licensed under MIT
  */
 
-(function ( factory ) {
+(
+	function ( factory ) {
 
-    // AMD.
-    if ( typeof define == 'function' && define.amd )
-        define( 'picker', ['jquery'], factory )
+		// AMD.
+        if ( typeof define == 'function' && define.amd ) {
+            define( 'picker', ['jquery'], factory )
+        }// Node.js/browserify.
+        else if ( typeof exports == 'object' ) {
+            module.exports = factory( require( 'jquery' ) )
+        }// Browser globals.
+        else {
+            this.Picker = factory( jQuery )
+        }
 
-    // Node.js/browserify.
-    else if ( typeof exports == 'object' )
-        module.exports = factory( require('jquery') )
+    }( function ( $ ) {
 
-    // Browser globals.
-    else this.Picker = factory( jQuery )
+		var $window = $( window )
+		var $document = $( document )
+		var $html = $( document.documentElement )
+		var supportsTransitions = document.documentElement.style.transition != null
 
-}(function( $ ) {
 
-    var $window = $( window )
-    var $document = $( document )
-    var $html = $( document.documentElement )
-    var supportsTransitions = document.documentElement.style.transition != null
+		/**
+		 * The picker constructor that creates a blank picker.
+		 */
+		function PickerConstructor( ELEMENT, NAME, COMPONENT, OPTIONS ) {
 
+			// If there’s no element, return the picker constructor.
+            if ( ! ELEMENT ) {
+                return PickerConstructor
+            }
 
-    /**
-     * The picker constructor that creates a blank picker.
-     */
-    function PickerConstructor( ELEMENT, NAME, COMPONENT, OPTIONS ) {
 
-        // If there’s no element, return the picker constructor.
-        if ( !ELEMENT ) return PickerConstructor
+            var
+                IS_DEFAULT_THEME = false,
 
 
-        var
-            IS_DEFAULT_THEME = false,
+			// The state of the picker.
+				STATE = {
+					id: ELEMENT.id || 'P' + Math.abs( ~ ~ (
+						Math.random() * new Date()
+					) )
+				},
 
 
-        // The state of the picker.
-            STATE = {
-                id: ELEMENT.id || 'P' + Math.abs( ~~(Math.random() * new Date()) )
-            },
+			// Merge the defaults and options passed.
+				SETTINGS = COMPONENT ? $.extend( true, {}, COMPONENT.defaults, OPTIONS ) : OPTIONS || {},
 
 
-        // Merge the defaults and options passed.
-            SETTINGS = COMPONENT ? $.extend( true, {}, COMPONENT.defaults, OPTIONS ) : OPTIONS || {},
+			// Merge the default classes with the settings classes.
+				CLASSES = $.extend( {}, PickerConstructor.klasses(), SETTINGS.klass ),
 
 
-        // Merge the default classes with the settings classes.
-            CLASSES = $.extend( {}, PickerConstructor.klasses(), SETTINGS.klass ),
+			// The element node wrapper into a jQuery object.
+				$ELEMENT = $( ELEMENT ),
 
 
-        // The element node wrapper into a jQuery object.
-            $ELEMENT = $( ELEMENT ),
+			// Pseudo picker constructor.
+				PickerInstance = function () {
+					return this.start()
+				},
 
 
-        // Pseudo picker constructor.
-            PickerInstance = function() {
-                return this.start()
-            },
+			// The picker prototype.
+				P = PickerInstance.prototype = {
 
+					constructor: PickerInstance,
 
-        // The picker prototype.
-            P = PickerInstance.prototype = {
+					$node: $ELEMENT,
 
-                constructor: PickerInstance,
 
-                $node: $ELEMENT,
+					/**
+					 * Initialize everything
+					 */
+					start: function () {
 
-
-                /**
-                 * Initialize everything
-                 */
-                start: function() {
-
-                    // If it’s already started, do nothing.
-                    if ( STATE && STATE.start ) return P
-
-
-                    // Update the picker states.
-                    STATE.methods = {}
-                    STATE.start = true
-                    STATE.open = false
-                    STATE.type = ELEMENT.type
-
-
-                    // Confirm focus state, convert into text input to remove UA stylings,
-                    // and set as readonly to prevent keyboard popup.
-                    ELEMENT.autofocus = ELEMENT == getActiveElement()
-                    ELEMENT.readOnly = !SETTINGS.editable
-                    ELEMENT.id = ELEMENT.id || STATE.id
-                    if ( ELEMENT.type != 'text' ) {
-                        ELEMENT.type = 'text'
-                    }
-
-
-                    // Create a new picker component with the settings.
-                    P.component = new COMPONENT(P, SETTINGS)
-
-
-                    // Create the picker root and then prepare it.
-                    P.$root = $( '<div class="' + CLASSES.picker + '" id="' + ELEMENT.id + '_root" />' )
-                    prepareElementRoot()
-
-
-                    // Create the picker holder and then prepare it.
-                    P.$holder = $( createWrappedComponent() ).appendTo( P.$root )
-                    prepareElementHolder()
-
-
-                    // If there’s a format for the hidden input element, create the element.
-                    if ( SETTINGS.formatSubmit ) {
-                        prepareElementHidden()
-                    }
-
-
-                    // Prepare the input element.
-                    prepareElement()
-
-
-                    // Insert the hidden input as specified in the settings.
-                    if ( SETTINGS.containerHidden ) $( SETTINGS.containerHidden ).append( P._hidden )
-                    else $ELEMENT.after( P._hidden )
-
-
-                    // Insert the root as specified in the settings.
-                    if ( SETTINGS.container ) $( SETTINGS.container ).append( P.$root )
-                    else $ELEMENT.after( P.$root )
-
-
-                    // Bind the default component and settings events.
-                    P.on({
-                        start: P.component.onStart,
-                        render: P.component.onRender,
-                        stop: P.component.onStop,
-                        open: P.component.onOpen,
-                        close: P.component.onClose,
-                        set: P.component.onSet
-                    }).on({
-                        start: SETTINGS.onStart,
-                        render: SETTINGS.onRender,
-                        stop: SETTINGS.onStop,
-                        open: SETTINGS.onOpen,
-                        close: SETTINGS.onClose,
-                        set: SETTINGS.onSet
-                    })
-
-
-                    // Once we’re all set, check the theme in use.
-                    IS_DEFAULT_THEME = isUsingDefaultTheme( P.$holder[0] )
-
-
-                    // If the element has autofocus, open the picker.
-                    if ( ELEMENT.autofocus ) {
-                        P.open()
-                    }
-
-
-                    // Trigger queued the “start” and “render” events.
-                    return P.trigger( 'start' ).trigger( 'render' )
-                }, //start
-
-
-                /**
-                 * Render a new picker
-                 */
-                render: function( entireComponent ) {
-
-                    // Insert a new component holder in the root or box.
-                    if ( entireComponent ) {
-                        P.$holder = $( createWrappedComponent() )
-                        prepareElementHolder()
-                        P.$root.html( P.$holder )
-                    }
-                    else P.$root.find( '.' + CLASSES.box ).html( P.component.nodes( STATE.open ) )
-
-                    // Trigger the queued “render” events.
-                    return P.trigger( 'render' )
-                }, //render
-
-
-                /**
-                 * Destroy everything
-                 */
-                stop: function() {
-
-                    // If it’s already stopped, do nothing.
-                    if ( !STATE.start ) return P
-
-                    // Then close the picker.
-                    P.close()
-
-                    // Remove the hidden field.
-                    if ( P._hidden ) {
-                        P._hidden.parentNode.removeChild( P._hidden )
-                    }
-
-                    // Remove the root.
-                    P.$root.remove()
-
-                    // Remove the input class, remove the stored data, and unbind
-                    // the events (after a tick for IE - see `P.close`).
-                    $ELEMENT.removeClass( CLASSES.input ).removeData( NAME )
-                    setTimeout( function() {
-                        $ELEMENT.off( '.' + STATE.id )
-                    }, 0)
-
-                    // Restore the element state
-                    ELEMENT.type = STATE.type
-                    ELEMENT.readOnly = false
-
-                    // Trigger the queued “stop” events.
-                    P.trigger( 'stop' )
-
-                    // Reset the picker states.
-                    STATE.methods = {}
-                    STATE.start = false
-
-                    return P
-                }, //stop
-
-
-                /**
-                 * Open up the picker
-                 */
-                open: function( dontGiveFocus ) {
-
-                    // If it’s already open, do nothing.
-                    if ( STATE.open ) return P
-
-                    // Add the “active” class.
-                    $ELEMENT.addClass( CLASSES.active )
-                    aria( ELEMENT, 'expanded', true )
-
-                    // * A Firefox bug, when `html` has `overflow:hidden`, results in
-                    //   killing transitions :(. So add the “opened” state on the next tick.
-                    //   Bug: https://bugzilla.mozilla.org/show_bug.cgi?id=625289
-                    setTimeout( function() {
-
-                        // Add the “opened” class to the picker root.
-                        P.$root.addClass( CLASSES.opened )
-                        aria( P.$root[0], 'hidden', false )
-
-                    }, 0 )
-
-                    // If we have to give focus, bind the element and doc events.
-                    if ( dontGiveFocus !== false ) {
-
-                        // Set it as open.
-                        STATE.open = true
-
-                        // Prevent the page from scrolling.
-                        if ( IS_DEFAULT_THEME ) {
-                            $html.
-                            css( 'overflow', 'hidden' ).
-                            css( 'padding-right', '+=' + getScrollbarWidth() )
+						// If it’s already started, do nothing.
+                        if ( STATE && STATE.start ) {
+                            return P
                         }
 
-                        // Pass focus to the root element’s jQuery object.
-                        focusPickerOnceOpened()
 
-                        // Bind the document events.
-                        $document.on( 'click.' + STATE.id + ' focusin.' + STATE.id, function( event ) {
+                        // Update the picker states.
+                        STATE.methods = {}
+						STATE.start = true
+						STATE.open = false
+						STATE.type = ELEMENT.type
 
-                            var target = event.target
 
-                            // If the target of the event is not the element, close the picker picker.
-                            // * Don’t worry about clicks or focusins on the root because those don’t bubble up.
-                            //   Also, for Firefox, a click on an `option` element bubbles up directly
-                            //   to the doc. So make sure the target wasn't the doc.
-                            // * In Firefox stopPropagation() doesn’t prevent right-click events from bubbling,
-                            //   which causes the picker to unexpectedly close when right-clicking it. So make
-                            //   sure the event wasn’t a right-click.
-                            if ( target != ELEMENT && target != document && event.which != 3 ) {
+						// Confirm focus state, convert into text input to remove UA stylings,
+						// and set as readonly to prevent keyboard popup.
+						ELEMENT.autofocus = ELEMENT == getActiveElement()
+						ELEMENT.readOnly = ! SETTINGS.editable
+						ELEMENT.id = ELEMENT.id || STATE.id
+						if ( ELEMENT.type != 'text' ) {
+							ELEMENT.type = 'text'
+						}
 
-                                // If the target was the holder that covers the screen,
-                                // keep the element focused to maintain tabindex.
-                                P.close( target === P.$holder[0] )
+
+						// Create a new picker component with the settings.
+						P.component = new COMPONENT( P, SETTINGS )
+
+
+						// Create the picker root and then prepare it.
+						P.$root = $( '<div class="' + CLASSES.picker + '" id="' + ELEMENT.id + '_root" />' )
+						prepareElementRoot()
+
+
+						// Create the picker holder and then prepare it.
+						P.$holder = $( createWrappedComponent() ).appendTo( P.$root )
+						prepareElementHolder()
+
+
+						// If there’s a format for the hidden input element, create the element.
+						if ( SETTINGS.formatSubmit ) {
+							prepareElementHidden()
+						}
+
+
+						// Prepare the input element.
+						prepareElement()
+
+
+						// Insert the hidden input as specified in the settings.
+						if ( SETTINGS.containerHidden ) {
+                            $( SETTINGS.containerHidden ).append( P._hidden )
+                        } else {
+                            $ELEMENT.after( P._hidden )
+                        }
+
+
+                        // Insert the root as specified in the settings.
+						if ( SETTINGS.container ) {
+                            $( SETTINGS.container ).append( P.$root )
+                        } else {
+                            if ( $ELEMENT.next().is( 'label' ) ) {
+	                            $ELEMENT.next().after( P.$root );
+                            } else {
+                                $ELEMENT.after( P.$root )
                             }
-
-                        }).on( 'keydown.' + STATE.id, function( event ) {
-
-                            var
-                            // Get the keycode.
-                                keycode = event.keyCode,
-
-                            // Translate that to a selection change.
-                                keycodeToMove = P.component.key[ keycode ],
-
-                            // Grab the target.
-                                target = event.target
+                        }
 
 
-                            // On escape, close the picker and give focus.
-                            if ( keycode == 27 ) {
-                                P.close( true )
-                            }
+                        // Bind the default component and settings events.
+						P.on( {
+							start: P.component.onStart,
+							render: P.component.onRender,
+							stop: P.component.onStop,
+							open: P.component.onOpen,
+							close: P.component.onClose,
+							set: P.component.onSet
+						} ).on( {
+							start: SETTINGS.onStart,
+							render: SETTINGS.onRender,
+							stop: SETTINGS.onStop,
+							open: SETTINGS.onOpen,
+							close: SETTINGS.onClose,
+							set: SETTINGS.onSet
+						} )
 
 
-                            // Check if there is a key movement or “enter” keypress on the element.
-                            else if ( target == P.$holder[0] && ( keycodeToMove || keycode == 13 ) ) {
-
-                                // Prevent the default action to stop page movement.
-                                event.preventDefault()
-
-                                // Trigger the key movement action.
-                                if ( keycodeToMove ) {
-                                    PickerConstructor._.trigger( P.component.key.go, P, [ PickerConstructor._.trigger( keycodeToMove ) ] )
-                                }
-
-                                // On “enter”, if the highlighted item isn’t disabled, set the value and close.
-                                else if ( !P.$root.find( '.' + CLASSES.highlighted ).hasClass( CLASSES.disabled ) ) {
-                                    P.set( 'select', P.component.item.highlight )
-                                    if ( SETTINGS.closeOnSelect ) {
-                                        P.close( true )
-                                    }
-                                }
-                            }
+						// Once we’re all set, check the theme in use.
+						IS_DEFAULT_THEME = isUsingDefaultTheme( P.$holder[0] )
 
 
-                            // If the target is within the root and “enter” is pressed,
-                            // prevent the default action and trigger a click on the target instead.
-                            else if ( $.contains( P.$root[0], target ) && keycode == 13 ) {
-                                event.preventDefault()
-                                target.click()
-                            }
-                        })
-                    }
-
-                    // Trigger the queued “open” events.
-                    return P.trigger( 'open' )
-                }, //open
+						// If the element has autofocus, open the picker.
+						if ( ELEMENT.autofocus ) {
+							P.open()
+						}
 
 
-                /**
-                 * Close the picker
-                 */
-                close: function( giveFocus ) {
+						// Trigger queued the “start” and “render” events.
+						return P.trigger( 'start' ).trigger( 'render' )
+					}, //start
 
-                    // If we need to give focus, do it before changing states.
-                    if ( giveFocus ) {
-                        if ( SETTINGS.editable ) {
-                            ELEMENT.focus()
+
+					/**
+					 * Render a new picker
+					 */
+					render: function ( entireComponent ) {
+
+						// Insert a new component holder in the root or box.
+                        if ( entireComponent ) {
+                            P.$holder = $( createWrappedComponent() )
+                            prepareElementHolder()
+                            P.$root.html( P.$holder )
                         }
                         else {
-                            // ....ah yes! It would’ve been incomplete without a crazy workaround for IE :|
-                            // The focus is triggered *after* the close has completed - causing it
-                            // to open again. So unbind and rebind the event at the next tick.
-                            P.$holder.off( 'focus.toOpen' ).focus()
-                            setTimeout( function() {
-                                P.$holder.on( 'focus.toOpen', handleFocusToOpenEvent )
-                            }, 0 )
-                        }
-                    }
-
-                    // Remove the “active” class.
-                    $ELEMENT.removeClass( CLASSES.active )
-                    aria( ELEMENT, 'expanded', false )
-
-                    // * A Firefox bug, when `html` has `overflow:hidden`, results in
-                    //   killing transitions :(. So remove the “opened” state on the next tick.
-                    //   Bug: https://bugzilla.mozilla.org/show_bug.cgi?id=625289
-                    setTimeout( function() {
-
-                        // Remove the “opened” and “focused” class from the picker root.
-                        P.$root.removeClass( CLASSES.opened + ' ' + CLASSES.focused )
-                        aria( P.$root[0], 'hidden', true )
-
-                    }, 0 )
-
-                    // If it’s already closed, do nothing more.
-                    if ( !STATE.open ) return P
-
-                    // Set it as closed.
-                    STATE.open = false
-
-                    // Allow the page to scroll.
-                    if ( IS_DEFAULT_THEME ) {
-                        $html.
-                        css( 'overflow', '' ).
-                        css( 'padding-right', '-=' + getScrollbarWidth() )
-                    }
-
-                    // Unbind the document events.
-                    $document.off( '.' + STATE.id )
-
-                    // Trigger the queued “close” events.
-                    return P.trigger( 'close' )
-                }, //close
-
-
-                /**
-                 * Clear the values
-                 */
-                clear: function( options ) {
-                    return P.set( 'clear', null, options )
-                }, //clear
-
-
-                /**
-                 * Set something
-                 */
-                set: function( thing, value, options ) {
-
-                    var thingItem, thingValue,
-                        thingIsObject = $.isPlainObject( thing ),
-                        thingObject = thingIsObject ? thing : {}
-
-                    // Make sure we have usable options.
-                    options = thingIsObject && $.isPlainObject( value ) ? value : options || {}
-
-                    if ( thing ) {
-
-                        // If the thing isn’t an object, make it one.
-                        if ( !thingIsObject ) {
-                            thingObject[ thing ] = value
+                            P.$root.find( '.' + CLASSES.box ).html( P.component.nodes( STATE.open ) )
                         }
 
-                        // Go through the things of items to set.
-                        for ( thingItem in thingObject ) {
+                        // Trigger the queued “render” events.
+						return P.trigger( 'render' )
+					}, //render
 
-                            // Grab the value of the thing.
-                            thingValue = thingObject[ thingItem ]
 
-                            // First, if the item exists and there’s a value, set it.
-                            if ( thingItem in P.component.item ) {
-                                if ( thingValue === undefined ) thingValue = null
-                                P.component.set( thingItem, thingValue, options )
-                            }
+					/**
+					 * Destroy everything
+					 */
+					stop: function () {
 
-                            // Then, check to update the element value and broadcast a change.
-                            if ( thingItem == 'select' || thingItem == 'clear' ) {
-                                $ELEMENT.
-                                val( thingItem == 'clear' ? '' : P.get( thingItem, SETTINGS.format ) ).
-                                trigger( 'change' )
-                            }
+						// If it’s already stopped, do nothing.
+                        if ( ! STATE.start ) {
+                            return P
                         }
 
-                        // Render a new picker.
-                        P.render()
-                    }
+                        // Then close the picker.
+                        P.close()
 
-                    // When the method isn’t muted, trigger queued “set” events and pass the `thingObject`.
-                    return options.muted ? P : P.trigger( 'set', thingObject )
-                }, //set
+						// Remove the hidden field.
+						if ( P._hidden ) {
+							P._hidden.parentNode.removeChild( P._hidden )
+						}
 
+						// Remove the root.
+						P.$root.remove()
 
-                /**
-                 * Get something
-                 */
-                get: function( thing, format ) {
+						// Remove the input class, remove the stored data, and unbind
+						// the events (after a tick for IE - see `P.close`).
+						$ELEMENT.removeClass( CLASSES.input ).removeData( NAME )
+						setTimeout( function () {
+							$ELEMENT.off( '.' + STATE.id )
+						}, 0 )
 
-                    // Make sure there’s something to get.
-                    thing = thing || 'value'
+						// Restore the element state
+						ELEMENT.type = STATE.type
+						ELEMENT.readOnly = false
 
-                    // If a picker state exists, return that.
-                    if ( STATE[ thing ] != null ) {
-                        return STATE[ thing ]
-                    }
+						// Trigger the queued “stop” events.
+						P.trigger( 'stop' )
 
-                    // Return the submission value, if that.
-                    if ( thing == 'valueSubmit' ) {
-                        if ( P._hidden ) {
-                            return P._hidden.value
-                        }
-                        thing = 'value'
-                    }
+						// Reset the picker states.
+						STATE.methods = {}
+						STATE.start = false
 
-                    // Return the value, if that.
-                    if ( thing == 'value' ) {
-                        return ELEMENT.value
-                    }
-
-                    // Check if a component item exists, return that.
-                    if ( thing in P.component.item ) {
-                        if ( typeof format == 'string' ) {
-                            var thingValue = P.component.get( thing )
-                            return thingValue ?
-                                PickerConstructor._.trigger(
-                                    P.component.formats.toString,
-                                    P.component,
-                                    [ format, thingValue ]
-                                ) : ''
-                        }
-                        return P.component.get( thing )
-                    }
-                }, //get
+						return P
+					}, //stop
 
 
+					/**
+					 * Open up the picker
+					 */
+					open: function ( dontGiveFocus ) {
 
-                /**
-                 * Bind events on the things.
-                 */
-                on: function( thing, method, internal ) {
-
-                    var thingName, thingMethod,
-                        thingIsObject = $.isPlainObject( thing ),
-                        thingObject = thingIsObject ? thing : {}
-
-                    if ( thing ) {
-
-                        // If the thing isn’t an object, make it one.
-                        if ( !thingIsObject ) {
-                            thingObject[ thing ] = method
+						// If it’s already open, do nothing.
+                        if ( STATE.open ) {
+                            return P
                         }
 
-                        // Go through the things to bind to.
-                        for ( thingName in thingObject ) {
+                        // Add the “active” class.
+                        $ELEMENT.addClass( CLASSES.active )
+						aria( ELEMENT, 'expanded', true )
 
-                            // Grab the method of the thing.
-                            thingMethod = thingObject[ thingName ]
+						// * A Firefox bug, when `html` has `overflow:hidden`, results in
+						//   killing transitions :(. So add the “opened” state on the next tick.
+						//   Bug: https://bugzilla.mozilla.org/show_bug.cgi?id=625289
+						setTimeout( function () {
 
-                            // If it was an internal binding, prefix it.
-                            if ( internal ) {
-                                thingName = '_' + thingName
-                            }
+							// Add the “opened” class to the picker root.
+							P.$root.addClass( CLASSES.opened )
+							aria( P.$root[0], 'hidden', false )
 
-                            // Make sure the thing methods collection exists.
-                            STATE.methods[ thingName ] = STATE.methods[ thingName ] || []
+						}, 0 )
 
-                            // Add the method to the relative method collection.
-                            STATE.methods[ thingName ].push( thingMethod )
+						// If we have to give focus, bind the element and doc events.
+						if ( dontGiveFocus !== false ) {
+
+							// Set it as open.
+							STATE.open = true
+
+							// Prevent the page from scrolling.
+							if ( IS_DEFAULT_THEME ) {
+								$html.css( 'overflow', 'hidden' ).css( 'padding-right', '+=' + getScrollbarWidth() )
+							}
+
+							// Pass focus to the root element’s jQuery object.
+							focusPickerOnceOpened()
+
+							// Bind the document events.
+							$document.on( 'click.' + STATE.id + ' focusin.' + STATE.id, function ( event ) {
+
+								var target = event.target
+
+								// If the target of the event is not the element, close the picker picker.
+								// * Don’t worry about clicks or focusins on the root because those don’t bubble up.
+								//   Also, for Firefox, a click on an `option` element bubbles up directly
+								//   to the doc. So make sure the target wasn't the doc.
+								// * In Firefox stopPropagation() doesn’t prevent right-click events from bubbling,
+								//   which causes the picker to unexpectedly close when right-clicking it. So make
+								//   sure the event wasn’t a right-click.
+								if ( target != ELEMENT && target != document && event.which != 3 ) {
+
+									// If the target was the holder that covers the screen,
+									// keep the element focused to maintain tabindex.
+									P.close( target === P.$holder[0] )
+								}
+
+							} ).on( 'keydown.' + STATE.id, function ( event ) {
+
+								var
+								// Get the keycode.
+									keycode = event.keyCode,
+
+								// Translate that to a selection change.
+									keycodeToMove = P.component.key[keycode],
+
+								// Grab the target.
+									target = event.target
+
+
+								// On escape, close the picker and give focus.
+								if ( keycode == 27 ) {
+									P.close( true )
+								}
+
+
+								// Check if there is a key movement or “enter” keypress on the element.
+								else if ( target == P.$holder[0] && (
+										keycodeToMove || keycode == 13
+									) ) {
+
+									// Prevent the default action to stop page movement.
+									event.preventDefault()
+
+									// Trigger the key movement action.
+									if ( keycodeToMove ) {
+										PickerConstructor._.trigger( P.component.key.go, P, [PickerConstructor._.trigger( keycodeToMove )] )
+									}
+
+									// On “enter”, if the highlighted item isn’t disabled, set the value and close.
+									else if ( ! P.$root.find( '.' + CLASSES.highlighted ).hasClass( CLASSES.disabled ) ) {
+										P.set( 'select', P.component.item.highlight )
+										if ( SETTINGS.closeOnSelect ) {
+											P.close( true )
+										}
+									}
+								}
+
+
+								// If the target is within the root and “enter” is pressed,
+								// prevent the default action and trigger a click on the target instead.
+								else if ( $.contains( P.$root[0], target ) && keycode == 13 ) {
+									event.preventDefault()
+									target.click()
+								}
+							} )
+						}
+
+						// Trigger the queued “open” events.
+						return P.trigger( 'open' )
+					}, //open
+
+
+					/**
+					 * Close the picker
+					 */
+					close: function ( giveFocus ) {
+
+						// If we need to give focus, do it before changing states.
+						if ( giveFocus ) {
+							if ( SETTINGS.editable ) {
+								ELEMENT.focus()
+							}
+							else {
+								// ....ah yes! It would’ve been incomplete without a crazy workaround for IE :|
+								// The focus is triggered *after* the close has completed - causing it
+								// to open again. So unbind and rebind the event at the next tick.
+								P.$holder.off( 'focus.toOpen' ).focus()
+								setTimeout( function () {
+									P.$holder.on( 'focus.toOpen', handleFocusToOpenEvent )
+								}, 0 )
+							}
+						}
+
+						// Remove the “active” class.
+						$ELEMENT.removeClass( CLASSES.active )
+						aria( ELEMENT, 'expanded', false )
+
+						// * A Firefox bug, when `html` has `overflow:hidden`, results in
+						//   killing transitions :(. So remove the “opened” state on the next tick.
+						//   Bug: https://bugzilla.mozilla.org/show_bug.cgi?id=625289
+						setTimeout( function () {
+
+							// Remove the “opened” and “focused” class from the picker root.
+							P.$root.removeClass( CLASSES.opened + ' ' + CLASSES.focused )
+							aria( P.$root[0], 'hidden', true )
+
+						}, 0 )
+
+						// If it’s already closed, do nothing more.
+                        if ( ! STATE.open ) {
+                            return P
                         }
-                    }
-
-                    return P
-                }, //on
 
-
-
-                /**
-                 * Unbind events on the things.
-                 */
-                off: function() {
-                    var i, thingName,
-                        names = arguments;
-                    for ( i = 0, namesCount = names.length; i < namesCount; i += 1 ) {
-                        thingName = names[i]
-                        if ( thingName in STATE.methods ) {
-                            delete STATE.methods[thingName]
-                        }
-                    }
-                    return P
-                },
-
-
-                /**
-                 * Fire off method events.
-                 */
-                trigger: function( name, data ) {
-                    var _trigger = function( name ) {
-                        var methodList = STATE.methods[ name ]
-                        if ( methodList ) {
-                            methodList.map( function( method ) {
-                                PickerConstructor._.trigger( method, P, [ data ] )
-                            })
-                        }
-                    }
-                    _trigger( '_' + name )
-                    _trigger( name )
-                    return P
-                } //trigger
-            } //PickerInstance.prototype
-
-
-        /**
-         * Wrap the picker holder components together.
-         */
-        function createWrappedComponent() {
-
-            // Create a picker wrapper holder
-            return PickerConstructor._.node( 'div',
-
-                // Create a picker wrapper node
-                PickerConstructor._.node( 'div',
-
-                    // Create a picker frame
-                    PickerConstructor._.node( 'div',
-
-                        // Create a picker box node
-                        PickerConstructor._.node( 'div',
-
-                            // Create the components nodes.
-                            P.component.nodes( STATE.open ),
-
-                            // The picker box class
-                            CLASSES.box
-                        ),
-
-                        // Picker wrap class
-                        CLASSES.wrap
-                    ),
-
-                    // Picker frame class
-                    CLASSES.frame
-                ),
-
-                // Picker holder class
-                CLASSES.holder,
-
-                'tabindex="-1"'
-            ) //endreturn
-        } //createWrappedComponent
-
-
-
-        /**
-         * Prepare the input element with all bindings.
-         */
-        function prepareElement() {
-
-            $ELEMENT.
-
-            // Store the picker data by component name.
-            data(NAME, P).
-
-            // Add the “input” class name.
-            addClass(CLASSES.input).
-
-            // If there’s a `data-value`, update the value of the element.
-            val( $ELEMENT.data('value') ?
-                P.get('select', SETTINGS.format) :
-                ELEMENT.value
-            )
-
-
-            // Only bind keydown events if the element isn’t editable.
-            if ( !SETTINGS.editable ) {
-
-                $ELEMENT.
-
-                // On focus/click, open the picker.
-                on( 'focus.' + STATE.id + ' click.' + STATE.id, function(event) {
-                    event.preventDefault()
-                    P.open()
-                }).
-
-                // Handle keyboard event based on the picker being opened or not.
-                on( 'keydown.' + STATE.id, handleKeydownEvent )
-            }
-
-
-            // Update the aria attributes.
-            aria(ELEMENT, {
-                haspopup: true,
-                expanded: false,
-                readonly: false,
-                owns: ELEMENT.id + '_root'
-            })
-        }
-
-
-        /**
-         * Prepare the root picker element with all bindings.
-         */
-        function prepareElementRoot() {
-            aria( P.$root[0], 'hidden', true )
-        }
-
-
-        /**
-         * Prepare the holder picker element with all bindings.
-         */
-        function prepareElementHolder() {
-
-            P.$holder.
-
-            on({
-
-                // For iOS8.
-                keydown: handleKeydownEvent,
-
-                'focus.toOpen': handleFocusToOpenEvent,
-
-                blur: function() {
-                    // Remove the “target” class.
-                    $ELEMENT.removeClass( CLASSES.target )
-                },
-
-                // When something within the holder is focused, stop from bubbling
-                // to the doc and remove the “focused” state from the root.
-                focusin: function( event ) {
-                    P.$root.removeClass( CLASSES.focused )
-                    event.stopPropagation()
-                },
-
-                // When something within the holder is clicked, stop it
-                // from bubbling to the doc.
-                'mousedown click': function( event ) {
-
-                    var target = event.target
-
-                    // Make sure the target isn’t the root holder so it can bubble up.
-                    if ( target != P.$holder[0] ) {
-
-                        event.stopPropagation()
-
-                        // * For mousedown events, cancel the default action in order to
-                        //   prevent cases where focus is shifted onto external elements
-                        //   when using things like jQuery mobile or MagnificPopup (ref: #249 & #120).
-                        //   Also, for Firefox, don’t prevent action on the `option` element.
-                        if ( event.type == 'mousedown' && !$( target ).is( 'input, select, textarea, button, option' )) {
-
-                            event.preventDefault()
-
-                            // Re-focus onto the holder so that users can click away
-                            // from elements focused within the picker.
-                            P.$holder[0].focus()
-                        }
-                    }
-                }
-
-            }).
-
-            // If there’s a click on an actionable element, carry out the actions.
-            on( 'click', '[data-pick], [data-nav], [data-clear], [data-close]', function() {
-
-                var $target = $( this ),
-                    targetData = $target.data(),
-                    targetDisabled = $target.hasClass( CLASSES.navDisabled ) || $target.hasClass( CLASSES.disabled ),
-
-                // * For IE, non-focusable elements can be active elements as well
-                //   (http://stackoverflow.com/a/2684561).
-                    activeElement = getActiveElement()
-                activeElement = activeElement && ( activeElement.type || activeElement.href )
-
-                // If it’s disabled or nothing inside is actively focused, re-focus the element.
-                if ( targetDisabled || activeElement && !$.contains( P.$root[0], activeElement ) ) {
-                    P.$holder[0].focus()
-                }
-
-                // If something is superficially changed, update the `highlight` based on the `nav`.
-                if ( !targetDisabled && targetData.nav ) {
-                    P.set( 'highlight', P.component.item.highlight, { nav: targetData.nav } )
-                }
-
-                // If something is picked, set `select` then close with focus.
-                else if ( !targetDisabled && 'pick' in targetData ) {
-                    P.set( 'select', targetData.pick )
-                    if ( SETTINGS.closeOnSelect ) {
-                        P.close( true )
-                    }
-                }
-
-                // If a “clear” button is pressed, empty the values and close with focus.
-                else if ( targetData.clear ) {
-                    P.clear()
-                    if ( SETTINGS.closeOnClear ) {
-                        P.close( true )
-                    }
-                }
-
-                else if ( targetData.close ) {
-                    P.close( true )
-                }
-
-            }) //P.$holder
-
-        }
-
-
-        /**
-         * Prepare the hidden input element along with all bindings.
-         */
-        function prepareElementHidden() {
-
-            var name
-
-            if ( SETTINGS.hiddenName === true ) {
-                name = ELEMENT.name
-                ELEMENT.name = ''
-            }
-            else {
-                name = [
-                    typeof SETTINGS.hiddenPrefix == 'string' ? SETTINGS.hiddenPrefix : '',
-                    typeof SETTINGS.hiddenSuffix == 'string' ? SETTINGS.hiddenSuffix : '_submit'
-                ]
-                name = name[0] + ELEMENT.name + name[1]
-            }
-
-            P._hidden = $(
-                '<input ' +
-                'type=hidden ' +
-
-                    // Create the name using the original input’s with a prefix and suffix.
-                'name="' + name + '"' +
-
-                    // If the element has a value, set the hidden value as well.
-                (
-                    $ELEMENT.data('value') || ELEMENT.value ?
-                    ' value="' + P.get('select', SETTINGS.formatSubmit) + '"' :
-                        ''
-                ) +
-                '>'
-            )[0]
-
-            $ELEMENT.
-
-            // If the value changes, update the hidden input with the correct format.
-            on('change.' + STATE.id, function() {
-                P._hidden.value = ELEMENT.value ?
-                    P.get('select', SETTINGS.formatSubmit) :
-                    ''
-            })
-        }
-
-
-        // Wait for transitions to end before focusing the holder. Otherwise, while
-        // using the `container` option, the view jumps to the container.
-        function focusPickerOnceOpened() {
+                        // Set it as closed.
+                        STATE.open = false
+
+						// Allow the page to scroll.
+						if ( IS_DEFAULT_THEME ) {
+							$html.css( 'overflow', '' ).css( 'padding-right', '-=' + getScrollbarWidth() )
+						}
+
+						// Unbind the document events.
+						$document.off( '.' + STATE.id )
+
+						// Trigger the queued “close” events.
+						return P.trigger( 'close' )
+					}, //close
+
+
+					/**
+					 * Clear the values
+					 */
+					clear: function ( options ) {
+						return P.set( 'clear', null, options )
+					}, //clear
+
+
+					/**
+					 * Set something
+					 */
+					set: function ( thing, value, options ) {
+
+						var thingItem, thingValue,
+							thingIsObject = $.isPlainObject( thing ),
+							thingObject = thingIsObject ? thing : {}
+
+						// Make sure we have usable options.
+						options = thingIsObject && $.isPlainObject( value ) ? value : options || {}
+
+						if ( thing ) {
+
+							// If the thing isn’t an object, make it one.
+							if ( ! thingIsObject ) {
+								thingObject[thing] = value
+							}
+
+							// Go through the things of items to set.
+							for ( thingItem in thingObject ) {
+
+								// Grab the value of the thing.
+								thingValue = thingObject[thingItem]
+
+								// First, if the item exists and there’s a value, set it.
+								if ( thingItem in P.component.item ) {
+                                    if ( thingValue === undefined ) {
+                                        thingValue = null
+                                    }
+                                    P.component.set( thingItem, thingValue, options )
+								}
+
+								// Then, check to update the element value and broadcast a change.
+								if ( thingItem == 'select' || thingItem == 'clear' ) {
+									$ELEMENT.val( thingItem == 'clear' ? '' : P.get( thingItem, SETTINGS.format ) ).trigger( 'change' )
+								}
+							}
+
+							// Render a new picker.
+							P.render()
+						}
+
+						// When the method isn’t muted, trigger queued “set” events and pass the `thingObject`.
+						return options.muted ? P : P.trigger( 'set', thingObject )
+					}, //set
+
+
+					/**
+					 * Get something
+					 */
+					get: function ( thing, format ) {
+
+						// Make sure there’s something to get.
+						thing = thing || 'value'
+
+						// If a picker state exists, return that.
+						if ( STATE[thing] != null ) {
+							return STATE[thing]
+						}
+
+						// Return the submission value, if that.
+						if ( thing == 'valueSubmit' ) {
+							if ( P._hidden ) {
+								return P._hidden.value
+							}
+							thing = 'value'
+						}
+
+						// Return the value, if that.
+						if ( thing == 'value' ) {
+							return ELEMENT.value
+						}
+
+						// Check if a component item exists, return that.
+						if ( thing in P.component.item ) {
+							if ( typeof format == 'string' ) {
+								var thingValue = P.component.get( thing )
+								return thingValue ?
+									PickerConstructor._.trigger(
+										P.component.formats.toString,
+										P.component,
+										[format, thingValue]
+									) : ''
+							}
+							return P.component.get( thing )
+						}
+					}, //get
+
+
+					/**
+					 * Bind events on the things.
+					 */
+					on: function ( thing, method, internal ) {
+
+						var thingName, thingMethod,
+							thingIsObject = $.isPlainObject( thing ),
+							thingObject = thingIsObject ? thing : {}
+
+						if ( thing ) {
+
+							// If the thing isn’t an object, make it one.
+							if ( ! thingIsObject ) {
+								thingObject[thing] = method
+							}
+
+							// Go through the things to bind to.
+							for ( thingName in thingObject ) {
+
+								// Grab the method of the thing.
+								thingMethod = thingObject[thingName]
+
+								// If it was an internal binding, prefix it.
+								if ( internal ) {
+									thingName = '_' + thingName
+								}
+
+								// Make sure the thing methods collection exists.
+								STATE.methods[thingName] = STATE.methods[thingName] || []
+
+								// Add the method to the relative method collection.
+								STATE.methods[thingName].push( thingMethod )
+							}
+						}
+
+						return P
+					}, //on
+
+
+					/**
+					 * Unbind events on the things.
+					 */
+					off: function () {
+						var i, thingName,
+							names = arguments;
+						for ( i = 0, namesCount = names.length; i < namesCount; i += 1 ) {
+							thingName = names[i]
+							if ( thingName in STATE.methods ) {
+								delete STATE.methods[thingName]
+							}
+						}
+						return P
+					},
+
+
+					/**
+					 * Fire off method events.
+					 */
+					trigger: function ( name, data ) {
+						var _trigger = function ( name ) {
+							var methodList = STATE.methods[name]
+							if ( methodList ) {
+								methodList.map( function ( method ) {
+									PickerConstructor._.trigger( method, P, [data] )
+								} )
+							}
+						}
+						_trigger( '_' + name )
+						_trigger( name )
+						return P
+					} //trigger
+				} //PickerInstance.prototype
+
+
+			/**
+			 * Wrap the picker holder components together.
+			 */
+			function createWrappedComponent() {
+
+				// Create a picker wrapper holder
+				return PickerConstructor._.node( 'div',
+
+					// Create a picker wrapper node
+					PickerConstructor._.node( 'div',
+
+						// Create a picker frame
+						PickerConstructor._.node( 'div',
+
+							// Create a picker box node
+							PickerConstructor._.node( 'div',
+
+								// Create the components nodes.
+								P.component.nodes( STATE.open ),
+
+								// The picker box class
+								CLASSES.box
+							),
+
+							// Picker wrap class
+							CLASSES.wrap
+						),
+
+						// Picker frame class
+						CLASSES.frame
+					),
+
+					// Picker holder class
+					CLASSES.holder,
+
+					'tabindex="-1"'
+				) //endreturn
+			} //createWrappedComponent
+
+
+			/**
+			 * Prepare the input element with all bindings.
+			 */
+			function prepareElement() {
+
+				$ELEMENT.// Store the picker data by component name.
+				        data( NAME, P ).// Add the “input” class name.
+				        addClass( CLASSES.input ).// If there’s a `data-value`, update the value of the element.
+				        val( $ELEMENT.data( 'value' ) ?
+					P.get( 'select', SETTINGS.format ) :
+					ELEMENT.value
+				)
+
+
+				// Only bind keydown events if the element isn’t editable.
+				if ( ! SETTINGS.editable ) {
+
+					$ELEMENT.// On focus/click, open the picker.
+					        on( 'focus.' + STATE.id + ' click.' + STATE.id, function ( event ) {
+						event.preventDefault()
+						P.open()
+					} ).// Handle keyboard event based on the picker being opened or not.
+					        on( 'keydown.' + STATE.id, handleKeydownEvent )
+				}
+
+
+				// Update the aria attributes.
+				aria( ELEMENT, {
+					haspopup: true,
+					expanded: false,
+					readonly: false,
+					owns: ELEMENT.id + '_root'
+				} )
+			}
+
+
+			/**
+			 * Prepare the root picker element with all bindings.
+			 */
+			function prepareElementRoot() {
+				aria( P.$root[0], 'hidden', true )
+			}
+
+
+			/**
+			 * Prepare the holder picker element with all bindings.
+			 */
+			function prepareElementHolder() {
+
+				P.$holder.on( {
+
+					// For iOS8.
+					keydown: handleKeydownEvent,
+
+					'focus.toOpen': handleFocusToOpenEvent,
+
+					blur: function () {
+						// Remove the “target” class.
+						$ELEMENT.removeClass( CLASSES.target )
+					},
+
+					// When something within the holder is focused, stop from bubbling
+					// to the doc and remove the “focused” state from the root.
+					focusin: function ( event ) {
+						P.$root.removeClass( CLASSES.focused )
+						event.stopPropagation()
+					},
+
+					// When something within the holder is clicked, stop it
+					// from bubbling to the doc.
+					'mousedown click': function ( event ) {
+
+						var target = event.target
+
+						// Make sure the target isn’t the root holder so it can bubble up.
+						if ( target != P.$holder[0] ) {
+
+							event.stopPropagation()
+
+							// * For mousedown events, cancel the default action in order to
+							//   prevent cases where focus is shifted onto external elements
+							//   when using things like jQuery mobile or MagnificPopup (ref: #249 & #120).
+							//   Also, for Firefox, don’t prevent action on the `option` element.
+							if ( event.type == 'mousedown' && ! $( target ).is( 'input, select, textarea, button, option' ) ) {
+
+								event.preventDefault()
+
+								// Re-focus onto the holder so that users can click away
+								// from elements focused within the picker.
+								P.$holder[0].focus()
+							}
+						}
+					}
+
+				} ).// If there’s a click on an actionable element, carry out the actions.
+				 on( 'click', '[data-pick], [data-nav], [data-clear], [data-close]', function () {
+
+					var $target = $( this ),
+						targetData = $target.data(),
+						targetDisabled = $target.hasClass( CLASSES.navDisabled ) || $target.hasClass( CLASSES.disabled ),
+
+					// * For IE, non-focusable elements can be active elements as well
+					//   (http://stackoverflow.com/a/2684561).
+						activeElement = getActiveElement()
+					activeElement = activeElement && (
+							activeElement.type || activeElement.href
+						)
+
+					// If it’s disabled or nothing inside is actively focused, re-focus the element.
+					if ( targetDisabled || activeElement && ! $.contains( P.$root[0], activeElement ) ) {
+						P.$holder[0].focus()
+					}
+
+					// If something is superficially changed, update the `highlight` based on the `nav`.
+					if ( ! targetDisabled && targetData.nav ) {
+						P.set( 'highlight', P.component.item.highlight, {nav: targetData.nav} )
+					}
+
+					// If something is picked, set `select` then close with focus.
+					else if ( ! targetDisabled && 'pick' in targetData ) {
+						P.set( 'select', targetData.pick )
+						if ( SETTINGS.closeOnSelect ) {
+							P.close( true )
+						}
+					}
+
+					// If a “clear” button is pressed, empty the values and close with focus.
+					else if ( targetData.clear ) {
+						P.clear()
+						if ( SETTINGS.closeOnClear ) {
+							P.close( true )
+						}
+					}
+
+					else if ( targetData.close ) {
+						P.close( true )
+					}
+
+				} ) //P.$holder
+
+			}
+
+
+			/**
+			 * Prepare the hidden input element along with all bindings.
+			 */
+			function prepareElementHidden() {
+
+				var name
+
+				if ( SETTINGS.hiddenName === true ) {
+					name = ELEMENT.name
+					ELEMENT.name = ''
+				}
+				else {
+					name = [
+						typeof SETTINGS.hiddenPrefix == 'string' ? SETTINGS.hiddenPrefix : '',
+						typeof SETTINGS.hiddenSuffix == 'string' ? SETTINGS.hiddenSuffix : '_submit'
+					]
+					name = name[0] + ELEMENT.name + name[1]
+				}
+
+				P._hidden = $(
+					'<input ' +
+					'type=hidden ' +
+
+					// Create the name using the original input’s with a prefix and suffix.
+					'name="' + name + '"' +
+
+					// If the element has a value, set the hidden value as well.
+					(
+						$ELEMENT.data( 'value' ) || ELEMENT.value ?
+					' value="' + P.get( 'select', SETTINGS.formatSubmit ) + '"' :
+							''
+					) +
+					'>'
+				)[0]
+
+				$ELEMENT.// If the value changes, update the hidden input with the correct format.
+				        on( 'change.' + STATE.id, function () {
+					P._hidden.value = ELEMENT.value ?
+						P.get( 'select', SETTINGS.formatSubmit ) :
+						''
+				} )
+			}
+
+
+			// Wait for transitions to end before focusing the holder. Otherwise, while
+			// using the `container` option, the view jumps to the container.
+			function focusPickerOnceOpened() {
 
 //            if (IS_DEFAULT_THEME && supportsTransitions) {
 //                P.$holder.find('.' + CLASSES.frame).one('transitionend', function() {
@@ -7915,344 +7942,349 @@ function closure ( target, options ){
 //            else {
 //                P.$holder[0].focus()
 //            }
-        }
+			}
 
 
-        function handleFocusToOpenEvent(event) {
+			function handleFocusToOpenEvent( event ) {
 
-            // Stop the event from propagating to the doc.
-            event.stopPropagation()
+				// Stop the event from propagating to the doc.
+				event.stopPropagation()
 
-            // Add the “target” class.
-            $ELEMENT.addClass( CLASSES.target )
+				// Add the “target” class.
+				$ELEMENT.addClass( CLASSES.target )
 
-            // Add the “focused” class to the root.
-            P.$root.addClass( CLASSES.focused )
+				// Add the “focused” class to the root.
+				P.$root.addClass( CLASSES.focused )
 
-            // And then finally open the picker.
-            P.open()
-        }
+				// And then finally open the picker.
+				P.open()
+			}
 
 
-        // For iOS8.
-        function handleKeydownEvent( event ) {
+			// For iOS8.
+			function handleKeydownEvent( event ) {
 
-            var keycode = event.keyCode,
+				var keycode = event.keyCode,
 
-            // Check if one of the delete keys was pressed.
-                isKeycodeDelete = /^(8|46)$/.test(keycode)
+				// Check if one of the delete keys was pressed.
+					isKeycodeDelete = /^(8|46)$/.test( keycode )
 
-            // For some reason IE clears the input value on “escape”.
-            if ( keycode == 27 ) {
-                P.close( true )
-                return false
-            }
+				// For some reason IE clears the input value on “escape”.
+				if ( keycode == 27 ) {
+					P.close( true )
+					return false
+				}
 
-            // Check if `space` or `delete` was pressed or the picker is closed with a key movement.
-            if ( keycode == 32 || isKeycodeDelete || !STATE.open && P.component.key[keycode] ) {
+				// Check if `space` or `delete` was pressed or the picker is closed with a key movement.
+				if ( keycode == 32 || isKeycodeDelete || ! STATE.open && P.component.key[keycode] ) {
 
-                // Prevent it from moving the page and bubbling to doc.
-                event.preventDefault()
-                event.stopPropagation()
+					// Prevent it from moving the page and bubbling to doc.
+					event.preventDefault()
+					event.stopPropagation()
 
-                // If `delete` was pressed, clear the values and close the picker.
-                // Otherwise open the picker.
-                if ( isKeycodeDelete ) { P.clear().close() }
-                else { P.open() }
-            }
-        }
+					// If `delete` was pressed, clear the values and close the picker.
+					// Otherwise open the picker.
+					if ( isKeycodeDelete ) { P.clear().close() }
+					else { P.open() }
+				}
+			}
 
 
-        // Return a new picker instance.
-        return new PickerInstance()
-    } //PickerConstructor
+			// Return a new picker instance.
+			return new PickerInstance()
+		} //PickerConstructor
 
 
+		/**
+		 * The default classes and prefix to use for the HTML classes.
+		 */
+		PickerConstructor.klasses = function ( prefix ) {
+			prefix = prefix || 'picker'
+			return {
 
-    /**
-     * The default classes and prefix to use for the HTML classes.
-     */
-    PickerConstructor.klasses = function( prefix ) {
-        prefix = prefix || 'picker'
-        return {
+				picker: prefix,
+				opened: prefix + '--opened',
+				focused: prefix + '--focused',
 
-            picker: prefix,
-            opened: prefix + '--opened',
-            focused: prefix + '--focused',
+				input: prefix + '__input',
+				active: prefix + '__input--active',
+				target: prefix + '__input--target',
 
-            input: prefix + '__input',
-            active: prefix + '__input--active',
-            target: prefix + '__input--target',
+				holder: prefix + '__holder',
 
-            holder: prefix + '__holder',
+				frame: prefix + '__frame',
+				wrap: prefix + '__wrap',
 
-            frame: prefix + '__frame',
-            wrap: prefix + '__wrap',
+				box: prefix + '__box'
+			}
+		} //PickerConstructor.klasses
 
-            box: prefix + '__box'
-        }
-    } //PickerConstructor.klasses
 
+		/**
+		 * Check if the default theme is being used.
+		 */
+		function isUsingDefaultTheme( element ) {
 
+			var theme,
+				prop = 'position'
 
-    /**
-     * Check if the default theme is being used.
-     */
-    function isUsingDefaultTheme( element ) {
+			// For IE.
+			if ( element.currentStyle ) {
+				theme = element.currentStyle[prop]
+			}
 
-        var theme,
-            prop = 'position'
+			// For normal browsers.
+			else if ( window.getComputedStyle ) {
+				theme = getComputedStyle( element )[prop]
+			}
 
-        // For IE.
-        if ( element.currentStyle ) {
-            theme = element.currentStyle[prop]
-        }
+			return theme == 'fixed'
+		}
 
-        // For normal browsers.
-        else if ( window.getComputedStyle ) {
-            theme = getComputedStyle( element )[prop]
-        }
 
-        return theme == 'fixed'
-    }
-
-
-
-    /**
-     * Get the width of the browser’s scrollbar.
-     * Taken from: https://github.com/VodkaBears/Remodal/blob/master/src/jquery.remodal.js
-     */
-    function getScrollbarWidth() {
-
-        if ( $html.height() <= $window.height() ) {
-            return 0
-        }
-
-        var $outer = $( '<div style="visibility:hidden;width:100px" />' ).
-        appendTo( 'body' )
-
-        // Get the width without scrollbars.
-        var widthWithoutScroll = $outer[0].offsetWidth
-
-        // Force adding scrollbars.
-        $outer.css( 'overflow', 'scroll' )
-
-        // Add the inner div.
-        var $inner = $( '<div style="width:100%" />' ).appendTo( $outer )
-
-        // Get the width with scrollbars.
-        var widthWithScroll = $inner[0].offsetWidth
-
-        // Remove the divs.
-        $outer.remove()
-
-        // Return the difference between the widths.
-        return widthWithoutScroll - widthWithScroll
-    }
-
-
-
-    /**
-     * PickerConstructor helper methods.
-     */
-    PickerConstructor._ = {
-
-        /**
-         * Create a group of nodes. Expects:
-         * `
-         {
-             min:    {Integer},
-             max:    {Integer},
-             i:      {Integer},
-             node:   {String},
-             item:   {Function}
-         }
-         * `
-         */
-        group: function( groupObject ) {
-
-            var
-            // Scope for the looped object
-                loopObjectScope,
-
-            // Create the nodes list
-                nodesList = '',
-
-            // The counter starts from the `min`
-                counter = PickerConstructor._.trigger( groupObject.min, groupObject )
-
-
-            // Loop from the `min` to `max`, incrementing by `i`
-            for ( ; counter <= PickerConstructor._.trigger( groupObject.max, groupObject, [ counter ] ); counter += groupObject.i ) {
-
-                // Trigger the `item` function within scope of the object
-                loopObjectScope = PickerConstructor._.trigger( groupObject.item, groupObject, [ counter ] )
-
-                // Splice the subgroup and create nodes out of the sub nodes
-                nodesList += PickerConstructor._.node(
-                    groupObject.node,
-                    loopObjectScope[ 0 ],   // the node
-                    loopObjectScope[ 1 ],   // the classes
-                    loopObjectScope[ 2 ]    // the attributes
-                )
-            }
-
-            // Return the list of nodes
-            return nodesList
-        }, //group
-
-
-        /**
-         * Create a dom node string
-         */
-        node: function( wrapper, item, klass, attribute ) {
-
-            // If the item is false-y, just return an empty string
-            if ( !item ) return ''
-
-            // If the item is an array, do a join
-            item = $.isArray( item ) ? item.join( '' ) : item
-
-            // Check for the class
-            klass = klass ? ' class="' + klass + '"' : ''
-
-            // Check for any attributes
-            attribute = attribute ? ' ' + attribute : ''
-
-            // Return the wrapped item
-            return '<' + wrapper + klass + attribute + '>' + item + '</' + wrapper + '>'
-        }, //node
-
-
-        /**
-         * Lead numbers below 10 with a zero.
-         */
-        lead: function( number ) {
-            return ( number < 10 ? '0': '' ) + number
-        },
-
-
-        /**
-         * Trigger a function otherwise return the value.
-         */
-        trigger: function( callback, scope, args ) {
-            return typeof callback == 'function' ? callback.apply( scope, args || [] ) : callback
-        },
-
-
-        /**
-         * If the second character is a digit, length is 2 otherwise 1.
-         */
-        digits: function( string ) {
-            return ( /\d/ ).test( string[ 1 ] ) ? 2 : 1
-        },
-
-
-        /**
-         * Tell if something is a date object.
-         */
-        isDate: function( value ) {
-            return {}.toString.call( value ).indexOf( 'Date' ) > -1 && this.isInteger( value.getDate() )
-        },
-
-
-        /**
-         * Tell if something is an integer.
-         */
-        isInteger: function( value ) {
-            return {}.toString.call( value ).indexOf( 'Number' ) > -1 && value % 1 === 0
-        },
-
-
-        /**
-         * Create ARIA attribute strings.
-         */
-        ariaAttr: ariaAttr
-    } //PickerConstructor._
-
-
-
-    /**
-     * Extend the picker with a component and defaults.
-     */
-    PickerConstructor.extend = function( name, Component ) {
-
-        // Extend jQuery.
-        $.fn[ name ] = function( options, action ) {
-
-            // Grab the component data.
-            var componentData = this.data( name )
-
-            // If the picker is requested, return the data object.
-            if ( options == 'picker' ) {
-                return componentData
-            }
-
-            // If the component data exists and `options` is a string, carry out the action.
-            if ( componentData && typeof options == 'string' ) {
-                return PickerConstructor._.trigger( componentData[ options ], componentData, [ action ] )
-            }
-
-            // Otherwise go through each matched element and if the component
-            // doesn’t exist, create a new picker using `this` element
-            // and merging the defaults and options with a deep copy.
-            return this.each( function() {
-                var $this = $( this )
-                if ( !$this.data( name ) ) {
-                    new PickerConstructor( this, name, Component, options )
+		/**
+		 * Get the width of the browser’s scrollbar.
+		 * Taken from: https://github.com/VodkaBears/Remodal/blob/master/src/jquery.remodal.js
+		 */
+		function getScrollbarWidth() {
+
+			if ( $html.height() <= $window.height() ) {
+				return 0
+			}
+
+			var $outer = $( '<div style="visibility:hidden;width:100px" />' ).appendTo( 'body' )
+
+			// Get the width without scrollbars.
+			var widthWithoutScroll = $outer[0].offsetWidth
+
+			// Force adding scrollbars.
+			$outer.css( 'overflow', 'scroll' )
+
+			// Add the inner div.
+			var $inner = $( '<div style="width:100%" />' ).appendTo( $outer )
+
+			// Get the width with scrollbars.
+			var widthWithScroll = $inner[0].offsetWidth
+
+			// Remove the divs.
+			$outer.remove()
+
+			// Return the difference between the widths.
+			return widthWithoutScroll - widthWithScroll
+		}
+
+
+		/**
+		 * PickerConstructor helper methods.
+		 */
+		PickerConstructor._ = {
+
+			/**
+			 * Create a group of nodes. Expects:
+			 * `
+			 {
+				 min:    {Integer},
+				 max:    {Integer},
+				 i:      {Integer},
+				 node:   {String},
+				 item:   {Function}
+			 }
+			 * `
+			 */
+			group: function ( groupObject ) {
+
+				var
+				// Scope for the looped object
+					loopObjectScope,
+
+				// Create the nodes list
+					nodesList = '',
+
+				// The counter starts from the `min`
+					counter = PickerConstructor._.trigger( groupObject.min, groupObject )
+
+
+				// Loop from the `min` to `max`, incrementing by `i`
+				for ( ; counter <= PickerConstructor._.trigger( groupObject.max, groupObject, [counter] ); counter += groupObject.i ) {
+
+					// Trigger the `item` function within scope of the object
+					loopObjectScope = PickerConstructor._.trigger( groupObject.item, groupObject, [counter] )
+
+					// Splice the subgroup and create nodes out of the sub nodes
+					nodesList += PickerConstructor._.node(
+						groupObject.node,
+						loopObjectScope[0],   // the node
+						loopObjectScope[1],   // the classes
+						loopObjectScope[2]    // the attributes
+					)
+				}
+
+				// Return the list of nodes
+				return nodesList
+			}, //group
+
+
+			/**
+			 * Create a dom node string
+			 */
+			node: function ( wrapper, item, klass, attribute ) {
+
+				// If the item is false-y, just return an empty string
+                if ( ! item ) {
+                    return ''
                 }
-            })
-        }
 
-        // Set the defaults.
-        $.fn[ name ].defaults = Component.defaults
-    } //PickerConstructor.extend
+                // If the item is an array, do a join
+				item = $.isArray( item ) ? item.join( '' ) : item
+
+				// Check for the class
+				klass = klass ? ' class="' + klass + '"' : ''
+
+				// Check for any attributes
+				attribute = attribute ? ' ' + attribute : ''
+
+				// Return the wrapped item
+				return '<' + wrapper + klass + attribute + '>' + item + '</' + wrapper + '>'
+			}, //node
 
 
+			/**
+			 * Lead numbers below 10 with a zero.
+			 */
+			lead: function ( number ) {
+				return (
+					       number < 10 ? '0' : ''
+				       ) + number
+			},
 
-    function aria(element, attribute, value) {
-        if ( $.isPlainObject(attribute) ) {
-            for ( var key in attribute ) {
-                ariaSet(element, key, attribute[key])
-            }
-        }
-        else {
-            ariaSet(element, attribute, value)
-        }
-    }
-    function ariaSet(element, attribute, value) {
-        element.setAttribute(
-            (attribute == 'role' ? '' : 'aria-') + attribute,
-            value
-        )
-    }
-    function ariaAttr(attribute, data) {
-        if ( !$.isPlainObject(attribute) ) {
-            attribute = { attribute: data }
-        }
-        data = ''
-        for ( var key in attribute ) {
-            var attr = (key == 'role' ? '' : 'aria-') + key,
-                attrVal = attribute[key]
-            data += attrVal == null ? '' : attr + '="' + attribute[key] + '"'
-        }
-        return data
-    }
+
+			/**
+			 * Trigger a function otherwise return the value.
+			 */
+			trigger: function ( callback, scope, args ) {
+				return typeof callback == 'function' ? callback.apply( scope, args || [] ) : callback
+			},
+
+
+			/**
+			 * If the second character is a digit, length is 2 otherwise 1.
+			 */
+			digits: function ( string ) {
+				return (
+					/\d/
+				).test( string[1] ) ? 2 : 1
+			},
+
+
+			/**
+			 * Tell if something is a date object.
+			 */
+			isDate: function ( value ) {
+				return {}.toString.call( value ).indexOf( 'Date' ) > - 1 && this.isInteger( value.getDate() )
+			},
+
+
+			/**
+			 * Tell if something is an integer.
+			 */
+			isInteger: function ( value ) {
+				return {}.toString.call( value ).indexOf( 'Number' ) > - 1 && value % 1 === 0
+			},
+
+
+			/**
+			 * Create ARIA attribute strings.
+			 */
+			ariaAttr: ariaAttr
+		} //PickerConstructor._
+
+
+		/**
+		 * Extend the picker with a component and defaults.
+		 */
+		PickerConstructor.extend = function ( name, Component ) {
+
+			// Extend jQuery.
+			$.fn[name] = function ( options, action ) {
+
+				// Grab the component data.
+				var componentData = this.data( name )
+
+				// If the picker is requested, return the data object.
+				if ( options == 'picker' ) {
+					return componentData
+				}
+
+				// If the component data exists and `options` is a string, carry out the action.
+				if ( componentData && typeof options == 'string' ) {
+					return PickerConstructor._.trigger( componentData[options], componentData, [action] )
+				}
+
+				// Otherwise go through each matched element and if the component
+				// doesn’t exist, create a new picker using `this` element
+				// and merging the defaults and options with a deep copy.
+				return this.each( function () {
+					var $this = $( this )
+					if ( ! $this.data( name ) ) {
+						new PickerConstructor( this, name, Component, options )
+					}
+				} )
+			}
+
+			// Set the defaults.
+			$.fn[name].defaults = Component.defaults
+		} //PickerConstructor.extend
+
+
+		function aria( element, attribute, value ) {
+			if ( $.isPlainObject( attribute ) ) {
+				for ( var key in attribute ) {
+					ariaSet( element, key, attribute[key] )
+				}
+			}
+			else {
+				ariaSet( element, attribute, value )
+			}
+		}
+
+		function ariaSet( element, attribute, value ) {
+			element.setAttribute(
+				(
+					attribute == 'role' ? '' : 'aria-'
+				) + attribute,
+				value
+			)
+		}
+
+		function ariaAttr( attribute, data ) {
+			if ( ! $.isPlainObject( attribute ) ) {
+				attribute = {attribute: data}
+			}
+			data = ''
+			for ( var key in attribute ) {
+				var attr = (
+					           key == 'role' ? '' : 'aria-'
+				           ) + key,
+					attrVal = attribute[key]
+				data += attrVal == null ? '' : attr + '="' + attribute[key] + '"'
+			}
+			return data
+		}
 
 // IE8 bug throws an error for activeElements within iframes.
-    function getActiveElement() {
-        try {
-            return document.activeElement
-        } catch ( err ) { }
-    }
-
+		function getActiveElement() {
+			try {
+				return document.activeElement
+			} catch ( err ) { }
+		}
 
 
 // Expose the picker constructor.
-    return PickerConstructor
+		return PickerConstructor
 
 
-}));
+	} )
+);
 
 
 
@@ -10484,16 +10516,18 @@ if (typeof jQuery !== 'undefined') {
         };
     })(Hammer.Manager.prototype.emit);
 }));
-;Materialize.toast = function ( message, displayLength, className, completeCallback ) {
-	className = className || "";
+;Materialize.toast = function ( message, displayLength, className, completeCallback, position ) {
+	className = className || '';
+	position = position || 'top';
 
-	var container = document.getElementById( 'tvd-toast-container' );
+	var container = document.getElementById( 'tvd-toast-container-' + position );
 
 	// Create toast container if it does not exist
 	if ( container === null ) {
 		// create notification container
 		container = document.createElement( 'div' );
-		container.id = 'tvd-toast-container';
+		container.id = 'tvd-toast-container-' + position;
+		container.className = 'tvd-toast-container';
 		document.body.appendChild( container );
 	}
 
@@ -10505,8 +10539,10 @@ if (typeof jQuery !== 'undefined') {
 		container.appendChild( newToast );
 	}
 
-	newToast.style.top = '35px';
+	newToast.style.top = position === 'top' ? '-35px' : '35px';
 	newToast.style.opacity = 0;
+
+	var out_top = position === 'top' ? '-35px' : '35px';
 
 	// Animate toast in
 	Vel( newToast, {"top": "0px", opacity: 1}, {
@@ -10530,7 +10566,7 @@ if (typeof jQuery !== 'undefined') {
 
 		if ( timeLeft <= 0 ) {
 			// Animate toast out
-			Vel( newToast, {"opacity": 0, marginTop: '-40px'}, {
+			Vel( newToast, {"opacity": 0, top: out_top}, {
 				duration: 375,
 				easing: 'easeOutExpo',
 				queue: false,
@@ -10630,14 +10666,14 @@ if (typeof jQuery !== 'undefined') {
 };
 ;var TVE_Dash = TVE_Dash || {};
 
-(
-	function ( $ ) {
+(function ( $ ) {
 		TVE_Dash.product = {
 			showLicenceForm: function () {
 				var $this = $( this ),
 					$card = $this.parents( '.tvd-card' ).first(),
 					$form = $card.parent().find( '.tvd-card[data-state="form"]' );
 
+				TVE_Dash.hideCardLoader( $form );
 				$card.slideUp();
 				$form.slideDown();
 			},
@@ -10656,7 +10692,7 @@ if (typeof jQuery !== 'undefined') {
 					function insert_response( response ) {
 						$.each( response, function ( _id, item ) {
 							$( '#tvd-product-' + _id ).replaceWith( item );
-							$( '#tvd-product-' + _id ).hide().fadeIn().find( '.tvd-dropdown-button' ).dropdown();
+							$( '#tvd-product-' + _id ).hide().fadeIn().find( '.tvd-dropdown-button' ).tvd_dropdown();
 						} );
 					}
 
@@ -10950,5 +10986,4 @@ if (typeof jQuery !== 'undefined') {
 			} );
 		} );
 
-	}
-)( jQuery );
+	})( jQuery );

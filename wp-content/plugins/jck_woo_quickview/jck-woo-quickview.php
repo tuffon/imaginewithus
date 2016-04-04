@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Quickview
 Plugin URI: http://www.jckemp.com
 Description: Quickview plugin for WooCommerce
-Version: 3.2.5
+Version: 3.3.1
 Author: James Kemp
 Author Email: support@jckemp.com
 */
@@ -31,7 +31,7 @@ class jckqv {
     /**
      * @var str
      */
-    public $version = "3.2.5";
+    public $version = "3.3.1";
 
     /**
      * @var str Absolute path to this plugin folder, trailing slash
@@ -74,7 +74,6 @@ class jckqv {
         $this->load_classes();
 
         $this->woo_version = $this->get_woo_version_number();
-        $this->settings = $this->settings_framework->__getSettings();
 
         // Hook up to the init action
         add_action( 'init', array( $this, 'before_initiate' ), 0 );
@@ -89,10 +88,10 @@ class jckqv {
     private function load_classes() {
 
         require_once $this->plugin_path.'/inc/class-template-loader.php';
-        require_once $this->plugin_path .'/assets/options/jck-settings-framework/jck-settings-framework.php';
+        require_once $this->plugin_path .'/inc/wp-settings-framework/wp-settings-framework.php';
 
         $this->templates = new JCK_Woo_Quickview_Template_Loader();
-        $this->settings_framework = new JckSettingsFramework( $this->plugin_path .'/assets/options/jckqv_settings.php', 'woocommerce_page_'.$this->slug );
+        $this->settings_framework = new WordPressSettingsFramework( $this->plugin_path .'/inc/jckqv-settings.php', 'jckqv' );
 
     }
 
@@ -115,10 +114,11 @@ class jckqv {
         // Setup localization
         load_plugin_textdomain( 'jckqv', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
+        $this->init_settings();
+
         if ( is_admin() ) {
 
-            add_filter( 'jckqvsettings_settings_validate',  array( $this, 'sanitize_settings' ), 10, 1 );
-            add_action( 'admin_menu',                       array( $this, 'admin_page' ) );
+            add_filter( 'jckqv_settings_validate', array( $this, 'sanitize_settings' ), 10, 1 );
 
             // Ajax
             add_action( 'wp_ajax_jckqv', array( $this, 'modal' ) );
@@ -141,20 +141,22 @@ class jckqv {
             add_action( 'jck_qv_after_summary', array( $this, 'modal_part_close' ), 5, 3 );
             add_action( 'jck_qv_after_summary', array( $this, 'modal_part_adding_to_cart' ), 10, 3 );
 
+            $this->setup_shop_the_look();
+
         } else {
 
             $this->register_scripts_and_styles();
 
             // Show Button
-            if ($this->settings['trigger_position_autoinsert'] == 1) {
+            if ($this->settings['position_autoinsert'] == 1) {
 
-                if ($this->settings['trigger_position_position'] == 'beforeitem') {
+                if ($this->settings['position_position'] == 'beforeitem') {
                     add_action( 'woocommerce_before_shop_loop_item', array( $this, 'display_button' ) );
-                } elseif ($this->settings['trigger_position_position'] == 'beforetitle') {
+                } elseif ($this->settings['position_position'] == 'beforetitle') {
                     add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'display_button' ) );
-                } elseif ($this->settings['trigger_position_position'] == 'aftertitle') {
+                } elseif ($this->settings['position_position'] == 'aftertitle') {
                     add_action( 'woocommerce_after_shop_loop_item_title', array( $this, 'display_button' ) );
-                } elseif ($this->settings['trigger_position_position'] == 'afteritem') {
+                } elseif ($this->settings['position_position'] == 'afteritem') {
                     add_action( 'woocommerce_after_shop_loop_item', array( $this, 'display_button' ) );
                 }
 
@@ -162,7 +164,58 @@ class jckqv {
 
         }
 
-        $this->setup_shop_the_look();
+    }
+
+    /**
+     * Settings: Init
+     */
+    public function init_settings() {
+
+        $this->transition_settings();
+
+        $this->settings = $this->settings_framework->get_settings();
+
+        add_action( 'admin_menu', array( $this, 'add_settings_page' ), 99 );
+
+    }
+
+    /**
+     * Settings: Add settings page
+     */
+    public function add_settings_page() {
+
+        $this->settings_framework->add_settings_page(array(
+            'parent_slug' => 'woocommerce',
+            'page_slug'   => $this->slug,
+            'page_title'  => sprintf('%s Settings', $this->name),
+            'menu_title'  => $this->shortname
+        ));
+
+    }
+
+    /**
+     * Settings: Transition old settings to new
+     */
+    public function transition_settings() {
+
+        $new_settings = get_option('jckqv_settings');
+        $old_settings = get_option('jckqvsettings_settings');
+
+        if( $old_settings && !$new_settings ) {
+
+            $new_settings = array();
+
+            foreach( $old_settings as $field_id => $value ) {
+
+                $field_id = str_replace(array('popup_','trigger_'), '', $field_id);
+
+                $new_settings[$field_id] = $value;
+
+            }
+
+            update_option( 'jckqv_settings', $new_settings );
+
+        }
 
     }
 
@@ -222,7 +275,7 @@ class jckqv {
      */
     public function modal_part_sale_flash() {
 
-        if ($this->settings['popup_content_showbanner'])
+        if ($this->settings['content_showbanner'])
             include( $this->templates->locate_template( 'sale-flash.php' ) );
 
     }
@@ -232,7 +285,7 @@ class jckqv {
      */
     public function modal_part_title() {
 
-        if ($this->settings['popup_content_showtitle'])
+        if ($this->settings['content_showtitle'])
             include( $this->templates->locate_template( 'title.php' ) );
 
     }
@@ -242,7 +295,7 @@ class jckqv {
      */
     public function modal_part_rating() {
 
-        if ($this->settings['popup_content_showrating'])
+        if ($this->settings['content_showrating'])
             include( $this->templates->locate_template( 'rating.php' ) );
 
     }
@@ -252,7 +305,7 @@ class jckqv {
      */
     public function modal_part_price() {
 
-        if ($this->settings['popup_content_showprice'])
+        if ($this->settings['content_showprice'])
             include( $this->templates->locate_template( 'price.php' ) );
 
     }
@@ -262,7 +315,7 @@ class jckqv {
      */
     public function modal_part_desc() {
 
-        if ($this->settings['popup_content_showdesc'])
+        if ($this->settings['content_showdesc'])
             include( $this->templates->locate_template( 'desc.php' ) );
 
     }
@@ -272,7 +325,7 @@ class jckqv {
      */
     public function modal_part_add_to_cart() {
 
-        if ($this->settings['popup_content_showatc'])
+        if ($this->settings['content_showatc'])
             include( $this->templates->locate_template( $this->get_add_to_cart_filename() ) );
 
     }
@@ -282,7 +335,7 @@ class jckqv {
      */
     public function modal_part_meta() {
 
-        if ($this->settings['popup_content_showmeta'])
+        if ($this->settings['content_showmeta'])
             include( $this->templates->locate_template( 'meta.php' ) );
 
     }
@@ -313,8 +366,8 @@ class jckqv {
     public function sanitize_settings($settings) {
 
         // Validate Margins
-        $i = 0; foreach ($settings['trigger_position_margins'] as $marVal) {
-            $settings['trigger_position_margins'][$i] = ($marVal != "") ? preg_replace('/[^\d-]+/', '', $marVal) : 0;
+        $i = 0; foreach ($settings['position_margins'] as $marVal) {
+            $settings['position_margins'][$i] = ($marVal != "") ? preg_replace('/[^\d-]+/', '', $marVal) : 0;
             $i++; }
 
         return $settings;
@@ -323,43 +376,24 @@ class jckqv {
 
 
     /**
-     * Admin: Add menu page
-     */
-    public function admin_page() {
-        add_submenu_page( 'woocommerce', $this->name, $this->shortname, 'manage_options', $this->slug, array( $this, 'admin_page_options' ) );
-    }
-
-
-    /**
-     * Admin: Display menu page
-     */
-    public function admin_page_options() {
-        if ( !current_user_can( 'manage_options' ) ) {
-            wp_die( __( 'You do not have sufficient permissions to access this page.', 'jckqv' ) );
-        }
-
-        settings_errors();
-
-        echo '<div class="wrap">';
-        $this->settings_framework->displaySettings();
-        echo '</div>';
-    }
-
-
-    /**
      * Frontend: Diplay quickview button
      */
     public function display_button($product_id = false) {
 
-        global $post;
+        global $post, $product;
         $product_id = ($product_id) ? $product_id : $post->ID;
 
-        $parent_id = wp_get_post_parent_id( $product_id );
-        $product_id = ( $parent_id ) ? sprintf('%d:%d', $parent_id, $product_id) : $product_id;
+        if( $product->product_type == "variation" ) {
+
+            $parent_id = wp_get_post_parent_id( $product_id );
+            $product_id = ( $parent_id ) ? sprintf('%d:%d', $parent_id, $product_id) : $product_id;
+
+        }
 
         if ($product_id) {
-            $image = wp_get_attachment_image_src( get_post_thumbnail_id( $product_id ), 'medium' );
-            echo '<span data-jckqvpid="'.$product_id.'" class="'.$this->slug.'Btn">'.($this->settings['trigger_styling_icon'] != 'none' ? '<i class="jckqv-icon-'.$this->settings['trigger_styling_icon'].'"></i>' : '').' '.$this->settings['trigger_styling_text'].'</span>';
+
+            echo '<span data-jckqvpid="'.$product_id.'" class="'.$this->slug.'Btn">'.($this->settings['styling_icon'] != 'none' ? '<i class="jckqv-icon-'.$this->settings['styling_icon'].'"></i>' : '').' '.$this->settings['styling_text'].'</span>';
+
         }
 
     }
@@ -619,9 +653,9 @@ class jckqv {
 
         $prod_images = array();
 
-        if ( has_post_thumbnail( $product->ID ) ) {
+        if ( has_post_thumbnail( $product->id ) ) {
 
-            $img_id = get_post_thumbnail_id( $product->ID );
+            $img_id = get_post_thumbnail_id( $product->id );
             $img_src = wp_get_attachment_image_src($img_id, apply_filters( 'single_product_large_thumbnail_size', 'shop_single' ));
             $img_thumb_src = wp_get_attachment_image_src($img_id, 'thumbnail');
 

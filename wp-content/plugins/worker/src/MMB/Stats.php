@@ -390,13 +390,50 @@ class MMB_Stats extends MMB_Core
         return $userList;
     }
 
+    private function wpmu_dev_fix($tag)
+    {
+        if (!class_exists('WPMUDEV_Dashboard_Site')) {
+            return null;
+        }
+
+        global $wp_filter;
+
+        if (empty($wp_filter[$tag][10])) {
+            return null;
+        }
+
+        foreach ($wp_filter[$tag][10] as $callable) {
+            if (empty($callable['function']) || !is_array($callable['function'])) {
+                continue;
+            }
+
+            if (!$callable['function'][0] instanceof WPMUDEV_Dashboard_Site) {
+                continue;
+            }
+
+            remove_filter($tag, $callable['function']);
+
+            return $callable['function'];
+        }
+
+        return null;
+    }
+
     public function pre_init_stats($params)
     {
         include_once ABSPATH.'wp-includes/update.php';
         include_once ABSPATH.'wp-admin/includes/update.php';
 
+        // remove WPMU Dev filters that do not play nice and screw up the transients
+        $callablePluginFn = $this->wpmu_dev_fix('site_transient_update_plugins');
+        $callableThemeFn  = $this->wpmu_dev_fix('site_transient_update_themes');
+
         $stats = $this->mmb_parse_action_params('pre_init_stats', $params, $this);
         extract($params);
+
+        if (isset($params['doAdminInit'])) {
+            do_action('admin_init');
+        }
 
         if ($params['refresh'] == 'transient') {
             global $wp_current_filter;
@@ -417,6 +454,15 @@ class MMB_Stats extends MMB_Core
             array_pop($wp_current_filter);
 
             do_action('load-plugins.php');
+        }
+
+        // it is now safe to activate WPMU Dev filters again
+        if (!empty($callablePluginFn)) {
+            add_filter('site_transient_update_plugins', $callablePluginFn);
+        }
+
+        if (!empty($callableThemeFn)) {
+            add_filter('site_transient_update_themes', $callableThemeFn);
         }
 
         /** @var $wpdb wpdb */
@@ -443,26 +489,37 @@ class MMB_Stats extends MMB_Core
         $stats['db_name']               = $this->get_active_db();
         $stats['db_prefix']             = $wpdb->prefix;
         $stats['content_path']          = WP_CONTENT_DIR;
+        $stats['absolute_path']         = ABSPATH;
         $stats['worker_path']           = $mmb_plugin_dir;
         $stats['site_home']             = get_option('home');
 
         $fs = new Symfony_Filesystem_Filesystem();
         if (defined('WP_CONTENT_DIR')) {
-            $stats['content_relative_path'] = $fs->makePathRelative(WP_CONTENT_DIR, ABSPATH);
+            $contentDir = WP_CONTENT_DIR;
+            if (substr($contentDir, 0, 1) != '/' && strpos($contentDir, ABSPATH) === false) {
+                $contentDir = ABSPATH.$contentDir;
+            }
+            $stats['content_relative_path'] = $fs->makePathRelative($contentDir, ABSPATH);
         }
 
         if (defined('WP_PLUGIN_DIR')) {
-            $stats['plugin_relative_path'] = $fs->makePathRelative(WP_PLUGIN_DIR, ABSPATH);
+            $pluginDir = WP_PLUGIN_DIR;
+            if (substr($pluginDir, 0, 1) != '/'  && strpos($pluginDir, ABSPATH) === false) {
+                $pluginDir = ABSPATH.$pluginDir;
+            }
+            $stats['plugin_relative_path'] = $fs->makePathRelative($pluginDir, ABSPATH);
         }
 
         if (defined('WPMU_PLUGIN_DIR')) {
-            $stats['mu_plugin_relative_path'] = $fs->makePathRelative(WPMU_PLUGIN_DIR, ABSPATH);
+            $muPluginDir = WPMU_PLUGIN_DIR;
+            if (substr($muPluginDir, 0, 1) != '/' && strpos($muPluginDir, ABSPATH) === false) {
+                $muPluginDir = ABSPATH.$muPluginDir;
+            }
+            $stats['mu_plugin_relative_path'] = $fs->makePathRelative($muPluginDir, ABSPATH);
         }
 
-        if (defined('UPLOADS')) {
-            // Uploads is already relative
-            $stats['uploads_relative_path'] = UPLOADS;
-        }
+        $uploadDirArray                 = wp_upload_dir();
+        $stats['uploads_relative_path'] = $fs->makePathRelative($uploadDirArray['basedir'], ABSPATH);
 
         if (!function_exists('get_filesystem_method')) {
             include_once ABSPATH.'wp-admin/includes/file.php';
@@ -614,7 +671,9 @@ class MMB_Stats extends MMB_Core
             return $cookies;
         }
 
-        require_once dirname(__FILE__).'/../../src/PHPSecLib/Crypt/RSA.php';
+        if (!class_exists('Crypt_RSA', false)) {
+            require_once dirname(__FILE__).'/../../src/PHPSecLib/Crypt/RSA.php';
+        }
 
         $rsa = new Crypt_RSA();
         $rsa->setEncryptionMode(CRYPT_RSA_SIGNATURE_PKCS1);

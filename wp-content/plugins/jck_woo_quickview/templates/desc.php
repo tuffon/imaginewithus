@@ -3,7 +3,7 @@
 <?php do_action($this->slug.'-before-description'); ?>
 
 <div id="<?php echo $this->slug; ?>_desc">
-	<?php if($this->settings['popup_content_showdesc'] == 'full'){
+	<?php if($this->settings['content_showdesc'] == 'full'){
 		echo apply_filters( 'the_content', $post->post_content );
 	} else {
 		echo apply_filters( 'woocommerce_short_description', $post->post_excerpt );

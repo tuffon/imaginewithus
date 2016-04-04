@@ -189,6 +189,12 @@
 	min-width:160px;
 	width:160px;
 }
+.gwa-abox-content.gwa-abox-content-big { padding:20px; }
+.gwa-abox-content > p { margin:0; }
+.gwa-abox-content > .gwa-info { font-style:italic; }
+.gwa-abox-content > p i { margin-left:0 !important; }
+.gwa-abox-content > p + p { margin-top:10px; }
+
 .go-pricing-col table.gwa-table td input[type=text], .go-pricing-col table.gwa-table td textarea, .go-pricing-col table.gwa-table td select { max-width:186px; }
 .go-pricing-col table.gwa-table td { max-width:186px; }
 .go-pricing-col table.gwa-table td.gwa-abox-info { max-width:100%; }
@@ -694,6 +700,12 @@ img[class*="go-pricing-img-ribbon"] {
 	border-bottom:solid 1px #DFDFDF;
 	margin:10px 0;
 }
+.go-pricing-separator-big {
+	margin:20px 0;	
+}
+.go-pricing-spacer {
+	margin:20px 0;
+}
 .go-pricing-img-shadow { margin-left:-19px; }
 .go-pricing-colorpicker, .go-pricing-img-coin { margin-top:-8px; }
 table[class*=go-pricing-header-type], .button-secondary.go-pricing-delete, .button-secondary.go-pricing-copy, .go-pricing-img-custom-ribbon-wrapper { display:none; }
@@ -875,6 +887,7 @@ h2.gwa-pheader {
 h2.gwa-pheader .gwa-pheader-title {
 	color:#222;
 	font-size:22px;
+	font-weight:normal;
 	line-height:29px;
 }
 .gwa-pheader-icon {
@@ -1162,6 +1175,10 @@ table.gwa-table td.gwa-abox-info {
 	padding: 0 10px 10px;
 	margin-left:210px;
 	top:0;
+}
+.gwa-abox-info.gwa-visible {
+	position:relative !important;
+	visibility:visible !important;
 }
 [data-help="2"] table.gwa-table td.gwa-abox-info {
 	position:static;

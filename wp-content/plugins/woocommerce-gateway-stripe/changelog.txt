@@ -1,5 +1,9 @@
 *** Stripe Changelog ***
 
+2016.03.16 - version 2.6.10
+* Tweak - Add logging mechanism. New 'Logging' option is added in Stripe gateway setting to enable logging.
+* Fix - Allow language files to be located outside of plugin directory
+
 2016.02.29 - version 2.6.9
 * Tweak - Allow mechanism to override Stripe JS error handler. See https://gist.github.com/gedex/240492f479c7443e4780
   for an example to override error handler with simple alert.

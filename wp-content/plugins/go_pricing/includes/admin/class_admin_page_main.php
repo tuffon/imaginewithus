@@ -538,7 +538,7 @@ class GW_GoPricing_AdminPage_Main extends GW_GoPricing_AdminPage {
 		
 	
 	/**
-	 * Do import
+	 * Save table
 	 *
 	 * @return bool
 	 */		
@@ -563,8 +563,18 @@ class GW_GoPricing_AdminPage_Main extends GW_GoPricing_AdminPage {
 				
 		$notices = GW_GoPricing_AdminNotices::get( 'main', 'error' );
 		
+		// Exclude col data
 		if ( isset( $data['col-data'] ) ) $col_data = GW_GoPricing_Helper::clean_input( $data['col-data'], 'html' ); 
-		$data = GW_GoPricing_Helper::clean_input( $data ); 
+
+		// Clean custom CSS
+		if ( isset( $data['custom-css'] ) ) {
+			$custom_css = GW_GoPricing_Helper::clean_input( array( $data['custom-css'] ), 'no_html' );
+			$data['custom-css'] = $custom_css[0];
+		}		
+		
+		// Clean postdata (the rest)
+		$data = GW_GoPricing_Helper::clean_input( $data, 'filtered', '', array( 'custom-css' ) );
+
 		if ( isset( $col_data ) ) $data['col-data'] = $col_data;	
 		
 		if ( empty( $notices ) ) {

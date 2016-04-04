@@ -460,9 +460,8 @@
                     $shortcode_attributes
                     , $atts ) );
  
-                //$output .= '<div class="span12 spb_edit_form_elements"><h2>'.__('Edit', 'swift-framework-plugin').' ' .__($this->settings['name'], 'swift-framework-plugin').'</h2>';
                 $output .= '<div class="spb_edit_form_elements">';
-
+                $output .= '<div class="spb-edit-modal-inner">';
                 $output .= '<div id="edit-modal-header">';
                 $output .= '<h2>' . __( 'Edit', 'swift-framework-plugin' ) . ' ' . __( $this->settings['name'], 'swift-framework-plugin' ) . '</h2>';
                 $output .= '<div class="edit_form_actions"><a href="#" class="spb_save_edit_form button-primary">' . __( 'Save', 'swift-framework-plugin' ) . '</a></div>';
@@ -482,6 +481,7 @@
                     $output .= $this->singleParamEditHolder( $param, $param_value );
                 }
 
+                $output .= '</div>'; //close spb-edit-modal-inner
                 $output .= '</div>'; //close spb_edit_form_elements
             }
 
@@ -502,6 +502,12 @@
                 $row_el_class = 'lb_repeater';
             }
 
+
+            if ( isset($param['param_type']) && $param['param_type'] == "css-field" ) {
+                $row_el_class = 'lb_css_field';
+              
+            } 
+
             if ( isset( $param['required'][0] ) ){
                 $req_parent_id       = $param['required'][0];
                 $req_parent_operator = $param['required'][1];
@@ -512,12 +518,21 @@
                 $output .= '<div class="row-fluid ' . $row_el_class . '">';                 
             }
 
+
+            if ( isset($param['param_type']) && $param['param_type'] == "css-field" ) {
+
+                 $output .= '<div class="label_wrapper lb_css_box"><label class="spb_element_label">' . __( $param['heading'], 'swift-framework-plugin' ) . '</label>';
+                $output .= ( isset( $param['description'] ) ) ? '<a class="tooltipped" data-position="right" data-delay="50" data-tooltip="' . __( $param['description'], 'swift-framework-plugin' ) . '"><i class="material-icons prefix">info</i></a>' : '';
+                $output .= '</div>';
+            }
+
+
             if ( $param['type'] == "section" ) {
                 $output .= '<div class="span12 spb_element_section">' . __( $param['heading'], 'swift-framework-plugin' ) . '</div>';
             } else if ( $param['type'] == "textfield" ) { 
                 $output .= '<div class="edit_form_line span12 lb_'.$param['type'].'">';
                 $output .= $this->singleParamEditForm( $param, $param_value );
-                $output .= ( isset( $param['description'] ) ) ? '<a class="tooltipped" data-position="left" data-delay="50" data-tooltip="' . __( $param['description'], 'swift-framework-plugin' ) . '"><i class="material-icons prefix">info</i></a>' : '';
+                $output .= ( isset( $param['description'] )  && !isset($param['param_type'])) ? '<a class="tooltipped" data-position="left" data-delay="50" data-tooltip="' . __( $param['description'], 'swift-framework-plugin' ) . '"><i class="material-icons prefix">info</i></a>' : '';
                 $output .= '</div>';
             } else {  
                 //Repeater fields
@@ -542,7 +557,7 @@
             return $output;
         }
 
-          protected function extractRepeaterFields( $field_name, $value ){                        
+        protected function extractRepeaterFields( $field_name, $value ){                        
                 $text_length = strlen($field_name) + 2;
                 $text = $field_name . '="';
 
@@ -551,14 +566,36 @@
                 $text_value = substr( $value, $text_ini_pos + $text_length, $text_end_pos );
 
                 return $text_value;
-          }  
+        }  
+
+        protected function extractCssFields( $field_name, $value ){                        
+              
+                $text_length = strlen($field_name) + 1;
+                $text = $field_name . ':';
+                $text_ini_pos = strpos( $value , $text );
+                
+                if ( $text_ini_pos  === false ) {
+                    $text_value = '';
+                } else{
+
+                    if( strpos( substr($value, $text_ini_pos + $text_length ), '%' ) === false || $field_name == 'border-bottom' || $field_name == 'border-right' || $field_name == 'border-left' || $field_name == 'border-top' ){
+                        $text_end_pos = strpos( substr($value, $text_ini_pos + $text_length ), 'px' );    
+                    }else{
+                        $text_end_pos = strpos( substr($value, $text_ini_pos + $text_length ), '%' );    
+                    }
+                    
+                    $text_value = substr( $value, $text_ini_pos + $text_length, $text_end_pos );               
+                }
+
+                return trim( $text_value );
+        }  
 
           protected function singleParamEditForm( $param, $param_value ) {
             $param_line = '';
             $max_ocurrences = 0;
 
             // Textfield - input
-            if ( isset($param['param_type']) &&  $param['param_type'] == 'repeater' ) {
+           if ( isset($param['param_type']) &&  $param['param_type'] == 'repeater' ) {
 
                 //Icon Box Grid Repeater fields
                 if ( $param['master'] == 'spb_icon_box_grid' ) {
@@ -602,7 +639,7 @@
                             $selected_self = 'selected';
                         }
 
-                        $param_line .= '<li><div class="section_repeater"><div class="left_section"><div class="section_icon_image"><i class="svg-icon-picker-item ' . $icon . '"></i></div><a href="#" class="section_add_icon"><span class="icon-add"></span></a></div><div class="right_section"><div class="right_top_section">';
+                        $param_line .= '<li><div class="section_repeater"><div class="left_section"><div class="section_icon_image"><i class="' . $icon . '"></i></div><a href="#" class="section_add_icon"><span class="icon-add"></span></a></div><div class="right_section"><div class="right_top_section">';
                         $param_line .= '<input name="icon_title_' . $i . '" id="icon_title_' . $i . '" class="textfield validate active icon_title " placeholder="'  . __('Icon Box Title', 'swift-framework-plugin' ) . ' " type="text" value="' . $title . '" /><span class="icon-drag-handle"></span><span class="icon-delete"></span></div>';
                         $param_line .= '<div class="right_bottom_section"><input name="icon_link_' . $i . '" id="icon_link_' . $i . '" class="textfield validate active icon_link " placeholder="'  . __('Icon Box Link', 'swift-framework-plugin' ) . ' " type="text" value="' . $link . '" />';
                         $param_line .= '<select id="select_section_'. $i . '" class="icon_target"><option value="_self" '. $selected_self .'>Same Window</option><option value="_blank" '. $selected_blank .'>New Window</option></select></div>';
@@ -651,7 +688,7 @@
                          
                         if ( $max_ocurrences_features > 0 ) {
                             $param_feature_line = '';
-                            $param_feature_line .= '<ul class="collapsible popout pricing_column_feature_holder rgrg' . $max_ocurrences_features . '" data-collapsible="accordion">';  
+                            $param_feature_line .= '<ul class="collapsible popout pricing_column_feature_holder ' . $max_ocurrences_features . '" data-collapsible="accordion">';  
                         }
 
                         for( $z = 1; $z <= $max_ocurrences_features; $z++ ) {
@@ -729,7 +766,66 @@
 
                 }
 
-            }
+           } else if( isset($param['param_type']) &&  $param['param_type'] == 'css-field' ){
+                
+                $margin = "0";
+                $border = "0";
+                $padding = "0";
+
+                $mt = $this->extractCssFields( 'margin-top' , $param_value );               
+                $mb = $this->extractCssFields( 'margin-bottom' , $param_value );
+                $bt = $this->extractCssFields( 'border-top' , $param_value );
+                $bl = $this->extractCssFields( 'border-left' , $param_value );
+                $br = $this->extractCssFields( 'border-right' , $param_value );
+                $bb = $this->extractCssFields( 'border-bottom' , $param_value );
+                $pt = $this->extractCssFields( 'padding-top' , $param_value );
+                $pl = $this->extractCssFields( 'padding-left' , $param_value );
+                $pr = $this->extractCssFields( 'padding-right' , $param_value );
+                $pb = $this->extractCssFields( 'padding-bottom' , $param_value );
+                
+                if( $mt == $mb ){
+                    $margin = $mt;
+                }
+
+                if( $bt == $bl && $bl == $br && $br == $bb ){
+                    $border = $bt;
+                }
+
+                if( $pt == $pl && $pl == $pr && $pr == $pb ){
+                    $padding = $pt;
+                }
+
+                $param_line .= '<div class="css-detailed-controls">';
+                $param_line .= '<input name="' . $param['param_name'] . '" class="spb_param_value spb-textinput ' . $param['param_name'] . ' ' . $param['type'] . '" type="hidden" value="' . $param_value . '" />';
+                //Padding
+                $param_line .= '<div class="css-top-label">' .  __('Padding Top', 'swift-framework-plugin' ) . '</div>';
+                $param_line .= '<div class="css-top-label">' .  __('Padding Left', 'swift-framework-plugin' ) . '</div>';
+                $param_line .= '<div class="css-top-label">' .  __('Padding Right', 'swift-framework-plugin' ) . '</div>';
+                $param_line .= '<div class="css-top-label">' .  __('Padding Bottom', 'swift-framework-plugin' ) . '</div>';
+                $param_line .= '<input name="custom-padding-top" class="spb-textinput cp-global custom-padding-top ' . $param['type'] . '" type="text" value="' . $pt . '" />';
+                $param_line .= '<input name="custom-padding-left" class="spb-textinput cp-global custom-padding-left ' . $param['type'] . '" type="text" value="' . $pl . '" />';
+                $param_line .= '<input name="custom-padding-right" class="spb-textinput cp-global custom-padding-right ' . $param['type'] . '" type="text" value="' . $pr . '" />';
+                $param_line .= '<input name="custom-padding-bottom" class="spb-textinput cp-global custom-padding-bottom ' . $param['type'] . '" type="text" value="' . $pb . '" />';
+                
+                // Border 
+                $param_line .= '<div class="css-top-label">' .  __('Border Top', 'swift-framework-plugin' ) . '</div>';
+                $param_line .= '<div class="css-top-label">' .  __('Border Left', 'swift-framework-plugin' ) . '</div>';
+                $param_line .= '<div class="css-top-label">' .  __('Border Right', 'swift-framework-plugin' ) . '</div>';
+                $param_line .= '<div class="css-top-label">' .  __('Border Bottom', 'swift-framework-plugin' ) . '</div>';
+                $param_line .= '<input name="custom-border-top" class="spb-textinput cb-global custom-border-top ' . $param['type'] . '" type="text" value="' . $bt . '" />';
+                $param_line .= '<input name="custom-border-left" class="spb-textinput cb-global custom-border-left ' . $param['type'] . '" type="text" value="' . $bl . '" />';
+                $param_line .= '<input name="custom-border-right" class="spb-textinput cb-global custom-border-right ' . $param['type'] . '" type="text" value="' . $br . '" />';
+                $param_line .= '<input name="custom-border-bottom" class="spb-textinput cb-global custom-border-bottom ' . $param['type'] . '" type="text" value="' . $bb . '" />';
+                
+                //Margin
+                $param_line .= '<div class="css-top-label">' .  __('Margin Top', 'swift-framework-plugin' ) . '</div>';
+                $param_line .= '<div class="css-top-label">' .  __('Margin Bottom', 'swift-framework-plugin' ) . '</div>';
+                $param_line .= '<input name="custom-margin-top" class="spb-textinput cm-global custom-margin-top ' . $param['type'] . '" type="text" value="' . $mt . '" />';
+                $param_line .= '<input name="custom-margin-bottom" class="spb-textinput cm-global custom-margin-bottom ' . $param['type'] . '" type="text" value="' . $mb . '" />';
+
+                $param_line .= '</div>';                
+
+           }  
 
            else if ( $param['type'] == 'textfield' ) {
                 $value = __( $param_value, 'swift-framework-plugin' );
@@ -1136,12 +1232,12 @@
                     $shortcode_attributes
                     , $atts ) );
 
-                //$output .= '<div class="span12 spb_edit_form_elements"><h2>'.__('Edit', 'swift-framework-plugin').' ' .__($this->settings['name'], 'swift-framework-plugin').'</h2>';
                 $header_output .= '<div class="spb_edit_form_elements">';
+                $header_output .= '<div class="spb-edit-modal-inner">';
                 $header_output .= '<div id="edit-modal-header">';
                 $header_output .= '<h2>' . __( 'Edit', 'swift-framework-plugin' ) . ' ' . __( $this->settings['name'], 'swift-framework-plugin' ) . '</h2>';
                 $header_output .= '<div class="edit_form_actions"><a href="#" id="cancel-background-options">' . __( 'Cancel', 'swift-framework-plugin' ) . '</a><a href="#" class="spb_save_edit_form button-primary">' . __( 'Save', 'swift-framework-plugin' ) . '</a></div>';
-                $header_output .= '</div> <div class="row"><div class="header_tabs">';
+                $header_output .= '<div class="header_tabs">';
 
                
 
@@ -1183,10 +1279,10 @@
                     }
                 }
 
-                $output .= '</div></div>'; //close spb_edit_form_elements
+                $output .= '</div>'; //close spb_edit_wrap
             }
 
-            $output = $header_output .'</div>' . $output;
+            $output = $header_output .'</div></div>' . $output;
 
             return $output;
         }

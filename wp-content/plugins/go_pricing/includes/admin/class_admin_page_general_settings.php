@@ -82,14 +82,21 @@ class GW_GoPricing_AdminPage_GeneralSettings extends GW_GoPricing_AdminPage {
 	 */		
 
 	public function process_postdata( $postdata ) { 
-	
-		// Clean postdata
-		$postdata = GW_GoPricing_Helper::clean_input( $postdata, 'filtered', '', array( 'thousand-sep' ) );
+		
+		// Clean custom CSS
+		if ( isset( $postdata['custom-css'] ) ) {
+			$custom_css = GW_GoPricing_Helper::clean_input( array( $postdata['custom-css'] ), 'no_html' );
+			$postdata['custom-css'] = $custom_css[0];
+		}		
+		
+		// Clean postdata (the rest)
+		$postdata = GW_GoPricing_Helper::clean_input( $postdata, 'filtered', '', array( 'thousand-sep', 'custom-css' ) );
 		$postdata = GW_GoPricing_Helper::remove_input( $postdata, 'action' );
 		
-		$settings = get_option( self::$plugin_prefix . '_table_settings', $postdata );
+		$settings = get_option( self::$plugin_prefix . '_table_settings', $postdata );		
+				
 		
-		// Veriify and save data
+		// Verify and save data
 		if ( !empty( $postdata ) ) {
 			
 			if ( empty( $settings ) || ( !empty( $settings ) && $settings != $postdata ) ) {

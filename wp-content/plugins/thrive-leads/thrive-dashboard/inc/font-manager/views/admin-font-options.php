@@ -180,188 +180,192 @@ if ( isset( $_GET['font_action'] ) && $_GET['font_action'] == 'update' ) {
 
 
 <script type="text/javascript">
-	jQuery('#TB_window').addClass('fmp');
-	jQuery(document).ready(function ($) {
-		$('select').material_select();
-		$('.wp-color-picker-field').wpColorPicker();
+	jQuery( '#TB_window' ).addClass( 'fmp' );
+	jQuery( document ).ready( function ( $ ) {
+		$( 'select' ).material_select();
+		$( '.wp-color-picker-field' ).wpColorPicker();
 		window.prefered_fonts = <?php echo json_encode( $prefered_fonts ); ?>;
 		window.google_fonts = <?php echo json_encode( $google_fonts ); ?>;
 		window.safe_fonts = <?php echo json_encode( $safe_fonts ); ?>;
 		window.imported_fonts = <?php echo json_encode( $imported_fonts ); ?>;
 		window.imported_fonts_css = '<?php echo $imported_fonts_css; ?>';
-		window.selected_fonts_set = jQuery('input[name="display_fonts"]:checked').val();
+		window.selected_fonts_set = jQuery( 'input[name="display_fonts"]:checked' ).val();
 		var update_font = '<?php echo empty( $font['font_name'] ) ? 0 : $font['font_name']; ?>',
 			current_font = <?php echo json_encode( empty( $font ) ? array() : $font ) ?>,
 			font_variants;
 
-		rewriteSettings(current_font);
+		rewriteSettings( current_font );
 
-		jQuery('#ttfm_fonts').change(function () {
-			jQuery('#ttfm-font-regular').html('<b>Regular Style</b> <br />');
-			jQuery('#ttfm-font-bold').html('<b>Bold Style</b> <br />');
-			jQuery('#ttfm-font-subsets').html('<b>Character Set</b><br/>');
-			for (var i in window[selected_fonts_set]) {
-				if (window[selected_fonts_set][i].family == jQuery(this).val()) {
+		jQuery( '#ttfm_fonts' ).change( function () {
+			jQuery( '#ttfm-font-regular' ).html( '<b>Regular Style</b> <br />' );
+			jQuery( '#ttfm-font-bold' ).html( '<b>Bold Style</b> <br />' );
+			jQuery( '#ttfm-font-subsets' ).html( '<b>Character Set</b><br/>' );
+			for ( var i in window[selected_fonts_set] ) {
+				if ( window[selected_fonts_set][i].family == jQuery( this ).val() ) {
 					font_variants = window[selected_fonts_set][i].variants;
-					for (var j in window[selected_fonts_set][i].variants) {
-						jQuery('<input>').attr({
+					for ( var j in window[selected_fonts_set][i].variants ) {
+						jQuery( '<input>' ).attr( {
 							id: 'tve-dash-regular-' + font_variants[j],
 							type: 'radio',
 							name: 'ttfm-font-style',
 							value: font_variants[j],
 							checked: font_variants[j] == current_font.font_style
-						}).appendTo('#ttfm-font-regular');
-						jQuery('#ttfm-font-regular').append('<label for="tve-dash-regular-' + font_variants[j] + '">' + font_variants[j] + '</label><br/>');
-						if (window[selected_fonts_set][i].variants[j] > 400) {
-							jQuery('<input>').attr({
+						} ).appendTo( '#ttfm-font-regular' );
+						jQuery( '#ttfm-font-regular' ).append( '<label for="tve-dash-regular-' + font_variants[j] + '">' + font_variants[j] + '</label><br/>' );
+						if ( window[selected_fonts_set][i].variants[j] > 400 ) {
+							jQuery( '<input>' ).attr( {
 								id: 'tve-dash-bold-' + font_variants[j],
 								type: 'radio',
 								name: 'ttfm-font-bold',
 								value: font_variants[j],
 								checked: font_variants[j] == current_font.font_bold
-							}).appendTo('#ttfm-font-bold');
-							jQuery('#ttfm-font-bold').append('<label for="tve-dash-bold-' + font_variants[j] + '">' + font_variants[j] + '</label><br/>');
+							} ).appendTo( '#ttfm-font-bold' );
+							jQuery( '#ttfm-font-bold' ).append( '<label for="tve-dash-bold-' + font_variants[j] + '">' + font_variants[j] + '</label><br/>' );
 						}
 					}
-					for (j in window[selected_fonts_set][i].subsets) {
-						jQuery('<input/>').attr({
+					for ( j in window[selected_fonts_set][i].subsets ) {
+						jQuery( '<input/>' ).attr( {
 							id: 'tve-dash-character-' + window[selected_fonts_set][i].subsets[j],
 							type: 'radio',
 							name: 'ttfm-font-character-sets',
 							value: window[selected_fonts_set][i].subsets[j],
 							checked: window[selected_fonts_set][i].subsets[j] == current_font.font_character_set
-						}).appendTo('#ttfm-font-subsets');
-						jQuery('#ttfm-font-subsets').append('<label for="tve-dash-character-' + window[selected_fonts_set][i].subsets[j] + '">' + window[selected_fonts_set][i].subsets[j] + '</label><br/>');
+						} ).appendTo( '#ttfm-font-subsets' );
+						jQuery( '#ttfm-font-subsets' ).append( '<label for="tve-dash-character-' + window[selected_fonts_set][i].subsets[j] + '">' + window[selected_fonts_set][i].subsets[j] + '</label><br/>' );
 					}
 					/* check default values for new fonts */
-					if (current_font.length == 0) {
-						jQuery('input[name="ttfm-font-style"]').filter(function () {
+					if ( current_font.length == 0 ) {
+						jQuery( 'input[name="ttfm-font-style"]' ).filter( function () {
 							return this.value == 'regular'
-						}).prop('checked', true);
-						jQuery('input[name="ttfm-font-character-sets"]').filter(function () {
+						} ).prop( 'checked', true );
+						jQuery( 'input[name="ttfm-font-character-sets"]' ).filter( function () {
 							return this.value == 'latin'
-						}).prop('checked', true);
+						} ).prop( 'checked', true );
 					}
 				}
 			}
 			importFont();
-		});
-		jQuery(document).on('change', 'input#ttfm_google_fonts', function () {
-			add_fonts(google_fonts);
+		} );
+		jQuery( document ).on( 'change', 'input#ttfm_google_fonts', function () {
+			add_fonts( google_fonts );
 			window.selected_fonts_set = this.value;
-			$('select').material_select();
-		});
-		jQuery(document).on('change', 'input#ttfm_prefered_fonts', function () {
-			add_fonts(prefered_fonts);
+			$( 'select' ).material_select();
+		} );
+		jQuery( document ).on( 'change', 'input#ttfm_prefered_fonts', function () {
+			add_fonts( prefered_fonts );
 			window.selected_fonts_set = this.value;
-			$('select').material_select();
-		});
-		jQuery(document).on('change', 'input#ttfm_safe_fonts', function () {
-			add_fonts(safe_fonts);
+			$( 'select' ).material_select();
+		} );
+		jQuery( document ).on( 'change', 'input#ttfm_safe_fonts', function () {
+			add_fonts( safe_fonts );
 			window.selected_fonts_set = this.value;
-			$('select').material_select();
-		});
-		jQuery(document).on('change', 'input#ttfm_imported_fonts', function () {
-			add_fonts(imported_fonts);
+			$( 'select' ).material_select();
+		} );
+		jQuery( document ).on( 'change', 'input#ttfm_imported_fonts', function () {
+			add_fonts( imported_fonts );
 			window.selected_fonts_set = this.value;
-			$('select').material_select();
-		});
-		function isSafeFont(font) {
+			$( 'select' ).material_select();
+		} );
+		function isSafeFont( font ) {
 			var _isSafeFont = false;
-			jQuery(safe_fonts).each(function (index, safe_font) {
-				if (font === safe_font.family) {
+			jQuery( safe_fonts ).each( function ( index, safe_font ) {
+				if ( font === safe_font.family ) {
 					_isSafeFont = true;
 					return;
 				}
-			});
+			} );
 
 			return _isSafeFont;
 		}
 
-		function isImportedFont(font) {
+		function isImportedFont( font ) {
 			var _isImportedFont = false;
-			jQuery(imported_fonts).each(function (index, imported_font) {
-				if (font === imported_font.family) {
+			jQuery( imported_fonts ).each( function ( index, imported_font ) {
+				if ( font === imported_font.family ) {
 					_isImportedFont = true;
 					return;
 				}
-			});
+			} );
 
 			return _isImportedFont;
 		}
 
-		function add_fonts(fonts) {
-			jQuery('#ttfm_fonts option').remove();
-			var select = jQuery('#ttfm_fonts');
-			for (var i in fonts) {
-				select.append($('<option>', {
+		function add_fonts( fonts ) {
+			jQuery( '#ttfm_fonts option' ).remove();
+			var select = jQuery( '#ttfm_fonts' );
+			for ( var i in fonts ) {
+				select.append( $( '<option>', {
 					text: fonts[i].family,
 					value: fonts[i].family,
 					selected: fonts[i].family == current_font.font_name
-				}));
+				} ) );
 			}
-			setTimeout(function () {
-				select.trigger('change');
-			}, 100);
+			setTimeout( function () {
+				select.trigger( 'change' );
+			}, 100 );
 		}
 
-		jQuery(document).on('change', 'input[name="ttfm-font-style"]', function () {
-			if (jQuery('#ttfm_fonts').val() != 'none') {
+		jQuery( document ).on( 'change', 'input[name="ttfm-font-style"]', function () {
+			if ( jQuery( '#ttfm_fonts' ).val() != 'none' ) {
 				importFont();
 			}
-		});
-		jQuery('#ttfm_save_font_options').click(function () {
+		} );
+		jQuery( '#ttfm_save_font_options' ).click( function () {
 
-			if (jQuery('#ttfm_fonts').val() == 'none') {
-				alert('Please select a font!');
+			if ( jQuery( '#ttfm_fonts' ).val() == 'none' ) {
+				alert( 'Please select a font!' );
 				return;
 			}
 
-			if (!jQuery('input[name="ttfm-font-style"]').is(':checked')) {
-				alert('Plese select a font style!');
+			if ( ! jQuery( 'input[name="ttfm-font-style"]' ).is( ':checked' ) ) {
+				alert( 'Plese select a font style!' );
 				return;
 			}
 
-			if (!jQuery('input[name="ttfm-font-character-sets"]').is(':checked')) {
-				alert('Plese select a font character set!');
+			if ( ! jQuery( 'input[name="ttfm-font-character-sets"]' ).is( ':checked' ) ) {
+				alert( 'Plese select a font character set!' );
 				return;
 			}
-			var style = jQuery('input[name="ttfm-font-style"]:checked').val(),
-				bold = jQuery('input[name="ttfm-font-bold"]:checked').val(),
-				subset = jQuery('input[name="ttfm-font-character-sets"]:checked').val(),
+			var style = jQuery( 'input[name="ttfm-font-style"]:checked' ).val(),
+				bold = jQuery( 'input[name="ttfm-font-bold"]:checked' ).val(),
+				subset = jQuery( 'input[name="ttfm-font-character-sets"]:checked' ).val(),
 				italic = '';
-			if (style == 'regular') {
+			if ( style == 'regular' ) {
 				style = 400;
-				if (jQuery.inArray('italic', font_variants) !== -1) {
+				if ( jQuery.inArray( 'italic', font_variants ) !== - 1 ) {
 					italic = ',400italic';
 				}
-			} else if (style == 'italic') {
+			} else if ( style == 'italic' ) {
 				style = '400italic';
 			}
-			if (style == bold) {
+			if ( style == bold ) {
 				bold = 0;
 			}
-			if (jQuery.inArray(bold + 'italic', font_variants) > -1) {
+			if ( jQuery.inArray( bold + 'italic', font_variants ) > - 1 ) {
 				italic += ',' + bold + 'italic';
 			}
-			if (jQuery.inArray(style + 'italic', font_variants) > -1) {
+			if ( jQuery.inArray( style + 'italic', font_variants ) > - 1 ) {
 				italic += ',' + style + 'italic';
 			}
-			if (bold == undefined) {
-				jQuery.each(font_variants, function (key, value) {
-					var _value = parseInt(value);
-					if (bold == undefined && !isNaN(_value) && _value > 400 && (isNaN(style) || (!isNaN(style) && _value > style))) {
+			if ( bold == undefined ) {
+				jQuery.each( font_variants, function ( key, value ) {
+					var _value = parseInt( value );
+					if ( bold == undefined && ! isNaN( _value ) && _value > 400 && (
+							isNaN( style ) || (
+								! isNaN( style ) && _value > style
+							)
+						) ) {
 						bold = value;
 					}
-				});
+				} );
 			}
-			if (typeof bold === 'undefined') {
+			if ( typeof bold === 'undefined' ) {
 				bold = 0;
 			}
-			if (italic == '') {
+			if ( italic == '' ) {
 				italic = 0;
 			}
-			if (subset == 'latin') {
+			if ( subset == 'latin' ) {
 				subset = 0;
 			}
 			var font_manager_link = '<?php echo $admin_font_manager_link; ?>',
@@ -369,110 +373,116 @@ if ( isset( $_GET['font_action'] ) && $_GET['font_action'] == 'update' ) {
 					<?php if ( isset( $font_id ) ) {
 					echo 'font_id:' . $font_id . ',';
 				} ?>
-					font_name: jQuery('#ttfm_fonts').val() + '',
+					font_name: jQuery( '#ttfm_fonts' ).val() + '',
 					font_style: style + '',
 					font_bold: bold + '',
 					font_italic: italic + '',
 					font_character_set: subset + '',
-					font_class: jQuery('#ttfm-font-class').val() + '',
-					font_size: jQuery('#ttfm-font-size input').val() + jQuery('#ttfm-font-size select').val(),
-					font_height: jQuery('#ttfm-font-height input').val() + jQuery('#ttfm-font-height select').val(),
-					font_color: jQuery('.wp-color-picker-field').val(),
-					custom_css: jQuery('#ttfm-custom-css').val()
+					font_class: jQuery( '#ttfm-font-class' ).val() + '',
+					font_size: jQuery( '#ttfm-font-size input' ).val() + jQuery( '#ttfm-font-size select' ).val(),
+					font_height: jQuery( '#ttfm-font-height input' ).val() + jQuery( '#ttfm-font-height select' ).val(),
+					font_color: jQuery( '.wp-color-picker-field' ).val(),
+					custom_css: jQuery( '#ttfm-custom-css' ).val()
 				};
-			jQuery.post(font_manager_link, postData, function (response) {
+			jQuery.post( font_manager_link, postData, function ( response ) {
 				location.reload();
-			});
-		});
+			} );
+		} );
 
-		if (update_font != 0) {
-			if (isSafeFont(update_font)) {
-				jQuery('input#ttfm_safe_fonts').click();
-			} else if (isImportedFont(update_font)) {
-				jQuery('input#ttfm_imported_fonts').click();
+		if ( update_font != 0 ) {
+			if ( isSafeFont( update_font ) ) {
+				jQuery( 'input#ttfm_safe_fonts' ).click();
+			} else if ( isImportedFont( update_font ) ) {
+				jQuery( 'input#ttfm_imported_fonts' ).click();
 			} else {
-				jQuery('input#ttfm_google_fonts').click();
+				jQuery( 'input#ttfm_google_fonts' ).click();
 			}
-			jQuery('#ttfm_fonts').val(update_font).trigger('change');
-			jQuery('input[name="ttfm-font-style"]').trigger('change').filter(function () {
-				return this.value == '<?php echo isset( $font["font_style"] ) ? $font["font_style"] : ""; ?>' || (this.value === 'italic' && current_font.font_style === '400italic');
-			}).prop('checked', true);
-			jQuery('input[name="ttfm-font-bold"]').filter(function () {
+			jQuery( '#ttfm_fonts' ).val( update_font ).trigger( 'change' );
+			jQuery( 'input[name="ttfm-font-style"]' ).trigger( 'change' ).filter( function () {
+				return this.value == '<?php echo isset( $font["font_style"] ) ? $font["font_style"] : ""; ?>' || (
+						this.value === 'italic' && current_font.font_style === '400italic'
+					);
+			} ).prop( 'checked', true );
+			jQuery( 'input[name="ttfm-font-bold"]' ).filter( function () {
 				return this.value == '<?php echo isset( $font["font_bold"] ) ? $font["font_bold"] : ""; ?>';
-			}).prop('checked', true);
-			jQuery('input[name="ttfm-font-character-sets"]').filter(function () {
+			} ).prop( 'checked', true );
+			jQuery( 'input[name="ttfm-font-character-sets"]' ).filter( function () {
 				return this.value == '<?php echo isset( $font["font_character_set"] ) ? $font["font_character_set"] : ""; ?>';
-			}).prop('checked', true);
+			} ).prop( 'checked', true );
 		}
-	});
-	function prepareFontFamily(font_family) {
-		var chunks = font_family.split(","),
+	} );
+	function prepareFontFamily( font_family ) {
+		var chunks = font_family.split( "," ),
 			length = chunks.length,
 			font = '';
 
-		jQuery(chunks).each(function (i, value) {
+		jQuery( chunks ).each( function ( i, value ) {
 			font += "'" + value.trim() + "'";
 			font += i + 1 != length ? ", " : '';
-		});
+		} );
 
 		return font;
 
 	}
 	function importFont() {
 
-		var font = jQuery('#ttfm_fonts').val(),
-			style = jQuery('input[name="ttfm-font-style"]:checked').val(),
-			subset = jQuery('input[name="ttfm-font-character-sets"]:checked').val();
-		if (style == 'regular') {
+		var font = jQuery( '#ttfm_fonts' ).val(),
+			style = jQuery( 'input[name="ttfm-font-style"]:checked' ).val(),
+			subset = jQuery( 'input[name="ttfm-font-character-sets"]:checked' ).val();
+		if ( style == 'regular' ) {
 			style = undefined;
-		} else if (style == 'italic') {
+		} else if ( style == 'italic' ) {
 			style = '400italic';
 		}
-		if (subset == 'latin') {
+		if ( subset == 'latin' ) {
 			subset = undefined;
 		}
 
-		if (window.selected_fonts_set === 'google_fonts' || window.selected_fonts_set === 'prefered_fonts') {
-			var font_link = "//fonts.googleapis.com/css?family=" + font.replace(" ", "+") + (style !== undefined ? ":" + style : "") + (subset !== undefined ? "&subset=" + subset : "");
-			jQuery('.imported-font').remove();
-			jQuery("head").prepend("<link class='imported-font' href='" + font_link + "' rel='stylesheet' type='text/css'>");
-			jQuery('#fontPreview').css({'font-family': font});
-		} else if (window.selected_fonts_set === 'imported_fonts') {
-			jQuery('.imported-font').remove();
-			jQuery("head").prepend("<link class='imported-font' href='" + window.imported_fonts_css + "' rel='stylesheet' type='text/css'>");
-			jQuery('#fontPreview').css({
-				'font-family': prepareFontFamily(font)
-			});
+		if ( window.selected_fonts_set === 'google_fonts' || window.selected_fonts_set === 'prefered_fonts' ) {
+			var font_link = "//fonts.googleapis.com/css?family=" + font.replace( " ", "+" ) + (
+					style !== undefined ? ":" + style : ""
+				) + (
+				                subset !== undefined ? "&subset=" + subset : ""
+			                );
+			jQuery( '.imported-font' ).remove();
+			jQuery( "head" ).prepend( "<link class='imported-font' href='" + font_link + "' rel='stylesheet' type='text/css'>" );
+			jQuery( '#fontPreview' ).css( {'font-family': font} );
+		} else if ( window.selected_fonts_set === 'imported_fonts' ) {
+			jQuery( '.imported-font' ).remove();
+			jQuery( "head" ).prepend( "<link class='imported-font' href='" + window.imported_fonts_css + "' rel='stylesheet' type='text/css'>" );
+			jQuery( '#fontPreview' ).css( {
+				'font-family': prepareFontFamily( font )
+			} );
 		} else {
 			var _css = {
-				'font-family': prepareFontFamily(font),
+				'font-family': prepareFontFamily( font ),
 				'font-style': 'normal',
 				'font-weight': 'normal'
 			};
-			if (style === '400italic') {
+			if ( style === '400italic' ) {
 				_css['font-style'] = 'italic';
 			}
-			if (!isNaN(style)) {
+			if ( ! isNaN( style ) ) {
 				_css['font-weight'] = style;
 			}
-			jQuery('#fontPreview').css(_css);
+			jQuery( '#fontPreview' ).css( _css );
 		}
 	}
 
-	function rewriteSettings(font) {
-		if (font.font_bold == 0) {
+	function rewriteSettings( font ) {
+		if ( font.font_bold == 0 ) {
 			font.font_bold = font.font_style;
 		}
 
-		if (font.font_style == 400) {
+		if ( font.font_style == 400 ) {
 			font.font_style = 'regular';
 		}
 
-		if (font.font_style == '400italic') {
+		if ( font.font_style == '400italic' ) {
 			font.font_style = 'italic';
 		}
 
-		if (font.font_character_set == 0) {
+		if ( font.font_character_set == 0 ) {
 			font.font_character_set = 'latin';
 		}
 	}

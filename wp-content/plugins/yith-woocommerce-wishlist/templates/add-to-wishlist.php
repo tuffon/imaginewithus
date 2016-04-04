@@ -7,6 +7,10 @@
  * @version 2.0.0
  */
 
+if ( ! defined( 'YITH_WCWL' ) ) {
+	exit;
+} // Exit if accessed directly
+
 global $product;
 ?>
 

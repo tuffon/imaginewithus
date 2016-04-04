@@ -17,6 +17,25 @@ Supported Themes: Atelier, Cardinal, JOYN
 
 == Changelog ==
 
+= 2.1.1 =
+- FRONT-END: Fixed issue with Portfolio Showcase error.
+- BACKEND: Re-added Redux Framework to the plugin.
+
+= 2.1.0 =
+- FRONT-END: Added overflow left/right option for image asset for use in full-width rows
+- FRONT-END: You can now select a display layout in the Products page builder asset
+- BACKEND: Added design tab for margin/padding/border controls on columns, rows, and text blocks
+- BACKEND: Improved responsive + touch capabilities for editing pages on touch/mobile devices.
+- BACKEND: Added option to set the default width of the element edit modal
+- BACKEND: Performance improvements
+- BACKEND: Fixed issue with edit modal header disappearing.
+- BACKEND: Fixed issue with controls on 1/6 elements + columns
+- BACKEND: Edit modal header is now stuck to the top of the edit modal, allowing for save/cancel without scrolling
+- BACKEND: Improved element searching, showing no results if none are found rather than all.
+- BACKEND: Fixed compatibility issue with NinjaForms
+- BACKEND: Removed redux framework as provided with the theme or plugin instead.
+- BACKEND: Boxed Content now shows inner content if the Text Block show content option is enabled in the page builder options
+
 = 2.0.3 =
 - FRONT-END: reverted button changes to use previous parameter names.
 - BACKEND: Removed empty page builder animation

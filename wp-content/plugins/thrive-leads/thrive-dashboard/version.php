@@ -8,7 +8,7 @@
 
 if ( ! function_exists( 'tve_dash_load' ) ) {
 
-	add_action( 'after_setup_theme', 'tve_dash_load', PHP_INT_MAX );
+	add_action( 'after_setup_theme', 'tve_dash_load', 9 );
 
 	function tve_dash_version_compare( $v1, $v2 ) {
 		return version_compare( $v1, $v2 );
@@ -25,4 +25,4 @@ if ( ! function_exists( 'tve_dash_load' ) ) {
 	}
 }
 
-return '1.0.7';
+return '1.0.8';

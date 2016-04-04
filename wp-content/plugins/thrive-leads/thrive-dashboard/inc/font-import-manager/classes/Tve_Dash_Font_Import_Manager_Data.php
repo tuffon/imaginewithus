@@ -22,14 +22,21 @@ class Tve_Dash_Font_Import_Manager_Data {
 		//Step 1: make sure the destination folder exists
 		$font_dir_path = dirname( $zip_file ) . '/' . $clean_filename;
 
-		$old_umask = umask( 0 );
-		if ( ! is_dir( $font_dir_path ) && ! @mkdir( $font_dir_path, 0777 ) ) {
-			throw new Exception( 'Could not create Font folder' );
+		//Step 1.1 prepare the filesystem
+		$extra = array(
+			'attachment_id',
+		);
+
+		$credentials = request_filesystem_credentials( admin_url( "admin.php?page=tve_dash_font_import_manager" ), '', false, false, $extra );
+		if ( ! $credentials ) {
+			//show FTP form
+			die;
 		}
 
-		//Step 2: unzip the archive to destination
-		define( 'FS_METHOD', 'direct' );
-		WP_Filesystem();
+		if ( ! WP_Filesystem( $credentials ) ) {
+			throw new Exception( "Invalid credentials" );
+		}
+
 		$result = unzip_file( $zip_file, $font_dir_path );
 		if ( is_wp_error( $result ) ) {
 			throw new Exception( 'Error (unzip): ' . $result->get_error_message() );
@@ -42,8 +49,6 @@ class Tve_Dash_Font_Import_Manager_Data {
 
 		//Step 4: extract the font families from css file
 		$font_families = $this->extractFontFamilies( $font_dir_path . '/stylesheet.css' );
-
-		umask( $old_umask );
 
 		$data = array(
 			'folder'        => $font_dir_path,

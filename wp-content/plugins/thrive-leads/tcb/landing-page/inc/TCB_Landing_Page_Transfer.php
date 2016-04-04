@@ -1133,7 +1133,7 @@ class TCB_Landing_Page_Transfer {
 
 		/* 3. extract the config array from the json config file */
 		$contents = trim( $zip->getFromName( 'lp.json' ) );
-		$config = json_decode( $zip->getFromName( 'lp.json' ), true );
+		$config   = json_decode( $zip->getFromName( 'lp.json' ), true );
 
 		/**
 		 * Also support the base64-encoded config files
@@ -1405,6 +1405,11 @@ class TCB_Landing_Page_Transfer {
 		$i = 0;
 		while ( $info = $zip->statIndex( $i ) ) {
 			if ( strpos( $info['name'], 'icon-pack/fonts/' ) === 0 && ! empty( $info['size'] ) ) {
+				$pathinfo = pathinfo( $info['name'] );
+				if ( empty( $pathinfo['extension'] ) || ! in_array( strtolower( $pathinfo['extension'] ), array( 'woff', 'woff2', 'ttf', 'svg', 'eot' ) ) ) {
+					$i ++;
+					continue;
+				}
 				tve_wp_upload_bits( trailingslashit( $font_dir_path ) . basename( $info['name'] ), $zip->getFromIndex( $i ) );
 			}
 			$i ++;
@@ -1457,6 +1462,11 @@ class TCB_Landing_Page_Transfer {
 			$zip_index = 0;
 			while ( $info = $zip->statIndex( $zip_index ) ) {
 				if ( strpos( $info['name'], $family . '/fonts/' ) === 0 && ! empty( $info['size'] ) ) {
+					$pathinfo = pathinfo( $info['name'] );
+					if ( empty( $pathinfo['extension'] ) || ! in_array( strtolower( $pathinfo['extension'] ), array( 'woff', 'ttf', 'svg', 'eot' ) ) ) {
+						$zip_index ++;
+						continue;
+					}
 					tve_wp_upload_bits( trailingslashit( $font_dir_path ) . basename( $info['name'] ), $zip->getFromIndex( $zip_index ) );
 				}
 				$zip_index ++;
@@ -1642,7 +1652,7 @@ class TCB_Landing_Page_Transfer {
 				$zip_index ++;
 				continue;
 			}
-			if ( ! preg_match( '#\.(woff|eot|woff2|ttf|svg)#i', $info['name'] ) ) {
+			if ( ! preg_match( '#\.(woff|eot|woff2|ttf|svg)$#i', $info['name'] ) ) {
 				$zip_index ++;
 				continue;
 			}

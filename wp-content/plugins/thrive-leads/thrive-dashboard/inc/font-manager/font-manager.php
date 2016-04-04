@@ -115,6 +115,7 @@ function tve_dash_font_manager_main_page() {
 add_action( 'admin_enqueue_scripts', 'tve_dash_font_manager_include_scripts' );
 
 function tve_dash_font_manager_include_scripts( $hook ) {
+
 	$allowed = array(
 		'admin_page_tve_dash_font_manager',
 		'admin_page_tve_dash_font_import_manager'
@@ -126,10 +127,21 @@ function tve_dash_font_manager_include_scripts( $hook ) {
 
 	tve_dash_enqueue();
 
+	if ( $hook == 'admin_page_tve_dash_font_import_manager' && ! empty( $_POST['attachment_id'] ) && $_POST['attachment_id'] != "-1" && count( $_POST ) == 1 ) {
+		/**
+		 * we don't want to load dash style.css when WP FTP form is displayed
+		 */
+		wp_deregister_style( 'tve-dash-styles-css' );
+	}
+
 	if ( $hook == 'admin_page_tve_dash_font_import_manager' ) {
 		wp_enqueue_media();
 		tve_dash_enqueue_style( 'tve-dash-font-import-manager-css', TVE_DASH_URL . '/inc/font-import-manager/views/css/manager.css' );
-		tve_dash_enqueue_script( 'tve-dash-font-import-manager-js', TVE_DASH_URL . '/inc/font-import-manager/views/js/manager.js', array( 'jquery', 'media-upload', 'thickbox' ) );
+		tve_dash_enqueue_script( 'tve-dash-font-import-manager-js', TVE_DASH_URL . '/inc/font-import-manager/views/js/manager.js', array(
+			'jquery',
+			'media-upload',
+			'thickbox'
+		) );
 	}
 
 	if ( $hook == 'admin_page_tve_dash_font_manager' ) {

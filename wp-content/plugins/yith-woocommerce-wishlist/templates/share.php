@@ -6,6 +6,10 @@
  * @package YITH WooCommerce Wishlist
  * @version 2.0.13
  */
+
+if ( ! defined( 'YITH_WCWL' ) ) {
+    exit;
+} // Exit if accessed directly
 ?>
 
 <div class="yith-wcwl-share">

@@ -12,6 +12,21 @@
 	<td><input type="text" name="material-size" data-attr="style" data-value="font-size:{value}px;"  data-type="int"></td>
 	<td class="gwa-abox-info"><p class="gwa-info"><i class="fa fa-info-circle"></i><?php _e( 'Font size of the icon. (optional).', 'go_pricing_textdomain' ); ?></p></td>									
 </tr>
+<tr>
+	<th><label><?php _e( 'Width', 'go_pricing_textdomain' ); ?> <span class="gwa-info">(px)</span></label></th>
+	<td><input type="text" name="material-width" data-attr="style" data-value="width:{value}px;"  data-type="int"></td>
+	<td class="gwa-abox-info"><p class="gwa-info"><i class="fa fa-info-circle"></i><?php _e( 'Width of the icon. Leave blank if want to specify auto width (optional).', 'go_pricing_textdomain' ); ?></p></td>									
+</tr>
+<tr>
+	<th><label><?php _e( 'Aligment', 'go_pricing_textdomain' ); ?></label></th>
+	<td>
+		<select name="material-alignment" data-attr="style" data-value="text-align:{value};">                                
+			<option value=""><?php _e( 'Left', 'go_pricing_textdomain' ); ?></option>
+			<option value="center"><?php _e( 'Center', 'go_pricing_textdomain' ); ?></option>
+			<option value="right"><?php _e( 'Right', 'go_pricing_textdomain' ); ?></option>
+		</select>	
+	<td class="gwa-abox-info"><p class="gwa-info"><i class="fa fa-info-circle"></i><?php _e( 'Alignment of the icon. You can set it when fixed with is used (optional).', 'go_pricing_textdomain' ); ?></p></td>									
+</tr>
 <tr class="gwa-row-fullwidth">
 	<th><label><?php _e( 'Icon', 'go_pricing_textdomain' ); ?></label></th>
 	<td>

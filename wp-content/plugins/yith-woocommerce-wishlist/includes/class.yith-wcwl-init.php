@@ -49,7 +49,7 @@ if ( ! class_exists( 'YITH_WCWL_Init' ) ) {
 		 * @var string
 		 * @since 1.0.0
 		 */
-		public $version = '2.0.13';
+		public $version = '2.0.14';
 
 		/**
 		 * Plugin database version
@@ -333,7 +333,7 @@ if ( ! class_exists( 'YITH_WCWL_Init' ) ) {
 				?>
 			</style>
 			<script type="text/javascript">
-				var yith_wcwl_plugin_ajax_web_url = '<?php echo admin_url('admin-ajax.php') ?>';
+				var yith_wcwl_plugin_ajax_web_url = '<?php echo admin_url('admin-ajax.php', 'relative') ?>';
 			</script>
 		<?php
 		}
@@ -369,7 +369,7 @@ if ( ! class_exists( 'YITH_WCWL_Init' ) ) {
 			wp_register_script( 'jquery-yith-wcwl-user', str_replace( get_template_directory(), get_template_directory_uri(), $located ), array( 'jquery', 'jquery-selectBox' ), $this->version, true );
 
 			$yith_wcwl_l10n = array(
-				'ajax_url' => admin_url( 'admin-ajax.php', is_ssl() ? 'https' : 'http' ),
+				'ajax_url' => admin_url( 'admin-ajax.php', 'relative' ),
 				'redirect_to_cart' => get_option( 'yith_wcwl_redirect_cart' ),
 				'multi_wishlist' => get_option( 'yith_wcwl_multi_wishlist_enable' ) == 'yes' ? true : false,
 				'hide_add_button' => apply_filters( 'yith_wcwl_hide_add_button', true ),

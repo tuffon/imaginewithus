@@ -5,8 +5,7 @@
  */
 var TVE_Dash = TVE_Dash || {};
 
-(
-	function ( $ ) {
+(function ( $ ) {
 		/**
 		 * instantiate an Object
 		 *
@@ -43,7 +42,7 @@ var TVE_Dash = TVE_Dash || {};
 
 			if ( opts.model instanceof Backbone.Model ) {
 				_.each( opts.model.toJSON(), function ( _value, _key ) {
-					if ( typeof opts[ _key ] === 'undefined' && _.indexOf( reserved, _key ) === - 1 ) {
+					if ( typeof opts[_key] === 'undefined' && _.indexOf( reserved, _key ) === - 1 ) {
 						opts[_key] = _value;
 					}
 				} );
@@ -74,10 +73,10 @@ var TVE_Dash = TVE_Dash || {};
 			} );
 
 			$root.find( '.tvd-dropdown-button' ).each( function () {
-				jQuery( this ).dropdown()
+				jQuery( this ).tvd_dropdown()
 			} );
 			$root.find( '.tvd-tabs' ).each( function () {
-				jQuery( this ).tabs()
+				jQuery( this ).tvd_tabs()
 			} );
 
 			//initialize sliders
@@ -202,7 +201,8 @@ var TVE_Dash = TVE_Dash || {};
 		 * @param {function} callback optional, a callback to be executed when the toast is hidden
 		 */
 		TVE_Dash.err = function ( message, duration, callback ) {
-			Materialize.toast( message, duration || 3000, 'tvd-toast tvd-red', callback );
+			$( '.tvd-toast' ).remove();
+			Materialize.toast( message, duration || 3000, 'tvd-toast tvd-red', callback, 'bottom' );
 		};
 
 		/**
@@ -213,8 +213,8 @@ var TVE_Dash = TVE_Dash || {};
 		 * @param {function} callback optional, a callback to be executed when the toast is hidden
 		 */
 		TVE_Dash.success = function ( message, duration, callback ) {
+			$( '.tvd-toast' ).remove();
 			Materialize.toast( message, duration || 3000, 'tvd-toast tvd-green', callback );
 		};
 
-	}
-)( jQuery );
+	})( jQuery );

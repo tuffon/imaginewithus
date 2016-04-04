@@ -125,8 +125,8 @@ function tve_dash_api_handle_save() {
 		$response['success'] = true;
 		$response['message'] = __( "Service disconnected", TVE_DASH_TRANSLATE_DOMAIN );
 	} else if ( ! empty( $_REQUEST['test'] ) ) {
-		$result = $connection->testConnection();
-		$response['success'] = is_string($result) ? false : $result;
+		$result              = $connection->testConnection();
+		$response['success'] = is_string( $result ) ? false : $result;
 		$response['message'] = $response['success'] ? __( 'Connection works', TVE_DASH_TRANSLATE_DOMAIN ) : __( 'Connection Error', TVE_DASH_TRANSLATE_DOMAIN );
 	} else {
 		$response['success'] = ( $saved = $connection->readCredentials() ) === true ? true : false;

@@ -15,6 +15,7 @@ class Thrive_Leads_Pages_Tab extends Thrive_Leads_Tab implements Thrive_Leads_Ta
 			$option = new Thrive_Leads_Option();
 			$option->setLabel( $page->post_title );
 			$option->setId( $page->ID );
+			$option->setType( 'item_page' );
 			$option->setIsChecked( in_array( $page->ID, $optionArr ) );
 			$this->options[] = $option;
 		}

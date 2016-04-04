@@ -22,9 +22,18 @@ $admin_email = get_option( 'admin_email' );
 		</div>
 		<div class="tvd-input-field">
 			<select id="tvd-aw-api-country" type="text" name="connection[country]">
-				<option value="ireland" <?php if($this->param( 'country' ) == "ireland" ) { echo 'selected'; } ?> >Ireland</option>
-				<option value="useast" <?php if($this->param( 'country' ) == "useast" ) { echo 'selected'; } ?> >US East (N. Virginia)</option>
-				<option value="uswest" <?php if($this->param( 'country' ) == "uswest" ) { echo 'selected'; } ?> >US West (N. Oregon)</option>
+				<option value="ireland" <?php if ( $this->param( 'country' ) == "ireland" ) {
+					echo 'selected';
+				} ?> >Ireland
+				</option>
+				<option value="useast" <?php if ( $this->param( 'country' ) == "useast" ) {
+					echo 'selected';
+				} ?> >US East (N. Virginia)
+				</option>
+				<option value="uswest" <?php if ( $this->param( 'country' ) == "uswest" ) {
+					echo 'selected';
+				} ?> >US West (N. Oregon)
+				</option>
 			</select>
 			<label for="tvd-aw-api-country"><?php echo __( "Email Zone", TVE_DASH_TRANSLATE_DOMAIN ) ?></label>
 		</div>

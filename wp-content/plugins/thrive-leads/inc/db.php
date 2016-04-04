@@ -257,8 +257,8 @@ class Thrive_Leads_DB {
 		if ( ! empty( $filter['date'] ) ) {
 			switch ( $filter['date'] ) {
 				case 'today':
-					$midnight = date( 'Y-m-d 00:00:00' );
-					$now      = date( 'Y-m-d H:i:s' );
+					$midnight = current_time( 'Y-m-d 00:00:00' );
+					$now      = current_time( 'Y-m-d H:i:s' );
 					$sql .= " AND `date` BETWEEN '{$midnight}' AND '{$now}'";
 					break;
 			}

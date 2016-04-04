@@ -1,0 +1,106 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: YITH WooCommerce Name Your Price\n"
+"POT-Creation-Date: 2015-11-17 07:18+0100\n"
+"PO-Revision-Date: 2015-11-17 07:23+0100\n"
+"Language-Team: Yithemes <plugins@yithemes.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;_ngettext_noop:1,2;"
+"_n_nooop:1,2;_c,_nc:4c,1,2;_x:1,2c\n"
+"Last-Translator: \n"
+"Language: sv_SE\n"
+"X-Poedit-SearchPath-0: ..\n"
+"X-Poedit-SearchPathExcluded-0: ../plugin-fw\n"
+
+#: ../includes/classes/class.yith-wc-name-your-price-admin.php:93
+#: ../includes/classes/class.yith-wc-name-your-price.php:220
+#: ../includes/classes/class.yith-wc-name-your-price.php:221
+#: ../plugin-options/general-settings-options.php:18
+#: ../plugin-options/general-settings-options.php:19
+msgid "Name Your Price"
+msgstr "Ange ditt pris"
+
+#: ../includes/classes/class.yith-wc-name-your-price-admin.php:94
+msgid "Enable name your price for this product"
+msgstr "Aktivera “Ange ditt pris” för den här produkten"
+
+#: ../includes/classes/class.yith-wc-name-your-price-frontend.php:265
+msgid "Choose Price"
+msgstr "Välj pris"
+
+#: ../includes/classes/class.yith-wc-name-your-price.php:126
+msgid "Settings"
+msgstr "Inställnigar"
+
+#: ../includes/classes/class.yith-wc-name-your-price.php:128
+msgid "Premium live demo"
+msgstr "Premiumdemo live"
+
+#: ../includes/classes/class.yith-wc-name-your-price.php:128
+msgid "Live demo"
+msgstr "Live demo"
+
+#: ../includes/classes/class.yith-wc-name-your-price.php:133
+#: ../includes/classes/class.yith-wc-name-your-price.php:214
+msgid "Premium Version"
+msgstr "Premiumversion"
+
+#: ../includes/classes/class.yith-wc-name-your-price.php:160
+msgid "Plugin Documentation"
+msgstr "Tilläggets dokumentation"
+
+#: ../includes/classes/class.yith-wc-name-your-price.php:211
+msgid "General Settings"
+msgstr "Generella inställningar"
+
+#: ../includes/functions.yith-name-your-price.php:17
+msgid "Please enter a value greater or equal to 0"
+msgstr "Vänligen ange ett värde lika med eller högre än 0"
+
+#: ../includes/functions.yith-name-your-price.php:18
+msgid "Please enter a valid price"
+msgstr "Vänligen ange ett giltigt pris"
+
+#: ../init.php:34
+msgid ""
+"YITH WooCommerce Name Your Price is enabled but not effective. It requires "
+"WooCommerce in order to work."
+msgstr ""
+"YITH WooCommerce ange ditt eget pris är aktiverat men inte effektivt. Det "
+"kräver WooCommerce för att fungera."
+
+#: ../init.php:42
+msgid ""
+"You can't activate the free version of YITH WooCommerce Name Your Price "
+"while you are using the premium one."
+msgstr ""
+"Du kan inte aktivera gratisversionen av YITH WooCommerce ange ditt eget "
+"pris medan du använder premiumversionen."
+
+#: ../plugin-options/general-settings-options.php:8
+msgid "General settings"
+msgstr "Generella inställningar"
+
+#: ../plugin-options/general-settings-options.php:14
+msgid "\"Name Your Price\" button text "
+msgstr "“Ange ditt eget pris”-knappens text"
+
+#: ../plugin-options/general-settings-options.php:15
+msgid "Set the text of the \"Name Your Price\" button of the Shop page "
+msgstr "Ange texten för “Ange ditt eget pris”-knappen i shoppen"
+
+#: ../templates/metaboxes/general_product_data_name_your_price_enabled.php:18
+msgid ""
+"These fields have been deactivated because of the \"Name Your Price\" option"
+msgstr ""
+"Dessa fält har blivit avaktiverade på grund utav “Ange ditt pris”-valet"
+
+#: ../templates/single-product/nameyourprice-price-form.php:11
+msgid "Choose the amount"
+msgstr "Ange belopp"

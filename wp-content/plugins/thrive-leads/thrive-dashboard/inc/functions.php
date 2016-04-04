@@ -314,7 +314,8 @@ function tve_dash_detect_cache_plugin() {
 	$known_plugins = array(
 		'wp-super-cache/wp-cache.php',
 		'w3-total-cache/w3-total-cache.php',
-		'wp-rocket/wp-rocket.php'
+		'wp-rocket/wp-rocket.php',
+		'wp-fastest-cache/wpFastestCache.php'
 	);
 	$known_plugins = apply_filters( 'tve_dash_cache_known_plugins', $known_plugins );
 
@@ -343,9 +344,10 @@ function tve_dash_detect_cache_plugin() {
  */
 function tve_dash_cache_plugin_clear( $cache_plugin ) {
 	$known_callbacks = array(
-		'wp-super-cache' => 'wp_cache_clear_cache',
-		'w3-total-cache' => 'w3tc_pgcache_flush',
-		'wp-rocket'      => 'rocket_clean_domain'
+		'wp-super-cache'   => 'wp_cache_clear_cache',
+		'w3-total-cache'   => 'w3tc_pgcache_flush',
+		'wp-rocket'        => 'rocket_clean_domain',
+		'wp-fastest-cache' => 'deleteCssAndJsCache'
 	);
 
 	if ( ! isset( $known_callbacks[ $cache_plugin ] ) ) {

@@ -107,7 +107,7 @@
 						</li>
 						<li class="tve_no_hover tve_no_click">
 							<label class="tve_text">
-								Please note that the animation for the fill counter is now displayed in edit mode. It will animate only on the preview page.
+								<?php echo __( "Please note that the animation for the fill counter is not displayed in edit mode. It will animate only on the preview page. ", "thrive-cb" ) ?>
 							</label>
 						</li>
 					</ul>

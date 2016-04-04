@@ -2,7 +2,7 @@
  * Go Pricing - WordPress Responsive Pricing Tables
  * 
  * Description: The New Generation Pricing Tables. If you like traditional Pricing Tables, but you would like get much more out of it, then this rodded product is a useful tool for you.
- * Version:     3.1.2
+ * Version:     3.2.1
  * Author:      Granth
  * License:		http://codecanyon.net/licenses/
  * 

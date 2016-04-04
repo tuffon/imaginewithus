@@ -3,6 +3,8 @@
 require_once ABSPATH . 'wp-admin/includes/plugin.php';
 $is_thrive_leads_active = is_plugin_active( 'thrive-leads/thrive-leads.php' );
 
+global $page_section_patterns, $template_uri;
+
 $menu_path        = dirname( __FILE__ ) . '/inc/menu/';
 $side_menu_path   = dirname( __FILE__ ) . '/inc/side-menu/';
 $is_thrive_theme  = ! empty( $_POST['is_thrive_theme'] );
@@ -332,7 +334,7 @@ $web_safe_fonts = tve_dash_font_manager_get_safe_fonts();
 		<div id="disqus_comments_menu">
 			<?php include $menu_path . 'disqus_comments.php' ?>
 		</div>
-		<?php echo do_action( 'tcb_custom_menus_html', $menu_path ); ?>
+		<?php do_action( 'tcb_custom_menus_html', $menu_path ); ?>
 
 		<div class="tve_clear"></div>
 	</div>

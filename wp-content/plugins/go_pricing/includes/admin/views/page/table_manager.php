@@ -116,8 +116,9 @@ if ( !empty( $table_order ) && !empty( $table_orderby ) ) {
 						$meta_column_data = get_post_meta( $table_value['postid'], 'col-data', true );
 						$meta_pricing_style = get_post_meta( $table_value['postid'], 'style', true );
 						if ( !empty( $meta_pricing_style ) && !empty( $meta_column_data[0]['col-style-type'] ) ) {
+
 							$column_style = $meta_column_data[0]['col-style-type'];
-							$registered_styles = $go_pricing['style_types'][$meta_pricing_style];
+							$registered_styles = isset ( $go_pricing['style_types'][$meta_pricing_style] ) ? $go_pricing['style_types'][$meta_pricing_style] : array();
 							foreach ( (array)$registered_styles as $registered_style) {
 								
 								if ( !empty( $registered_style['group_name'] ) && !empty( $registered_style['group_data'] ) ) {

@@ -2857,6 +2857,7 @@ return array(
 					"label"    => "Cell border",
 					"selector" => "> .tve_table tbody tr td",
 					"property" => "border-color",
+					'selector_prefix' => '#tve_editor ',
 					"value"    => "[color]"
 				),
 				array(

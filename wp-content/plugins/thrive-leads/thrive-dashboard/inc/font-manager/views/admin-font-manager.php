@@ -71,45 +71,45 @@
 	</div>
 </div>
 <script type="text/javascript">
-	jQuery(document).ready(function () {
+	jQuery( document ).ready( function () {
 		var tb_height = 600,
 			tb_width = 600;
-		jQuery('#thrive-add-font').click(function () {
-			var font_id = jQuery('#new-font-id').val();
-			tb_show('Edit shortcode options', 'admin-ajax.php?action=tve_dash_display_font_manager&height=' + tb_height + '&width=' + tb_width + '&font_id=' + font_id);
-		});
+		jQuery( '#thrive-add-font' ).click( function () {
+			var font_id = jQuery( '#new-font-id' ).val();
+			tb_show( 'Edit shortcode options', 'admin-ajax.php?action=tve_dash_display_font_manager&height=' + tb_height + '&width=' + tb_width + '&font_id=' + font_id );
+		} );
 
-		jQuery('#thrive-update-posts').click(function () {
-			var loading = jQuery(this).find('i');
+		jQuery( '#thrive-update-posts' ).click( function () {
+			var loading = jQuery( this ).find( 'i' );
 			loading.show();
-			jQuery.post('admin-ajax.php?action=tve_dash_font_manager_update_posts_fonts', function (response) {
+			jQuery.post( 'admin-ajax.php?action=tve_dash_font_manager_update_posts_fonts', function ( response ) {
 				loading.hide();
-			});
-		});
+			} );
+		} );
 
-		jQuery('a.edit-font').click(function () {
-			var font_id = jQuery(this).siblings('.font-id').val();
-			tb_show('Edit shortcode options', 'admin-ajax.php?action=tve_dash_display_font_manager&height=' + tb_height + '&width=' + tb_width + '&font_action=update&font_id=' + font_id);
-		});
+		jQuery( 'a.edit-font' ).click( function () {
+			var font_id = jQuery( this ).siblings( '.font-id' ).val();
+			tb_show( 'Edit shortcode options', 'admin-ajax.php?action=tve_dash_display_font_manager&height=' + tb_height + '&width=' + tb_width + '&font_action=update&font_id=' + font_id );
+		} );
 
-		jQuery('a.delete-font').click(function () {
-			var font_id = jQuery(this).siblings('.font-id').val();
+		jQuery( 'a.delete-font' ).click( function () {
+			var font_id = jQuery( this ).siblings( '.font-id' ).val();
 			var postData = {
 				font_id: font_id
 			};
-			jQuery.post('admin-ajax.php?action=tve_dash_font_manager_delete', postData, function (response) {
+			jQuery.post( 'admin-ajax.php?action=tve_dash_font_manager_delete', postData, function ( response ) {
 				location.reload();
-			});
-		});
-		jQuery('a.duplicate-font').click(function () {
-			var font_id = jQuery(this).siblings('.font-id').val();
+			} );
+		} );
+		jQuery( 'a.duplicate-font' ).click( function () {
+			var font_id = jQuery( this ).siblings( '.font-id' ).val();
 			var postData = {
 				font_action: 'duplicate',
 				font_id: font_id
 			};
-			jQuery.post('admin-ajax.php?action=tve_dash_font_manager_duplicate', postData, function (response) {
+			jQuery.post( 'admin-ajax.php?action=tve_dash_font_manager_duplicate', postData, function ( response ) {
 				location.reload();
-			});
-		});
-	});
+			} );
+		} );
+	} );
 </script>

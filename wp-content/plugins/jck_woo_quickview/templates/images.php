@@ -21,7 +21,7 @@ $prod_imgs = $this->get_product_images( $product ); ?>
 
         </div>
 
-        <?php if( $prod_imgsCount > 1 && $this->settings['popup_imagery_thumbnails'] == 'thumbnails' ): ?>
+        <?php if( $prod_imgsCount > 1 && $this->settings['imagery_thumbnails'] == 'thumbnails' ): ?>
 
             <div id="<?php echo $this->slug.'_thumbs'; ?>" class="jckqv_slider">
 

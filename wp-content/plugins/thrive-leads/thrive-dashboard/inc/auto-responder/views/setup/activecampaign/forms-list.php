@@ -32,23 +32,25 @@
 </div>
 <p><?php echo __( "Comma-separated lists of tags to assign to a new contact in ActiveCampaign", TVE_DASH_TRANSLATE_DOMAIN ) ?></p>
 <script type="text/javascript">
-	(function ($) {
-		$(document).on('change', '#thrive-api-list-select', function () {
-			var list_id = $('#thrive-api-list-select').find(':selected').val(),
-				select = $('.tve_activecampaign_select'),
-				no_forms = $('.tve_activecampaign_no_forms'),
-				$forms = $('select.tve-api-extra[data-list-id="' + list_id + '"]');
-			select.show();
-			no_forms.hide();
-			$('select.tve-api-extra[name="activecampaign_form"]').addClass('tve_disabled').hide().parents('.tve-custom-select').hide();
-			if ($forms.length > 0) {
-				$forms.removeClass('tve_disabled').show().parents('.tve-custom-select').show();
-			} else {
-				select.hide();
-				no_forms.show();
-			}
-		});
+	(
+		function ( $ ) {
+			$( document ).on( 'change', '#thrive-api-list-select', function () {
+				var list_id = $( '#thrive-api-list-select' ).find( ':selected' ).val(),
+					select = $( '.tve_activecampaign_select' ),
+					no_forms = $( '.tve_activecampaign_no_forms' ),
+					$forms = $( 'select.tve-api-extra[data-list-id="' + list_id + '"]' );
+				select.show();
+				no_forms.hide();
+				$( 'select.tve-api-extra[name="activecampaign_form"]' ).addClass( 'tve_disabled' ).hide().parents( '.tve-custom-select' ).hide();
+				if ( $forms.length > 0 ) {
+					$forms.removeClass( 'tve_disabled' ).show().parents( '.tve-custom-select' ).show();
+				} else {
+					select.hide();
+					no_forms.show();
+				}
+			} );
 
-		$('#thrive-api-list-select').trigger('change');
-	})(jQuery);
+			$( '#thrive-api-list-select' ).trigger( 'change' );
+		}
+	)( jQuery );
 </script>

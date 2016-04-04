@@ -85,9 +85,9 @@ if ( ! class_exists( 'Tve_Dash_Thrive_Icon_Manager' ) ) {
 			$new_icon_pack = array();
 			$handler       = new Tve_Dash_Thrive_Icon_Manager_Data();
 
-			if ( ! empty( $_POST['attachment']['id'] ) ) {
-				$maybe_zip_file = get_attached_file( $_POST['attachment']['id'] );
-				$maybe_zip_url  = wp_get_attachment_url( $_POST['attachment']['id'] );
+			if ( ! empty( $_POST['attachment_id'] ) ) {
+				$maybe_zip_file = get_attached_file( $_POST['attachment_id'] );
+				$maybe_zip_url  = wp_get_attachment_url( $_POST['attachment_id'] );
 
 				try {
 					$new_icon_pack = $handler->processZip( $maybe_zip_file, $maybe_zip_url );
@@ -97,7 +97,7 @@ if ( ! class_exists( 'Tve_Dash_Thrive_Icon_Manager' ) ) {
 						$font_family = isset( $icon_pack['fontFamily'] ) ? $icon_pack['fontFamily'] : '';
 						$old_handler->removeIcoMoonFolder( $icon_pack['folder'], $font_family );
 					}
-					$new_icon_pack['attachment_id']   = $_POST['attachment']['id'];
+					$new_icon_pack['attachment_id']   = $_POST['attachment_id'];
 					$new_icon_pack['attachment_name'] = basename( $maybe_zip_file );
 
 					$success = __( 'New IcoMoon Font Pack installed. ', TVE_DASH_TRANSLATE_DOMAIN );

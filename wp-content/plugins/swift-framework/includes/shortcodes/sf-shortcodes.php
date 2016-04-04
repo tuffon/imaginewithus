@@ -296,8 +296,9 @@
                     $icon_box .= '<a class="box-link" href="' . $link . '" target="' . $target . '"></a>';
                 }
                 $icon_box .= '<div class="height-adjust"></div>';
-                $icon_box .= '<div class="inner" style="background-color:' . $bg_color . ';">';
+                $icon_box .= '<div class="inner">';
                 $icon_box .= '<div class="front" style="background-color:' . $bg_color . ';">';
+                $icon_box .= '<div class="back-title" data-title="' . $title . '" style="color:' . $text_color . ';"></div>';
                 $icon_box .= '<div class="front-inner-wrap">';
                 $icon_box .= do_shortcode( '[sf_icon icon="' . $icon . '" character="' . $character . '" image="' . $image . '" svg="' . $svg . '" animate_svg="' . $animate_svg . '" float="none" cont="no" color="' . $icon_color . '" bgcolor="'. $icon_bg_color .'" link="' . $link . '" target="' . $target . '"]' );
             }
@@ -434,11 +435,13 @@
 	        $image_banner .= do_shortcode( $content );
 	        $image_banner .= '</div>';
 
+            $image_banner .= '<div class="img-wrap">';
 			if ( $image_width != "" && $image_height != "" ) {
 				$image_banner .= '<img src="' . $image . '" width="'. $image_width .'" height="'. $image_height .'" alt="'. $image_alt .'" />';
 			} else {
 	        	$image_banner .= '<img src="' . $image . '" alt="'. $image_alt .'" />';
 			}
+            $image_banner .= '</div>';
 
 			if ( $href != "" && sf_current_theme() == "atelier" || sf_current_theme() == "uplift" ) {
 				$image_banner .= '<figcaption></figcaption>';
@@ -1558,6 +1561,7 @@
 
 	        extract( shortcode_atts( array(
 	            "center" => '',
+                "share_url" => '',
 	        ), $atts ) );
 
             if ( sf_current_theme() == "atelier" ) {
@@ -1568,6 +1572,10 @@
                 $page_thumb_id = get_post_thumbnail_id();
                 $page_thumb_url = wp_get_attachment_url( $page_thumb_id );
                 $share_output = "";
+
+                if ( $share_url != "" ) {
+                    $page_permalink = $share_url;
+                }
 
                 if ( $center == "yes" ) {
                     $share_output .= '<div class="sf-share-counts center-share-counts">';
@@ -1590,7 +1598,7 @@
     	            $share_output = '<div class="article-share" data-buttontext="' . __( "Share this", 'swift-framework-plugin' ) . '" data-image="' . $image . '"></div>';
     	        }
 
-    	        return apply_filters( 'sf_social_share_output', $share_output);
+    	        return apply_filters( 'sf_social_share_output', $share_output, $atts);
             }
 	    }
 

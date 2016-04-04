@@ -13,7 +13,7 @@
 
         public function content( $atts, $content = null ) {
 
-            $row_el_class = $minimize_row = $width = $row_bg_color = $row_top_style = $row_bottom_style = $row_padding_vertical = $row_padding_horizontal = $row_margin_vertical = $remove_element_spacing = $el_position = $animation_output = '';
+            $row_el_class = $minimize_row = $width = $row_bg_color = $row_top_style = $row_bottom_style = $row_padding_vertical = $row_padding_horizontal = $row_margin_vertical = $remove_element_spacing = $el_position = $animation_output = $custom_css = '';
 
             extract( shortcode_atts( array(
                 'wrap_type'               => 'content-width',
@@ -53,10 +53,13 @@
                 'row_responsive_vis'      => '',
                 'row_el_class'            => '',
                 'el_position'             => '',
-                'width'                   => '1/1'
+                'width'                   => '1/1',
+                'custom_css'              => '',
             ), $atts ) );
 
             $output = $inline_style = $inner_inline_style = $rowId = '';
+            
+            
 
             if ( $row_id != "" ) {
                 $rowId = 'id="' . $row_id . '" data-rowname="' . $row_name . '" data-header-style="' . $row_header_style . '"';
@@ -82,23 +85,32 @@
             if ( $row_bg_color != "" ) {
                 $inline_style .= 'background-color:' . $row_bg_color . ';';
             }
+            if ( $custom_css != "" ) {
+                $inline_style .= $custom_css;
+                // Row background image
+                if ( $row_bg_type != "color" && isset( $img_url ) && $img_url[0] != "" ) {
+                    $inline_style .= 'background-image: url(' . $img_url[0] . ');';
+                }    
+                $inner_inline_style = "";
+            } else {
 
-            // Row padding/margin
-            if ( $row_padding_vertical != "" ) {
-                $inner_inline_style .= 'padding-top:' . $row_padding_vertical . 'px;padding-bottom:' . $row_padding_vertical . 'px;';
-            }
-            if ( $row_padding_horizontal != "" ) {
-            	$inline_style .= 'padding-left:' . $row_padding_horizontal . '%;padding-right:' . $row_padding_horizontal . '%;';
-            }
-            if ( $row_margin_vertical != "" ) {
-                $inline_style .= 'margin-top:' . $row_margin_vertical . 'px;margin-bottom:' . $row_margin_vertical . 'px;';
-            }
+                // Row padding/margin
+                if ( $row_padding_vertical != "" ) {
+                    $inner_inline_style .= 'padding-top:' . $row_padding_vertical . 'px;padding-bottom:' . $row_padding_vertical . 'px;';
+                }
+                if ( $row_padding_horizontal != "" ) {
+                    $inline_style .= 'padding-left:' . $row_padding_horizontal . '%;padding-right:' . $row_padding_horizontal . '%;';
+                }
+                if ( $row_margin_vertical != "" ) {
+                    $inline_style .= 'margin-top:' . $row_margin_vertical . 'px;margin-bottom:' . $row_margin_vertical . 'px;';
+                }
 
-            // Row background image
-            if ( $row_bg_type != "color" && isset( $img_url ) && $img_url[0] != "" ) {
-                $inline_style .= 'background-image: url(' . $img_url[0] . ');';
+                // Row background image
+                if ( $row_bg_type != "color" && isset( $img_url ) && $img_url[0] != "" ) {
+                    $inline_style .= 'background-image: url(' . $img_url[0] . ');';
+                }    
             }
-
+            
             // Row animation
             if ( $row_animation != "" && $row_animation != "none" ) {
             	$row_el_class .= ' sf-animation';
@@ -228,11 +240,17 @@
                 'row_animation'        	  => '',
                 'row_animation_delay'  	  => '',
                 'responsive_vis'          => '',
-                'row_responsive_vis'          => '',
+                'row_responsive_vis'      => '',
                 'el_position'             => '',
                 'element_name'            => '',
                 'minimize_row'            => '',
-                'width'                   => 'span12'
+                'width'                   => 'span12',
+                'custom_css'              => '',
+                'simplified_controls'     => '',
+                'border_color_global'     => '',
+                'border_styling_global'   => '',
+                'back_color_global'       => '',
+                'border_styling_global'   => ''
             ), $atts ) );
 
             if ( $element_name == '' ){

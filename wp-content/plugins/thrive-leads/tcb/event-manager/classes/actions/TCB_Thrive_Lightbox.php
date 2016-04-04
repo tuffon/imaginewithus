@@ -210,7 +210,6 @@ if ( ! class_exists( 'TCB_Thrive_Lightbox' ) ) {
 		 * @param array $data
 		 */
 		public function mainPostCallback( $data ) {
-//            $this->applyContentFilter($data);
 
 			$lightbox_id = empty( $data['config']['l_id'] ) ? 0 : $data['config']['l_id'];
 			if ( isset( self::$_LIGHBOXES_EVENTS_PARSED[ $lightbox_id ] ) ) {
@@ -231,6 +230,16 @@ if ( ! class_exists( 'TCB_Thrive_Lightbox' ) ) {
 			/* output any css needed for the extra (imported) fonts */
 			if ( function_exists( 'tve_output_extra_custom_fonts_css' ) ) {
 				tve_output_extra_custom_fonts_css( $lightbox_id );
+			}
+
+			$js_suffix = defined('TVE_DEBUG') && TVE_DEBUG ? '.js' : '.min.js';
+
+			if (tve_get_post_meta($lightbox_id, 'tve_has_masonry')) {
+				wp_script_is("jquery-masonry") || wp_enqueue_script("jquery-masonry", array('jquery'));
+			}
+
+			if (tve_get_post_meta($lightbox_id, 'tve_has_typefocus')) {
+				wp_script_is("tve_typed") || wp_enqueue_script("tve_typed", tve_editor_js() . '/typed' . $js_suffix, array('tve_frontend'));
 			}
 
 			$lightbox_content = get_post_meta( $lightbox_id, 'tve_updated_post', true );

@@ -47,14 +47,8 @@
 	$btn_class          = 'tve_hidden_feature_grid';
 	include dirname( __FILE__ ) . '/_margin.php' ?>
 
-	<li class="tve_ed_btn" data-multiple-hide>
-		<span class="tve_click tve_lb_small tve_icm tve-ic-chain" data-ctrl="controls.lb_open" id="lb_image_link"></span>
-	</li>
 	<?php include dirname( __FILE__ ) . '/_quick_link.php' ?>
-	<!-- this only shows when the user clicks on a hyperlink -->
-	<li class="tve_ed_btn tve_link_btns" data-multiple-hide>
-		<span class="tve_icm tve-ic-unlink tve_click" data-ctrl="controls.click.image_unlink"></span>
-	</li>
+	
 	<li id="change_image" class="tve_ed_btn tve_center tve_btn_text btn_alignment upload_image_cpanel" data-multiple-hide><?php echo __( "Change Image", "thrive-cb" ) ?></li>
 	<li class="tve_text clearfix" data-multiple-hide>
 		<label for="img_alt_att" class="tve_left"><?php echo __( "Alt text", "thrive-cb" ) ?>&nbsp;</label>
@@ -76,6 +70,7 @@
 		<div class="clear"></div>
 	</li>
 	<li class=""><input type="text" class="element_class tve_change" data-ctrl="controls.change.cls" placeholder="<?php echo __( "Custom class", "thrive-cb" ) ?>"></li>
+	<li class=""><input type="text" class="tve_capt_cls tve_change" data-ctrl="controls.change.wrap_cls" placeholder="<?php echo __( "Caption class", "thrive-cb" ) ?>"></li>
 	<li class="tve_ed_btn tve_btn_text tve_hidden_feature_grid">
 		<div class="tve_option_separator">
 			<span class="tve_ind tve_left"><?php echo __( "No Style", "thrive-cb" ) ?></span>

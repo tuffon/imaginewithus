@@ -2492,6 +2492,9 @@ var SWIFT = SWIFT || {};
 
 			// SMALL PRODUCT CHECK
 			SWIFT.woocommerce.smallProductCheck();
+			$window.smartresize( function() {
+				SWIFT.woocommerce.smallProductCheck();
+			});
 			
 			// PREVIEW SLIDER LAYOUT
 			if ( jQuery('.product-type-preview-slider').length > 0 ) {

@@ -78,36 +78,43 @@ class SwiftFramework_Admin {
 		</h2>
 
 		<div class="about-content">
+
+			<?php if ( !class_exists( 'ReduxFramework' ) ) { ?>
+				<h4>Please install the Redux Framework plugin, as this is required for the Swift Framework plugin to function correctly.</h4>
+				<br/><br/>
+			<?php } ?>
+
 			<p></p>
 			<h3>Coming Soon</h3>
 			<ul>
-				<li><strong>Page Builder</strong> - Design tab. Allowing you to control padding/margin/borders on elements, as well as colours.</li>
-				<li><strong>Page Builder</strong> - responsive & touch device usability improvements.</li>
+				<li>Responsive Visibility indication on the front of elements.</li>
+				<li>Height option for image banner elements.</li>
+				<li>Preview functionality for elements.</li>
 			</ul>
 			<div class="divide"></div>
-			<h3>Latest Update (v2.0.3)</h3>
+			<h3>Latest Update (v2.1.1)</h3>
 			<p></p>
 			<ul>
-				<li>FRONT-END: reverted button changes to use previous parameter names..</li>
-				<li>BACKEND: Removed empty page builder animation.</li>
-				<li>BACKEND: Added most used functionality, allowing you to quickly access your most used elements.</li>
-				<li>BACKEND: Alert Asset fixes.</li>
-				<li>BACKEND: Fixed Scroll bar in the Edit modal that couldn’t be selected.</li>
-				<li>BACKEND: The sizes (height) of the resize handle was changed to avoid resize conflicts in elements inside each others (like in tabs, accordions, tours, Row).</li>
-				<li>BACKEND: Fixed issues with dragging elements to the bottom of the page builder area. Was fixed in Row, Tour, Tabs, Accordions.</li>
-				<li>BACKEND: Fixed issues with elements added to the tabs, Accordions, tours.</li>
+				<li>FRONT-END: Fixed issue with Portfolio Showcase error.</li>
+				<li>BACKEND: Re-added Redux Framework to the plugin.</li>
 			</ul>
 			<div class="divide"></div>
-			<h3>Previous Update (v2.0.2)</h3>
+			<h3>Previous Update (v2.1.0)</h3>
 			<p></p>
 			<ul>
-				<li>FRONTEND: further icon box fixes.</li>
-				<li>FRONTEND: Added compatibility for Portfolio WPML duplication.</li>
-				<li>BACKEND: Added option to show text block text within the element preview, like in older versions.</li>
-				<li>BACKEND: Fixed issue with Toggle display.</li>
-				<li>BACKEND: Fixed issue with responsive visibility dropdown being cut off.</li>
-				<li>BACKEND: Fixed issue with Widget Area element.</li>
-				<li>BACKEND: Fixed issue with products element.</li>
+				<li>FRONT-END: Added overflow left/right option for image asset for use in full-width rows.</li>
+				<li>FRONT-END: You can now select a display layout in the Products page builder asset.</li>
+				<li>BACKEND: Added design tab for margin/padding/border controls on columns, rows, and text blocks.</li>
+				<li>BACKEND: Improved responsive + touch capabilities for editing pages on touch/mobile devices.</li>
+				<li>BACKEND: Added option to set the default width of the element edit modal.</li>
+				<li>BACKEND: Performance improvements.</li>
+				<li>BACKEND: Fixed issue with edit modal header disappearing.</li>
+				<li>BACKEND: Fixed issue with controls on 1/6 elements + columns.</li>
+				<li>BACKEND: Edit modal header is now stuck to the top of the edit modal, allowing for save/cancel without scrolling.</li>
+				<li>BACKEND: Improved element searching, showing no results if none are found rather than all.</li>
+				<li>BACKEND: Fixed compatibility issue with NinjaForms.</li>
+				<li>BACKEND: Removed redux framework as provided with the theme or plugin instead. If you no longer have access to the plugin options then please install the Redux Framework Plugin.</li>
+				<li>BACKEND: Boxed Content now shows inner content if the Text Block show content option is enabled in the page builder options.</li>
 			</ul>
 			<p></p>
 		</div>

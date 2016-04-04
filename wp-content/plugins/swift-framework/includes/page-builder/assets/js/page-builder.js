@@ -8,6 +8,8 @@ var sfTranslatedText = jQuery( '.spb_translated_objects' );
 var deletedElement;
 var draggedItem;
 var percentageClass;
+var elements_values_array = [];
+var currentAsset = "";
 
 (function( $ ) {    
     
@@ -125,6 +127,110 @@ var percentageClass;
                     initTinyMce( $( this ) );
                 }
             );
+
+
+            if ( element.attr( "data-element_type" ) == 'spb_text_block' ) {
+
+                var el_vertical_pad = element.find('.padding_vertical');
+                var el_horizontal_pad = element.find('.padding_horizontal');
+
+                if( el_vertical_pad.val() > 0 ) {
+
+                    if ( jQuery('.spb_edit_form_elements .custom-padding-top').val() == '' ) {
+                        jQuery('.spb_edit_form_elements .custom-padding-top').val( el_vertical_pad.val() );    
+                    }
+                    
+                    if ( jQuery('.spb_edit_form_elements .custom-padding-bottom').val() == '' ) {
+                        jQuery('.spb_edit_form_elements .custom-padding-bottom').val( el_vertical_pad.val() );                  
+                    }
+                }
+
+                if( el_horizontal_pad.val() > 0 && jQuery('.spb_edit_form_elements .custom-padding-left').val() == '' ) {
+
+                    if ( jQuery('.spb_edit_form_elements .custom-padding-left').val() == '' ) {
+                        jQuery('.spb_edit_form_elements .custom-padding-left').val( el_horizontal_pad.val() );
+                    }
+
+                    if ( jQuery('.spb_edit_form_elements .custom-padding-right').val() == '' ) {
+                        jQuery('.spb_edit_form_elements .custom-padding-right').val( el_horizontal_pad.val() );                    
+                    }
+                }
+            }
+
+              if ( element.attr( "data-element_type" ) == 'spb_row' ) {
+  
+                var el_horizontal_pad = element.find('.row_padding_horizontal');
+                var el_vertical_pad = element.find('.row_padding_vertical');
+                var el_vertical_margin = element.find('.row_margin_vertical');
+                var max_value = 800;
+                var percentage_value;
+                var element_value;
+                
+                jQuery('#row_margin_vertical_val').attr('disabled','disabled');
+                jQuery('#row_padding_horizontal_val').attr('disabled','disabled');
+                jQuery('#row_padding_vertical_val').attr('disabled','disabled');
+                jQuery('#row_margin_vertical').attr('disabled','disabled');
+                jQuery('#row_padding_horizontal').attr('disabled','disabled');
+                jQuery('#row_padding_vertical').attr('disabled','disabled');
+                jQuery('#row_padding_vertical').prev().css('background-color','#ccc');
+                jQuery('#row_padding_horizontal').prev().css('background-color','#ccc');
+                jQuery('#row_margin_vertical').prev().css('background-color','#ccc');
+
+
+                if( el_horizontal_pad.val() > 0 ) {
+
+                    if ( jQuery('.spb_edit_form_elements .custom-padding-left').val() == '' &&  jQuery('.spb_edit_form_elements .custom-padding-right').val() == '' ) {
+                    
+                        percentage_value = el_horizontal_pad.val() / 20 * 100;
+                        element_value = max_value * percentage_value / 100;
+                        jQuery('#padding_horizontal_val').val( element_value );
+                        jQuery('#padding_horizontal').val( element_value );
+                        el_horizontal_pad = jQuery('#padding_horizontal_val');
+
+                    }
+
+
+                    if ( jQuery('.spb_edit_form_elements .custom-padding-left').val() == '' ) {
+                        jQuery('.spb_edit_form_elements .custom-padding-left').val( el_horizontal_pad.val() );
+                    }
+
+                    if ( jQuery('.spb_edit_form_elements .custom-padding-right').val() == '' ) {
+                        jQuery('.spb_edit_form_elements .custom-padding-right').val( el_horizontal_pad.val() );                    
+                    }
+                }
+
+                if( el_vertical_pad.val() > 0 ) {
+
+                    jQuery('#padding_vertical_val').val( el_vertical_pad.val() );
+                    jQuery('#padding_vertical').val( el_vertical_pad.val() );
+
+                    if ( jQuery('.spb_edit_form_elements .custom-padding-bottom').val() == '' ) {
+                        jQuery('.spb_edit_form_elements .custom-padding-bottom').val( el_vertical_pad.val() );
+                    }
+
+                    if ( jQuery('.spb_edit_form_elements .custom-padding-top').val() == '' ) {
+                        jQuery('.spb_edit_form_elements .custom-padding-top').val( el_vertical_pad.val() );                    
+                    }
+                }
+
+                 if( el_vertical_margin.val() > 0 ) {
+
+                    jQuery('#margin_vertical_val').val( el_vertical_margin.val() );
+                    jQuery('#margin_vertical').val( el_vertical_margin.val() );
+
+                    if ( jQuery('.spb_edit_form_elements .custom-margin-bottom').val() == '' ) {
+                        jQuery('.spb_edit_form_elements .custom-margin-bottom').val( el_vertical_margin.val() );
+                    }
+
+                    if ( jQuery('.spb_edit_form_elements .custom-margin-top').val() == '' ) {
+                        jQuery('.spb_edit_form_elements .custom-margin-top').val( el_vertical_margin.val() );                    
+                    }
+                }
+
+            }
+
+
+          
 
 			// Colorpicker
             $( '.spb-colorpicker' ).minicolors();
@@ -398,8 +504,8 @@ var percentageClass;
 })( jQuery );
 
 jQuery( document ).ready(
-    function( $ ) {
-                
+    function( $ ) {   
+     
         spb_reorder_saved_templates();
     
         /*** Template System ***/
@@ -414,15 +520,139 @@ jQuery( document ).ready(
             return false;
         });
 
+        jQuery( document ).on( 'change', '#padding_vertical', function() {
+            
+              jQuery('.spb_edit_form_elements .custom-padding-top').val( jQuery( this ).val() );
+              jQuery('.spb_edit_form_elements .custom-padding-bottom').val( jQuery( this ).val() );                  
+
+        });
+
+        jQuery( document ).on( 'change', '#padding_horizontal', function() {
+          
+                jQuery('.spb_edit_form_elements .custom-padding-left').val( jQuery( this ).val() );
+                jQuery('.spb_edit_form_elements .custom-padding-right').val( jQuery( this ).val() );   
+        });
+
+        jQuery( document ).on( 'change', '#margin_vertical', function() {
+          
+                jQuery('.spb_edit_form_elements .custom-margin-top').val( jQuery( this ).val() );
+                jQuery('.spb_edit_form_elements .custom-margin-bottom').val( jQuery( this ).val() );   
+        });
+
+        jQuery( document ).on( 'change', '#border_size', function() {
+          
+                jQuery( '.spb_edit_form_elements .custom-border-top' ).val( jQuery( this ).val() );
+                jQuery( '.spb_edit_form_elements .custom-border-bottom' ).val( jQuery( this ).val() );   
+                jQuery( '.spb_edit_form_elements .custom-border-left' ).val( jQuery( this ).val() );   
+                jQuery( '.spb_edit_form_elements .custom-border-right' ).val( jQuery( this ).val() );   
+        });
+        
+        jQuery( document ).on( 'change', '#spb .custom_css_percentage' , function() {
+            
+            var max_value;
+            var percentage_value;  
+            var element_value;
+
+            if( jQuery( this ).attr('checked') == 'checked' ) {
+                max_value = '20';               
+            } else {
+                max_value = '800';
+            }  
+            
+            
+            if( jQuery( '.simplified_controls' ).attr('checked') == 'checked' ) {
+
+                percentage_value = jQuery( '#padding_vertical_val' ).val() / jQuery( '#padding_vertical_val' ).attr( 'max' ) * 100;
+                element_value = max_value * percentage_value / 100;
+
+                jQuery( '#padding_vertical' ).attr( 'max' , max_value );     
+                jQuery( '#padding_vertical_val' ).attr( 'max' , max_value );
+                jQuery( '#padding_vertical' ).val( element_value );
+                jQuery( '#padding_vertical_val' ).val( element_value );  
+                jQuery( '#padding_vertical' ).trigger( 'change' );
+
+                percentage_value = jQuery( '#padding_horizontal_val' ).val() / jQuery( '#padding_horizontal_val' ).attr( 'max' )*100;
+                element_value = max_value * percentage_value / 100;
+
+                jQuery( '#padding_horizontal' ).attr('max', max_value );
+                jQuery( '#padding_horizontal_val' ).attr('max', max_value );
+                jQuery( '#padding_horizontal' ).val( element_value );
+                jQuery( '#padding_horizontal_val' ).val( element_value );  
+                jQuery( '#padding_horizontal' ).trigger( 'change' );
+
+                percentage_value = jQuery( '#margin_vertical_val' ).val() / jQuery( '#margin_vertical_val' ).attr( 'max' )*100;
+                element_value = max_value * percentage_value / 100;
+
+                jQuery( '#margin_vertical' ).attr('max', max_value );
+                jQuery( '#margin_vertical_val' ).attr('max', max_value );
+                jQuery( '#margin_vertical' ).val( element_value );
+                jQuery( '#margin_vertical_val' ).val( element_value );  
+                jQuery( '#margin_vertical' ).trigger( 'change' );
+
+            } else {
+
+                percentage_value = jQuery('.custom-padding-bottom').val() / jQuery( '#padding_vertical_val' ).attr( 'max' ) * 100;
+                element_value = max_value * percentage_value / 100;
+                jQuery('.custom-padding-bottom').val( element_value );  
+
+                percentage_value = jQuery('.custom-padding-top').val() / jQuery( '#padding_vertical_val' ).attr( 'max' ) * 100;
+                element_value = max_value * percentage_value / 100;
+                jQuery('.custom-padding-top').val( element_value );  
+
+                percentage_value = jQuery('.custom-padding-left').val() / jQuery( '#padding_horizontal_val' ).attr( 'max' ) * 100;
+                element_value = max_value * percentage_value / 100;
+                jQuery('.custom-padding-left').val( element_value );  
+
+                percentage_value = jQuery('.custom-padding-right').val() / jQuery( '#padding_horizontal_val' ).attr( 'max' ) * 100;
+                element_value = max_value * percentage_value / 100;
+                jQuery('.custom-padding-right').val( element_value );  
+                
+                percentage_value = jQuery('.custom-margin-bottom').val() / jQuery( '#margin_vertical_val' ).attr( 'max' ) * 100;
+                element_value = max_value * percentage_value / 100;
+                jQuery('.custom-margin-bottom').val( element_value );  
+
+                percentage_value = jQuery('.custom-margin-top').val() / jQuery( '#margin_vertical_val' ).attr( 'max' ) * 100;
+                element_value = max_value * percentage_value / 100;
+                jQuery('.custom-margin-top').val( element_value );  
+
+                jQuery( '#padding_vertical_val' ).attr( 'max', max_value );
+                jQuery( '#padding_vertical' ).attr( 'max' , max_value );     
+                jQuery( '#padding_horizontal_val' ).attr('max', max_value );
+                jQuery( '#padding_horizontal' ).attr('max', max_value );
+                jQuery( '#margin_vertical_val' ).attr('max', max_value );
+                jQuery( '#margin_vertical' ).attr('max', max_value );
+
+
+            }
+
+        });
+
+
+        jQuery( document ).on( 'change', '#spb .simplified_controls' , function() {
+                detailedControls( jQuery( this ) );
+        });
+         
+        jQuery( document ).on( 'input' , '.custom-margin', function ( ) {
+                jQuery( '.lb_css_field .cm-global' ).val( jQuery( this ).val() );
+        });
+
+        jQuery( document ).on( 'input' , '.custom-border', function ( ) {
+                jQuery( '.lb_css_field .cb-global' ).val( jQuery( this ).val() );
+        });
+
+        jQuery( document ).on( 'input' , '.custom-padding', function ( ) {
+                jQuery( '.lb_css_field .cp-global' ).val( jQuery( this ).val() );
+        });
+
         //Tabs - Delete Tab Action
-        jQuery( document ).on( 'click', '.ui-tabs-nav .delete_tab' , function(e) {
+        jQuery( document ).on( 'click', '.ui-tabs-nav .delete_tab' , function( e ) {
             e.preventDefault();
 
             var modal_msg = sfTranslatedText.attr( 'data-spb-delete-tabs-section-q1' );   
             var modal_header_msg =  sfTranslatedText.attr( 'data-spb-delete-tabs-header' );
             var elementSaveModal = '<div class="modal_wrapper"><a class="waves-effect waves-light btn modal-trigger" href="#modal-delete"></a><div id="modal-delete-tab" class="modal modal_spb"><div class="modal-content">';
             elementSaveModal += '<h4>' + modal_header_msg + '</h4><div class="row"> <div class="input-field delete-block col s12"><label>' + modal_msg + '</label>';
-            elementSaveModal += '</div></div><div class="modal-footer modal-delete-tab"><a href="#!" class=" modal-action modal-close waves-effect modal-ok-button btn-flat">OK</a><a href="#!" class=" modal-action modal-close waves-effect modal-cancel-button btn-flat">Cancel</a></div></div></div></div>';
+            elementSaveModal += '</div></div><div class="modal-footer modal-delete-tab"><a href="#!" class=" modal-action spb-modal-close waves-effect modal-ok-button btn-flat">OK</a><a href="#!" class=" modal-action spb-modal-close waves-effect modal-cancel-button btn-flat">Cancel</a></div></div></div></div>';
             jQuery( '#spb' ).append( elementSaveModal );   
             jQuery('#modal-delete-tab').openModal();            
             deletedElement = jQuery( this );
@@ -564,7 +794,7 @@ jQuery( document ).ready(
             var modal_header_msg = sfTranslatedText.attr( 'data-spb-delete-accordion-header' );   
             var elementSaveModal = '<div class="modal_wrapper"><a class="waves-effect waves-light btn modal-trigger" href="#modal-delete"></a><div id="modal-delete-section" class="modal modal_spb"><div class="modal-content">';
             elementSaveModal += '<h4>' + modal_header_msg + '</h4><div class="row"> <div class="input-field delete-block col s12"><label>' + modal_msg + '</label>';
-            elementSaveModal += '</div></div><div class="modal-footer modal-delete-section"><a href="#!" class=" modal-action modal-close waves-effect modal-ok-button btn-flat">OK</a><a href="#!" class=" modal-action modal-close waves-effect modal-cancel-button btn-flat">Cancel</a></div></div></div></div>';
+            elementSaveModal += '</div></div><div class="modal-footer modal-delete-section"><a href="#!" class=" modal-action spb-modal-close waves-effect modal-ok-button btn-flat">OK</a><a href="#!" class=" modal-action spb-modal-close waves-effect modal-cancel-button btn-flat">Cancel</a></div></div></div></div>';
             jQuery( '#spb' ).append( elementSaveModal );   
             jQuery('#modal-delete-section').openModal();            
             deletedElement = jQuery( this );
@@ -731,7 +961,6 @@ jQuery( document ).ready(
         
         $('.tooltipped').tooltip({delay: 0});
 
-        var currentAsset = "";
 
         // Detect Changes in Asset Modal Form
         jQuery( "body" ).on('change', '#spb_edit_form select, #spb_edit_form radio, #spb_edit_form input[type=checkbox], #spb_edit_form input[type=hidden], .spb-buttonset',function() {
@@ -1013,7 +1242,7 @@ jQuery( document ).ready(
             }
         });
 
-        $( document ).on( 'mouseleave', '.spb_element_wrapper', function( e ) {
+        $( document ).on( 'mouseleave', '.spb_sortable', function( e ) {
             e.preventDefault();
             $( this ).find( '.controls_right:first , .column_size_wrapper:first' ).hide();
             $( '.spb_map_pin .controls_right , .spb_map_pin .column_size_wrapper' ).show();
@@ -1115,16 +1344,25 @@ jQuery( document ).ready(
                         } else {
                             $( this ).parent().removeClass( 'hide-modal_elements');
                             foundResults = true;
+                            jQuery( '.spb-elements-no-results' ).hide();
                         }
 
                     }
                 );
             } else {
                 $( '.spb-content-elements > li' ).find( 'a' ).parent().removeClass( 'hide-modal_elements' );
+                jQuery( '.spb-elements-no-results' ).hide();
             }
 
             if ( $( this ).val() === '' || !foundResults ) {
                 $( '.spb-content-elements > li' ).find( 'a' ).parent().removeClass( 'hide-modal_elements' );
+                jQuery( '.spb-elements-no-results' ).hide();
+            }
+
+             if ( $( this ).val() !== '' &&  $( this ).val().length >= 3  && !foundResults ) {
+                $( '.spb-content-elements > li' ).find( 'a' ).parent().addClass( 'hide-modal_elements' );
+                jQuery( '.spb-elements-no-results' ).show();
+
             }
 
         });
@@ -1260,6 +1498,7 @@ jQuery( document ).ready(
                 e.preventDefault();
 
                 $( '.dropdown-toggle' ).removeClass( 'selected' );
+                $( '.spb-elements-no-results' ).hide();
 
                 if ( !$( this ).hasClass( 'spb_custom_elements' ) ) {
                     
@@ -1749,6 +1988,7 @@ function savePbHistory( element_type, element_name, type) {
 }
 
 function cleaningAfterClosingElementsModal() {
+    jQuery( '.spb-elements-no-results' ).hide();
     jQuery( '#spb-option-slideout' ).fadeOut(300);
     jQuery( '#spb_edit_form' ).fadeOut();    
     jQuery( '#spb_edit_form' ).css({ opacity: 0.8 }).hide();
@@ -1789,7 +2029,7 @@ function spb_templateSystem() {
         var modal_element_msg = sfTranslatedText.attr( 'data-spb-save-template-msg' );
         var elementSaveModal = '<div class="modal_wrapper"><a class="waves-effect waves-light btn modal-trigger" href="#modal-save-template"></a><div id="modal-save-template" class="modal modal_spb"><div class="modal-content">';
         elementSaveModal += '<h4>' + modal_header_msg + '</h4><div class="row"> <div class="input-field col s12"><input id="saved_template_name"  type="text" class="validate"><label for="saved_template_name">' + modal_element_msg + '</label>';
-        elementSaveModal += '</div></div><div class="modal-footer modal-save-template"><a href="#!" class=" modal-action modal-close waves-effect modal-ok-button btn-flat">OK</a><a href="#!" class=" modal-action modal-close waves-effect modal-cancel-button btn-flat">Cancel</a></div></div></div></div>';
+        elementSaveModal += '</div></div><div class="modal-footer modal-save-template"><a href="#!" class=" modal-action spb-modal-close waves-effect modal-ok-button btn-flat">OK</a><a href="#!" class=" modal-action spb-modal-close waves-effect modal-cancel-button btn-flat">Cancel</a></div></div></div></div>';
         jQuery( '#spb' ).append(elementSaveModal); 
         jQuery('#modal-save-template').openModal();            
         var element = generateShortcodesFromHtml( jQuery( this ).closest( '.spb_sortable' ), true );
@@ -1864,7 +2104,7 @@ function spb_templateSystem() {
         var modal_element_msg = sfTranslatedText.attr( 'data-spb-delete-saved-template-msg1' );
         var elementSaveModal = '<div class="modal_wrapper"><a class="waves-effect waves-light btn modal-trigger" href="#modal-delete-saved-element"></a><div id="modal-delete-saved-element" class="modal modal_spb"><div class="modal-content">';
         elementSaveModal += '<h4>' + modal_header_msg + '</h4><div class="row"> <div class="input-field delete-block col s12"><label>' + modal_element_msg + '</label>';
-        elementSaveModal += '</div></div><div class="modal-footer modal-remove-template"><a href="#!" class=" modal-action modal-close waves-effect modal-ok-button btn-flat">OK</a><a href="#!" class=" modal-action modal-close waves-effect modal-cancel-button btn-flat">Cancel</a></div></div></div></div>';
+        elementSaveModal += '</div></div><div class="modal-footer modal-remove-template"><a href="#!" class=" modal-action spb-modal-close waves-effect modal-ok-button btn-flat">OK</a><a href="#!" class=" modal-action spb-modal-close waves-effect modal-cancel-button btn-flat">Cancel</a></div></div></div></div>';
         jQuery( '#spb' ).append(elementSaveModal); 
         jQuery('#modal-delete-saved-element').openModal();  
         deletedElement = jQuery( this ).closest( '.spb_template_li' ).find( 'a' ).attr( 'data-template_id' );
@@ -1908,6 +2148,7 @@ function spb_customElementSystem() {
      
     
     jQuery( document ).on( 'click', '.modal-delete-element .modal-ok-button' , function() {                
+
         var $parent = deletedElement.closest( ".spb_sortable" );
         var delete_el_name;
 
@@ -1998,7 +2239,7 @@ function spb_customElementSystem() {
         var modal_element_msg = sfTranslatedText.attr( 'data-spb-save-element-msg' );
         var elementSaveModal = '<div class="modal_wrapper"><a class="waves-effect waves-light btn modal-trigger" href="#modal-save-element"></a><div id="modal-save-element" class="modal modal_spb"><div class="modal-content">';
         elementSaveModal += '<h4>' + modal_header_msg + '</h4><div class="row"> <div class="input-field col s12"><input id="saved_element_name"  type="text" class="validate"><label for="first_name">' + modal_element_msg + '</label>';
-        elementSaveModal += '</div></div><div class="modal-footer modal-save-element"><a href="#!" class=" modal-action modal-close waves-effect modal-ok-button btn-flat">OK</a><a href="#!" class=" modal-action modal-close waves-effect modal-cancel-button btn-flat">Cancel</a></div></div></div></div>';
+        elementSaveModal += '</div></div><div class="modal-footer modal-save-element"><a href="#!" class=" modal-action spb-modal-close waves-effect modal-ok-button btn-flat">OK</a><a href="#!" class=" modal-action spb-modal-close waves-effect modal-cancel-button btn-flat">Cancel</a></div></div></div></div>';
         jQuery( '#spb' ).append(elementSaveModal); 
         jQuery('#modal-save-element').openModal();            
         var element = generateShortcodesFromHtml( jQuery( this ).closest( '.spb_sortable' ), true );
@@ -2014,13 +2255,22 @@ function spb_customElementSystem() {
             element_id: jQuery( this ).attr( 'data-element_id' )
         };
 
+
+
         jQuery.post( ajaxurl, data, function( response ) {
-            jQuery( '.spb_main_sortable' ).append( response ).find( ".spb_init_callback" ).each( function() {
-                var fn = window[jQuery( this ).attr( "value" )];
-                if ( typeof fn === 'function' ) {
-                    fn( jQuery( this ).closest( '.spb_content_element' ) );
-                }
-            });
+
+            if ( currentAsset === "" ) {
+                 currentAsset = '.spb_main_sortable';
+            }
+
+               
+                jQuery( currentAsset ).append( response ).find( ".spb_init_callback" ).each( function() {
+                    var fn = window[jQuery( this ).attr( "value" )];
+                    if ( typeof fn === 'function' ) {
+                        fn( jQuery( this ).closest( '.spb_content_element' ) );
+                    }
+                });
+            currentAsset = '';
             
             save_spb_html();
         });
@@ -2034,7 +2284,7 @@ function spb_customElementSystem() {
         var modal_element_msg = sfTranslatedText.attr( 'data-spb-delete-saved-element-msg1' );
         var elementSaveModal = '<div class="modal_wrapper"><a class="waves-effect waves-light btn modal-trigger" href="#modal-delete-saved-element">Modal</a><div id="modal-delete-saved-element" class="modal modal_spb"><div class="modal-content">';
         elementSaveModal += '<h4>' + modal_header_msg + '</h4><div class="row"> <div class="input-field delete-block col s12"><label>' + modal_element_msg + '</label>';
-        elementSaveModal += '</div></div><div class="modal-footer modal-delete-saved-element"><a href="#!" class=" modal-action modal-close waves-effect modal-ok-button btn-flat">OK</a><a href="#!" class=" modal-action modal-close waves-effect modal-cancel-button btn-flat">Cancel</a></div></div></div></div>';
+        elementSaveModal += '</div></div><div class="modal-footer modal-delete-saved-element"><a href="#!" class=" modal-action spb-modal-close waves-effect modal-ok-button btn-flat">OK</a><a href="#!" class=" modal-action spb-modal-close waves-effect modal-cancel-button btn-flat">Cancel</a></div></div></div></div>';
         jQuery( '#spb' ).append(elementSaveModal); 
         jQuery('#modal-delete-saved-element').openModal();  
         deletedElement = jQuery( this );
@@ -2405,7 +2655,37 @@ function spb_elements_hide_controls( display ) {
 
 }
 
+function startInitDragging() {   
+    var counter = 0;
+    elements_values_array = [];
+
+    jQuery('.spb_element_wrapper').each(function (){
+         
+            jQuery( this ).attr( 'data-values-id',  counter );
+            counter ++;
+            elements_values_array.push( jQuery( this ).children('input[type="hidden"]').detach() );
+       
  
+    });
+
+    jQuery( 'body' ).addClass( 'startedDragging' ); 
+}
+
+function endInitDragging() {
+ 
+    var data_id = 0;
+
+    jQuery('.spb_element_wrapper').each(function (){
+ 
+        data_id = jQuery( this ).attr( 'data-values-id');
+        jQuery( this ).append( elements_values_array[data_id] );
+ 
+    });
+
+    save_spb_html();
+    jQuery( 'body' ).addClass( 'startedDragging' ); 
+}
+
 /* This makes layout elements droppable, so user can drag
  them from on column to another and sort them (re-order)
  within the current column
@@ -2439,8 +2719,8 @@ function initDroppable() {
             },                
             start: function( event, ui ) {
 
+                 startInitDragging();
                  jQuery( '.spb_elem_controls' ).hide();
-                 jQuery( 'body' ).addClass( 'startedDragging' );
                  ui.placeholder.css("opacity", "0");
                  ui.placeholder.css("width", ui.item.width());
                  ui.placeholder.height( ui.item.height() ); 
@@ -2499,7 +2779,7 @@ function initDroppable() {
                 }
             },
             stop: function( event, ui ) {
-
+                endInitDragging();
                 var  row_object = ui.item.find('.spb_sortable_container');
                 jQuery( 'body' ).removeClass( 'startedDragging' );
                 jQuery( '#spb_content' ).removeClass( 'sorting-started' );
@@ -2562,12 +2842,14 @@ function initDroppable() {
                               
             }, 
             start: function( event, ui ) {
- 
+
+                startInitDragging();
+
                 if( ui.item.parent().parent().hasClass( 'spb_tabs_holder' ) || ui.item.parent().parent().parent().parent().hasClass( 'spb_accordion_holder' ) ){
                     ui.item.parent().append( '<div  class="newrowbottom_sortable_element spb_content_element spb_sortable span12  spb_last spb_first ui-sortable-handle" style="position: relative; opacity: 1; z-index: 0;"></div>');
                 }  
                                        
-                jQuery( 'body' ).addClass( 'startedDragging' ); 
+                
                 ui.item.closest('.spb_row').find( '.spb_element_wrapper').first().find( '.spb_column_container' ).first().append( '<div  class="newrowbottom_sortable_element spb_content_element spb_sortable span12  spb_last spb_first ui-sortable-handle" style="position: relative; opacity: 1; z-index: 0;"></div>');
                 jQuery( '.spb_elem_controls' ).hide();
                 ui.placeholder.css("opacity", "0");
@@ -2668,7 +2950,8 @@ function initDroppable() {
 
             },
             stop: function() {
-
+                
+                endInitDragging();
                 jQuery( '#spb_content' ).removeClass( 'sorting-started' );
                 jQuery( '.spb_row' ).removeClass( 'sorting-started' );
                 jQuery.swift_page_builder.addLastClass( ".spb_main_sortable" );
@@ -3092,7 +3375,7 @@ function columnControls() {
         
         var elementSaveModal = '<div class="modal_wrapper"><a class="waves-effect waves-light btn modal-trigger" href="#modal-delete">Modal</a><div id="modal1" class="modal modal_spb"><div class="modal-content">';
         elementSaveModal += '<h4>' + sfTranslatedText.attr( 'data-spb-delete-element-header' ) + '</h4><div class="row"> <div class="input-field delete-block col s12"><label>' + sfTranslatedText.attr( 'data-spb-delete-element-header' ) + '</label>';
-        elementSaveModal += '</div></div><div class="modal-footer modal-delete-element"><a href="#!" class=" modal-action modal-close waves-effect modal-ok-button btn-flat">OK</a><a href="#!" class=" modal-action modal-close waves-effect modal-cancel-button btn-flat">Cancel</a></div></div></div></div>';
+        elementSaveModal += '</div></div><div class="modal-footer modal-delete-element"><a href="#!" class=" modal-action spb-modal-close waves-effect modal-ok-button btn-flat">OK</a><a href="#!" class=" modal-action spb-modal-close waves-effect modal-cancel-button btn-flat">Cancel</a></div></div></div></div>';
         jQuery( '#spb' ).append( elementSaveModal );  
         jQuery('#modal1').openModal();            
         deletedElement = jQuery( this ); 
@@ -3157,8 +3440,8 @@ function columnControls() {
             save_spb_html();
         }
     });
-
-    jQuery(document).on("click", ".column_edit, .column_edit_trigger", function(e) {
+  
+    jQuery(document).on("click", "#spb .column_edit, #spb .column_edit_trigger", function(e) {
         
         e.preventDefault();
         var element = jQuery( this ).closest( '.spb_sortable' );
@@ -3330,6 +3613,20 @@ function saveSmallFormEditing() {
     return false;
 }
 
+function detailedControls ( element ) {
+    
+     if ( element.is( ":checked" ) ) {
+            jQuery( ' #spb .css-detailed-controls, .spb_edit_wrap .lb_css_field' ).hide();
+
+            jQuery( ' #spb .design_tab .lb_uislider' ).parent().show();
+
+                
+    } else {
+            jQuery( ' #spb .css-detailed-controls, .spb_edit_wrap .lb_css_field').show(); 
+            jQuery( ' #spb .design_tab .lb_uislider' ).parent().hide();
+    }
+
+}
 
 /* Show widget edit form
  ---------------------------------------------------------- */
@@ -3366,7 +3663,7 @@ function showEditForm( element ) {
             cancel: '.spb_edit_wrap',
             delay: 300
         });
-
+ 
         jQuery('.textfield').each(function() {
             var $this = jQuery(this),
                 thisLabel = $this.next('label');
@@ -3376,7 +3673,11 @@ function showEditForm( element ) {
             }
         });
 
-        jQuery('.edit_form_line').find('select').not('.disabled').material_select();  
+        jQuery('#spb .edit_form_line').find( '.simplified_controls' ).each( function(){
+           detailedControls( jQuery( this ) );
+        });
+
+        jQuery('#spb .edit_form_line').find('select').not('.disabled').material_select();  
         jQuery('.icon_section_holder, .pricing_column_holder').find('select').not('.disabled').material_select();  
         jQuery('.collapsible').collapsible( { accordion : false  });
         check_form_dependency_fields();
@@ -3403,7 +3704,8 @@ function showEditForm( element ) {
         });
 
         var form_content;
-        if ( element.attr( "data-element_type" ) == 'spb_text_block' ) {  
+        if ( element.attr( "data-element_type" ) == 'spb_text_block' ) {
+
             if ( element.find('.content').is("[data-form-content]") ) {
 
                 form_content = element.find('.content').attr('data-form-content');    
@@ -3414,7 +3716,7 @@ function showEditForm( element ) {
             jQuery('.spb_edit_form_elements #form_content').parent().parent().parent().hide();
 
             if ( form_content !== undefined && form_content.indexOf('</form>') >= 0 ) {
-               tinyMCE.activeEditor.setContent(form_content);
+               tinyMCE.activeEditor.setContent( form_content );
             }
         } 
     });
@@ -3472,6 +3774,82 @@ function saveFormEditing( element ) {
             new_value = shortcode_value;         
         }
 
+        if ( element_to_update == 'custom_css' ) {
+
+            var mt, ml, mb, mr, pt, pl, pr, pb, bt, bl, br, bb, css_value, border_color, border_style, bg_color, bg_image, css_unit;
+
+            if( jQuery('#spb_edit_form .custom_css_percentage').attr('checked') == 'checked' ){
+                css_unit = '%';
+            } else{
+                css_unit = 'px';
+            }  
+             
+            mt = jQuery('#spb_edit_form .custom-margin-top').val();
+            ml = jQuery('#spb_edit_form .custom-margin-left').val();
+            mr = jQuery('#spb_edit_form .custom-margin-right').val();
+            mb = jQuery('#spb_edit_form .custom-margin-bottom').val();
+            bt = jQuery('#spb_edit_form .custom-border-top').val();
+            bl = jQuery('#spb_edit_form .custom-border-left').val();
+            br = jQuery('#spb_edit_form .custom-border-right').val();
+            bb = jQuery('#spb_edit_form .custom-border-bottom').val();
+            pt = jQuery('#spb_edit_form .custom-padding-top').val();
+            pl = jQuery('#spb_edit_form .custom-padding-left').val();
+            pr = jQuery('#spb_edit_form .custom-padding-right').val();
+            pb = jQuery('#spb_edit_form .custom-padding-bottom').val();
+            border_color = jQuery('#spb_edit_form .border_color_global').val();
+            border_style = jQuery('#spb_edit_form .border_styling_global').find( 'select' ).val();
+            bg_color = jQuery('#spb_edit_form .back_color_global').val();
+
+            if( mt == '' ){
+                mt = 0;
+            }
+            if( ml == '' ){
+                ml = 0;
+            }
+            if( mr == '' ){
+                mr = 0;
+            }
+            if( mb == '' ){
+                mb = 0;
+            }
+            if( bt == '' ){
+                bt = 0;
+            }
+            if( bl == '' ){
+                bl = 0;
+            }
+            if( br == '' ){
+                br = 0;
+            }
+            if( bb == '' ){
+                bb = 0;
+            }
+            if( pt == '' ){
+                pt = 0;
+            }
+            if( pl == '' ){
+                pl = 0;
+            }
+            if( pr == '' ){
+                pr = 0;
+            }
+            if( pb == '' ){
+                pb = 0;
+            }
+
+            css_value = 'margin-top: '+ mt + css_unit + ';margin-bottom: '+ mb + css_unit + ';';
+            css_value += 'border-top: '+ bt + 'px ' + border_style + ' ' + border_color + ';border-left: '+ bl + 'px ' + border_style + ' ' + border_color + ';border-right: '+ br + 'px ' + border_style + ' ' + border_color + ';border-bottom: '+ bb + 'px ' + border_style + ' ' + border_color + ';';
+            css_value += 'padding-top: '+ pt + css_unit + ';padding-left: '+ pl + css_unit + ';padding-right: '+ pr + css_unit + ';padding-bottom: '+ pb + css_unit + ';';
+
+            if ( bg_color != ''  && bg_color != undefined ){
+                css_value += 'background-color:' + bg_color + ';';
+            }
+
+            jQuery( this ).val( css_value );
+
+
+        }
+
         if ( jQuery( this ).hasClass('pricing_column_holder') ) {
             shortcode_value = '';
             var feature_shortcode_value = '';  
@@ -3510,7 +3888,7 @@ function saveFormEditing( element ) {
         }
 
 
-        if ( element.attr('data-element_type') != "spb_row" ){
+        if ( element.attr('data-element_type') != "spb_row" && element.attr('data-element_type') != "spb_column"){
             if ( element_to_update === 'element_name' && jQuery( this ).val() !== '' ) {
                 element.find('.el_name_holder').first().html(jQuery( this ).val());
             }
@@ -3519,7 +3897,7 @@ function saveFormEditing( element ) {
             }
         } else {
             if ( element_to_update === 'element_name' && jQuery( this ).val() !== '' ) {
-               element.find('.asset-name').html(jQuery( this ).val());
+               element.find('.asset-name').first().html(jQuery( this ).val());
             }
         }
 
@@ -3714,7 +4092,7 @@ function saveFormEditing( element ) {
 
 		} else {
 			//element.find('.'+element_to_update).val(new_value);
-            if( element.hasClass( 'spb_row') && element_to_update == 'element_name' ){
+            if( element.hasClass( 'spb_row') && element_to_update == 'element_name' || element_to_update == 'custom_css' || element_to_update == 'back_color_global' || element_to_update == 'border_styling_global' || element_to_update == 'bk_image_global'  || element_to_update == 'border_color_global' ){
                 element.find( '[name=' + element_to_update + ']' ).last().val( new_value );
             }else {
 			    element.find( '[name=' + element_to_update + ']' ).val( new_value );
@@ -3790,7 +4168,7 @@ function getTinyMceHtml( obj ) {
 
 function initTinyMce( element ) {
     var qt, textfield_id = element.attr( "id" ),
-        form_line = element.closest( '.edit_form_line' ),
+        form_line = element.closest( '#spb .edit_form_line' ),
         content_holder = form_line.find( '.spb-textarea.textarea_html' );
     
     //var content = content_holder.val();
@@ -3915,7 +4293,7 @@ function clear_page_builder_content() {
         
     var elementSaveModal = '<div class="modal_wrapper"><a class="waves-effect waves-light btn modal-trigger" href="#modal-delete">Modal</a><div id="modal-delete-pb-content" class="modal modal_spb"><div class="modal-content">';
     elementSaveModal += '<h4>' + modal_header_msg + '</h4><div class="row"> <div class="input-field delete-block col s12"><label>' + modal_clear_pb__msg + '</label>';
-    elementSaveModal += '</div></div><div class="modal-footer modal-delete-page-builder-content"><a href="#!" class=" modal-action modal-close waves-effect modal-ok-button btn-flat">Yes</a><a href="#!" class=" modal-action modal-close waves-effect modal-cancel-button btn-flat">No</a></div></div></div></div>';
+    elementSaveModal += '</div></div><div class="modal-footer modal-delete-page-builder-content"><a href="#!" class=" modal-action spb-modal-close waves-effect modal-ok-button btn-flat">Yes</a><a href="#!" class=" modal-action spb-modal-close waves-effect modal-cancel-button btn-flat">No</a></div></div></div></div>';
     jQuery( '#spb' ).append( elementSaveModal );  
     jQuery('#modal-delete-pb-content').openModal();   
 }

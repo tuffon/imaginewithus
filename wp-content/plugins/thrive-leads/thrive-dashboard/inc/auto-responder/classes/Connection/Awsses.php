@@ -186,16 +186,16 @@ class Thrive_Dash_List_Connection_Awsses extends Thrive_Dash_List_Connection_Abs
 	 * @return mixed
 	 */
 	protected function _apiInstance() {
-		switch ($this->param( 'country' )) {
+		switch ( $this->param( 'country' ) ) {
 			case 'ireland':
 				$country = "email.eu-west-1.amazonaws.com";
-        break;
+				break;
 			case 'useast':
 				$country = "email.us-east-1.amazonaws.com";
-        break;
+				break;
 			case 'uswest':
 				$country = "email.us-west-2.amazonaws.com";
-        break;
+				break;
 		}
 
 		return new Thrive_Dash_Api_Awsses( $this->param( 'key' ), $this->param( 'secretkey' ), $country );

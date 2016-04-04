@@ -7,7 +7,22 @@
 <tr>
 	<th><label><?php _e( 'Size', 'go_pricing_textdomain' ); ?> <span class="gwa-info">(px)</span></label></th>
 	<td><input type="text" name="fa-size" data-attr="style" data-value="font-size:{value}px;"  data-type="int"></td>
-	<td class="gwa-abox-info"><p class="gwa-info"><i class="fa fa-info-circle"></i><?php _e( 'Font size of the icon. (optional).', 'go_pricing_textdomain' ); ?></p></td>									
+	<td class="gwa-abox-info"><p class="gwa-info"><i class="fa fa-info-circle"></i><?php _e( 'Font size of the icon (optional).', 'go_pricing_textdomain' ); ?></p></td>									
+</tr>
+<tr>
+	<th><label><?php _e( 'Width', 'go_pricing_textdomain' ); ?> <span class="gwa-info">(px)</span></label></th>
+	<td><input type="text" name="fa-width" data-attr="style" data-value="width:{value}px;"  data-type="int"></td>
+	<td class="gwa-abox-info"><p class="gwa-info"><i class="fa fa-info-circle"></i><?php _e( 'Width of the icon. Leave blank if want to specify auto width (optional).', 'go_pricing_textdomain' ); ?></p></td>									
+</tr>
+<tr>
+	<th><label><?php _e( 'Aligment', 'go_pricing_textdomain' ); ?></label></th>
+	<td>
+		<select name="fa-alignment" data-attr="style" data-value="text-align:{value};">                                
+			<option value=""><?php _e( 'Left', 'go_pricing_textdomain' ); ?></option>
+			<option value="center"><?php _e( 'Center', 'go_pricing_textdomain' ); ?></option>
+			<option value="right"><?php _e( 'Right', 'go_pricing_textdomain' ); ?></option>
+		</select>	
+	<td class="gwa-abox-info"><p class="gwa-info"><i class="fa fa-info-circle"></i><?php _e( 'Alignment of the icon. You can set it when fixed with is used (optional).', 'go_pricing_textdomain' ); ?></p></td>									
 </tr>
 <tr class="gwa-row-fullwidth">
 	<th><label><?php _e( 'Icon', 'go_pricing_textdomain' ); ?></label></th>
@@ -26,7 +41,8 @@
 					<option value="4.1">4.1 (92)</option>
 					<option value="4.2">4.2 (43)</option>
 					<option value="4.3">4.3 (42)</option>
-					<option value="4.4">4.4 (78)</option>																																	
+					<option value="4.4">4.4 (78)</option>
+					<option value="4.5">4.5 (20)</option>																																	
 			    </select>
 			</div>			
 		</div>
@@ -107,6 +123,8 @@
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-bitbucket-square"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-bitcoin"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-black-tie" data-filter="4.4"></i></a>
+			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-bluetooth" data-filter="4.5"></i></a>
+			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-bluetooth-b" data-filter="4.5"></i></a>			
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-bold"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-bolt"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-bomb" data-filter="4.1"></i></a>
@@ -185,6 +203,7 @@
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-code"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-code-fork"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-codepen" data-filter="4.1"></i></a>
+			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-codiepie" data-filter="4.5"></i></a>			
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-coffee"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-cog"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-cogs"></i></a>
@@ -203,6 +222,7 @@
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-copyright" data-filter="4.2"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-creative-commons" data-filter="4.4"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-credit-card"></i></a>
+			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-credit-card-alt" data-filter="4.5"></i></a>			
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-crop"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-crosshairs"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-css3"></i></a>
@@ -225,6 +245,7 @@
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-dribbble"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-dropbox"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-drupal" data-filter="4.1"></i></a>
+			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-edge" data-filter="4.5"></i></a>			
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-edit"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-eject"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-ellipsis-h"></i></a>
@@ -295,7 +316,8 @@
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-font"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-fonticons" data-filter="4.4"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-forumbee" data-filter="4.3"></i></a>
-			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-forward"></i></a>
+			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-fort-awesome" data-filter="4.5"></i></a>			
+			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-forward"></i></a>			
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-foursquare"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-frown-o"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-futbol-o" data-filter="4.2"></i></a>
@@ -340,6 +362,7 @@
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-hand-scissors-o" data-filter="4.4"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-hand-spock-o" data-filter="4.4"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-hand-stop-o" data-filter="4.4"></i></a>
+			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-hashtag" data-filter="4.5"></i></a>			
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-hdd-o"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-header" data-filter="4.1"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-headphones"></i></a>
@@ -439,8 +462,10 @@
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-minus-circle"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-minus-square"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-minus-square-o"></i></a>
+			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-mixcloud" data-filter="4.5"></i></a>			
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-mobile"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-mobile-phone"></i></a>
+			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-modx" data-filter="4.5"></i></a>			
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-money"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-moon-o"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-mortar-board" data-filter="4.1"></i></a>
@@ -467,11 +492,14 @@
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-paragraph" data-filter="4.1"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-paste"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-pause"></i></a>
+			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-pause-circle" data-filter="4.5"></i></a>
+			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-pause-circle-o" data-filter="4.5"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-paw" data-filter="4.1"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-paypal" data-filter="4.2"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-pencil"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-pencil-square"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-pencil-square-o"></i></a>
+			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-percent" data-filter="4.5"></i></a>			
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-phone"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-phone-square"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-photo"></i></a>
@@ -493,6 +521,7 @@
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-plus-square-o" data-filter="4.0"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-power-off"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-print"></i></a>
+			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-product-hunt" data-filter="4.5"></i></a>			
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-puzzle-piece"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-qq" data-filter="4.1"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-qrcode"></i></a>
@@ -505,6 +534,7 @@
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-rebel" data-filter="4.1"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-recycle" data-filter="4.1"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-reddit" data-filter="4.1"></i></a>
+			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-reddit-alien" data-filter="4.5"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-reddit-square" data-filter="4.1"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-refresh"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-registered" data-filter="4.4"></i></a>
@@ -546,6 +576,8 @@
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-shield"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-ship" data-filter="4.3"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-shirtsinbulk" data-filter="4.3"></i></a>
+			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-shopping-bag" data-filter="4.5"></i></a>
+			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-shopping-basket" data-filter="4.5"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-shopping-cart"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-sign-in"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-sign-out"></i></a>
@@ -558,6 +590,7 @@
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-sliders" data-filter="4.1"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-slideshare" data-filter="4.2"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-smile-o"></i></a>
+			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-scribd" data-filter="4.5"></i></a>			
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-soccer-ball-o" data-filter="4.2"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-sort"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-sort-alpha-asc"></i></a>
@@ -593,6 +626,8 @@
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-sticky-note" data-filter="4.4"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-sticky-note-o" data-filter="4.4"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-stop"></i></a>
+			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-stop-circle" data-filter="4.5"></i></a>
+			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-stop-circle-o" data-filter="4.5"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-street-view" data-filter="4.3"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-strikethrough"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-stumbleupon" data-filter="4.1"></i></a>
@@ -663,6 +698,7 @@
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-unlock-alt"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-unsorted"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-upload"></i></a>
+			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-usb" data-filter="4.5"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-usd"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-user"></i></a>
 			<a href="#" class="gwa-icon-picker-icon" data-action="ip-select" tabindex="0"><i class="fa fa-user-md"></i></a>

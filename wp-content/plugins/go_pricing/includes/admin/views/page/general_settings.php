@@ -29,23 +29,35 @@ $general_settings = get_option( self::$plugin_prefix . '_table_settings' );
 		
 		<!-- Admin Box -->
 		<div class="gwa-abox">
-			<div class="gwa-abox-header">
-				<div class="gwa-abox-header-icon"><i class="fa fa-cogs"></i></div>
-				<div class="gwa-abox-title"><?php _e( 'Admin & General', 'go_pricing_textdomain' ); ?></div>
+			<div class="gwa-abox-header gwa-abox-header-tabs">
+				<div class="gwa-abox-header-tab gwa-current">
+					<div class="gwa-abox-header-icon"><i class="fa fa-cogs"></i></div>
+					<div class="gwa-abox-title"><?php _e( 'Admin', 'go_pricing_textdomain' ); ?></div>
+				</div>
+				<div class="gwa-abox-header-tab">
+					<div class="gwa-abox-header-icon"><i class="fa fa-link"></i></div>
+					<div class="gwa-abox-title"><?php _e( 'Assets', 'go_pricing_textdomain' ); ?></div>
+				</div>					
+				<div class="gwa-abox-header-tab">
+					<div class="gwa-abox-header-icon"><i class="fa fa-code"></i></div>
+					<div class="gwa-abox-title"><?php _e( 'Custom CSS', 'go_pricing_textdomain' ); ?></div>	
+				</div>									
 				<div class="gwa-abox-ctrl"></div>
 			</div>
-			<div class="gwa-abox-content-wrap">
-				<div class="gwa-abox-content">
+			<div class="gwa-abox-content-wrap gwa-abox-tab-contents">
+				<div class="gwa-abox-content gwa-abox-tab-content gwa-current">
 					<table class="gwa-table">
 						<tr>
 							<th><label><?php _e( 'Enable AJAX', 'go_pricing_textdomain' ); ?></label></th>
 							<td><p><label><span class="gwa-checkbox<?php echo !empty( $general_settings['admin']['ajax'] ) ? ' gwa-checked' : ''; ?>" tabindex="0"><span></span><input type="checkbox" name="admin[ajax]" value="1" <?php echo !empty( $general_settings['admin']['ajax'] ) ? ' checked="checked"' : ''; ?>></span><?php _e( 'Yes', 'go_pricing_textdomain' ); ?></label></p></td>							
 							<td class="gwa-abox-info"><p class="gwa-info"><i class="fa fa-info-circle"></i><?php _e( 'Whether to enable AJAX request mode in admin area.', 'go_pricing_textdomain' ); ?></p></td>									
 						</tr>				    							                                                       
-					</table>					
-					<div class="gwa-table-separator"></div>
-					<?php if ( current_user_can( 'manage_options' ) ) : ?>
-					<table class="gwa-table">
+						<tr>
+							<th><label><?php _e( 'Live Preview Safe Mode', 'go_pricing_textdomain' ); ?></label></th>
+							<td><p><label><span class="gwa-checkbox<?php echo !empty( $general_settings['safe-preview'] ) ? ' gwa-checked' : ''; ?>" tabindex="0"><span></span><input type="checkbox" name="safe-preview" value="1" <?php echo !empty( $general_settings['safe-preview'] ) ? ' checked="checked"' : ''; ?>></span><?php _e( 'Yes', 'go_pricing_textdomain' ); ?></label></p></td>							
+							<td class="gwa-abox-info"><p class="gwa-info"><i class="fa fa-info-circle"></i><?php _e( 'Whether to enable Safe Mode for Live Previews. Required if the direct access of PHP files in "wp-content" folder is restricted. e.g. The "Restrict wp-content access" option of Sucuri Security plugin is enabled.', 'go_pricing_textdomain' ); ?></p></td>									
+						</tr>
+						<?php if ( current_user_can( 'manage_options' ) ) : ?>						
 						<tr>
 							<th><label><?php _e( 'Select User Role', 'go_pricing_textdomain' ); ?></label></th>
 							<td>
@@ -58,25 +70,56 @@ $general_settings = get_option( self::$plugin_prefix . '_table_settings' );
 							</td>
 							<td class="gwa-abox-info"><p class="gwa-info"><i class="fa fa-info-circle"></i><?php _e( 'Set user access to the plugin.', 'go_pricing_textdomain' ); ?></p></td>									
 						</tr>				    							                                                       
-					</table>
-					<div class="gwa-table-separator"></div>						
-					<table class="gwa-table">
-						<tr>
-							<th><label><?php _e( 'Live Preview Safe Mode', 'go_pricing_textdomain' ); ?></label></th>
-							<td><p><label><span class="gwa-checkbox<?php echo !empty( $general_settings['safe-preview'] ) ? ' gwa-checked' : ''; ?>" tabindex="0"><span></span><input type="checkbox" name="safe-preview" value="1" <?php echo !empty( $general_settings['safe-preview'] ) ? ' checked="checked"' : ''; ?>></span><?php _e( 'Yes', 'go_pricing_textdomain' ); ?></label></p></td>							
-							<td class="gwa-abox-info"><p class="gwa-info"><i class="fa fa-info-circle"></i><?php _e( 'Whether to enable Safe Mode for Live Previews. Required if the direct access of PHP files in "wp-content" folder is restricted. e.g. The "Restrict wp-content access" option of Sucuri Security plugin is enabled.', 'go_pricing_textdomain' ); ?></p></td>									
-						</tr>				    							                                                       
-					</table>									
-					<div class="gwa-table-separator"></div>
-					<?php endif; ?>				
-					<table class="gwa-table">
-						<tr>
-							<th><label><?php _e( 'Enable CSS Transitions', 'go_pricing_textdomain' ); ?></label></th>
-							<td><p><label><span class="gwa-checkbox<?php echo isset( $general_settings['transitions'] ) ? ' gwa-checked' : ''; ?>" tabindex="0"><span></span><input type="checkbox" name="transitions" value="1" <?php echo isset( $general_settings['transitions'] ) ? ' checked="checked"' : ''; ?>></span><?php _e( 'Yes', 'go_pricing_textdomain' ); ?></label></p></td>
-							<td class="gwa-abox-info"><p class="gwa-info"><i class="fa fa-info-circle"></i><?php _e( 'Whether to enable CSS transitions.', 'go_pricing_textdomain' ); ?></p></td>									
-						</tr>						
-					</table>																																													
+			    		<?php endif; ?>						                                                       
+					</table>																																																			
 				</div>
+				<div class="gwa-abox-content gwa-abox-tab-content">				
+					<table class="gwa-table">					
+						<tr>
+							<th><label><?php _e( 'Plugin Page(s)', 'go_pricing_textdomain' ); ?></label></th>
+							<td><input type="text" name="plugin-pages" value="<?php echo esc_attr( isset( $general_settings['plugin-pages'] ) ? $general_settings['plugin-pages'] : '' ); ?>"></td>
+							<td class="gwa-abox-info"><p class="gwa-info"><i class="fa fa-info-circle"></i><?php _e( 'Comma separated list of page/post IDs (e.g. 13, 54, 126). Use to restrict the plugin to load JavaScript & CSS files for the selected pages only improving site performance. Leave blank if you don\'t want any restriction.', 'go_pricing_textdomain' ); ?></p></td>
+						</tr>
+						<tr>
+							<th><label><?php _e( 'Load JavaScript In Header', 'go_pricing_textdomain' ); ?></label></th>
+							<td><p><label><span class="gwa-checkbox<?php echo !empty( $general_settings['js-in-header'] ) ? ' gwa-checked' : ''; ?>" tabindex="0"><span></span><input type="checkbox" name="js-in-header" value="1" <?php echo !empty( $general_settings['js-in-header'] ) ? ' checked="checked"' : ''; ?>></span><?php _e( 'Yes', 'go_pricing_textdomain' ); ?></label></p></td>							
+							<td class="gwa-abox-info"><p class="gwa-info"><i class="fa fa-info-circle"></i><?php _e( 'Whether to load plugin JavaScript in header section of the website. Disable it to load it in the page footer (recommended).', 'go_pricing_textdomain' ); ?></p></td>									
+						</tr>
+						<tr class="gwa-row-separator"></tr>
+						<tr class="gwa-row-fullwidth">
+							<th><p><?php _e( 'Prevent Font Icon CSS Files From Loading', 'go_pricing_textdomain' ); ?></p></th>
+							<td><p class="gwa-info"><i class="fa fa-info-circle"></i><?php _e( 'CSS files of font icons are loaded automatically by the plugin, only when necessary. Disabling loading a fontset allows you prevent the required files are loaded multiple times.', 'go_pricing_textdomain' ); ?></p></td>
+						<tr>
+							<th><label><?php _e( 'Font Awesome', 'go_pricing_textdomain' ); ?></label></th>
+							<td><p><label><span class="gwa-checkbox<?php echo !empty( $general_settings['disable-font']['fa'] ) ? ' gwa-checked' : ''; ?>" tabindex="0"><span></span><input type="checkbox" name="disable-font[fa]" value="1" <?php echo !empty( $general_settings['disable-font']['fa'] ) ? ' checked="checked"' : ''; ?>></span><?php _e( 'Yes', 'go_pricing_textdomain' ); ?></label></p></td>							
+							<td class="gwa-abox-info"><p class="gwa-info"><i class="fa fa-info-circle"></i><?php printf( __( 'Whether to prevent loading the required files for %s iconset.', 'go_pricing_textdomain' ), 'Font Awesome' ); ?></p></td>									
+						</tr>
+						<tr>
+							<th><label><?php _e( 'Linecon', 'go_pricing_textdomain' ); ?></label></th>
+							<td><p><label><span class="gwa-checkbox<?php echo !empty( $general_settings['disable-font']['linecon'] ) ? ' gwa-checked' : ''; ?>" tabindex="0"><span></span><input type="checkbox" name="disable-font[linecon]" value="1" <?php echo !empty( $general_settings['disable-font']['linecon'] ) ? ' checked="checked"' : ''; ?>></span><?php _e( 'Yes', 'go_pricing_textdomain' ); ?></label></p></td>							
+							<td class="gwa-abox-info"><p class="gwa-info"><i class="fa fa-info-circle"></i><?php printf( __( 'Whether to prevent loading the required files for %s iconset.', 'go_pricing_textdomain' ), 'Linecon' ); ?></p></td>									
+						</tr>
+						<tr>
+							<th><label><?php _e( 'Icomoon', 'go_pricing_textdomain' ); ?></label></th>
+							<td><p><label><span class="gwa-checkbox<?php echo !empty( $general_settings['disable-font']['icomoon'] ) ? ' gwa-checked' : ''; ?>" tabindex="0"><span></span><input type="checkbox" name="disable-font[icomoon]" value="1" <?php echo !empty( $general_settings['disable-font']['icomoon'] ) ? ' checked="checked"' : ''; ?>></span><?php _e( 'Yes', 'go_pricing_textdomain' ); ?></label></p></td>							
+							<td class="gwa-abox-info"><p class="gwa-info"><i class="fa fa-info-circle"></i><?php printf( __( 'Whether to prevent loading the required files for %s iconset.', 'go_pricing_textdomain' ), 'Icomoon' ); ?></p></td>									
+						</tr>
+						<tr>
+							<th><label><?php _e( 'Material Icons', 'go_pricing_textdomain' ); ?></label></th>
+							<td><p><label><span class="gwa-checkbox<?php echo !empty( $general_settings['disable-font']['material'] ) ? ' gwa-checked' : ''; ?>" tabindex="0"><span></span><input type="checkbox" name="disable-font[material]" value="1" <?php echo !empty( $general_settings['disable-font']['material'] ) ? ' checked="checked"' : ''; ?>></span><?php _e( 'Yes', 'go_pricing_textdomain' ); ?></label></p></td>							
+							<td class="gwa-abox-info"><p class="gwa-info"><i class="fa fa-info-circle"></i><?php printf( __( 'Whether to prevent loading the required files for %s iconset.', 'go_pricing_textdomain' ), 'Material Icons' ); ?></p></td>									
+						</tr>																								
+					</table>
+				</div>
+				<div class="gwa-abox-content gwa-abox-tab-content">
+					<table class="gwa-table">							
+						<tr class="gwa-row-fullwidth">
+							<th><label><?php _e( 'Code', 'go_pricing_textdomain' ); ?></label></th>
+							<td><textarea name="custom-css" rows="10"><?php echo isset( $general_settings['custom-css'] ) ? ( $general_settings['custom-css'] ) : ''; ?></textarea></td>
+							<td class="gwa-abox-info"><p class="gwa-info"><i class="fa fa-info-circle"></i><?php _e( 'The code will be added to the plugin frontend style.', 'go_pricing_textdomain' ); ?></p></td>
+						</tr>
+					</table>
+				</div>				
 			</div>
 		</div>
 		<!-- /Admin Box -->
@@ -148,31 +191,6 @@ $general_settings = get_option( self::$plugin_prefix . '_table_settings' );
 					?>																																																										
 				</div>
 			 </div>
-		</div>
-		<!-- /Admin Box -->
-		
-		<!-- Submit -->
-		<div class="gwa-submit"><button type="submit" class="gwa-btn-style1"><?php _e( 'Save', 'go_pricing_textdomain' ); ?></button></div>
-		<!-- /Submit -->
-
-		<!-- Admin Box -->
-		<div class="gwa-abox">
-			<div class="gwa-abox-header">
-				<div class="gwa-abox-header-icon"><i class="fa fa-code"></i></div>
-				<div class="gwa-abox-title"><?php _e( 'Custom CSS Code', 'go_pricing_textdomain' ); ?></div>
-				<div class="gwa-abox-ctrl"></div>
-			</div>
-			<div class="gwa-abox-content-wrap">
-				<div class="gwa-abox-content">
-					<table class="gwa-table">							
-						<tr class="gwa-row-fullwidth">
-							<th><label><?php _e( 'Code', 'go_pricing_textdomain' ); ?></label></th>
-							<td><textarea name="custom-css" rows="10"><?php echo isset( $general_settings['custom-css'] ) ? ( $general_settings['custom-css'] ) : ''; ?></textarea></td>
-							<td class="gwa-abox-info"><p class="gwa-info"><i class="fa fa-info-circle"></i><?php _e( 'The code will be added to the plugin frontend style.', 'go_pricing_textdomain' ); ?></p></td>
-						</tr>
-					</table>
-				</div>
-			</div>
 		</div>
 		<!-- /Admin Box -->
 		

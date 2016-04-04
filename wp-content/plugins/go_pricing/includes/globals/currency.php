@@ -187,7 +187,7 @@ $go_pricing['currency'] = array (
 	array(
 		'name' => 'Russian Ruble',
 		'id' => 'RUB',
-		'symbol' => '&#1088;&#1091;&#1073;.'
+		'symbol' => '&#x20bd;'
 	),
 	array(
 		'name' => 'Signapore Dollar',
@@ -243,7 +243,12 @@ $go_pricing['currency'] = array (
 		'name' => 'Egyptian Pound',
 		'id' => 'EGP',
 		'symbol' => 'EGP'
-	)
+	),
+	array(
+		'name' => 'Saudi Riyal',
+		'id' => 'SAR',
+		'symbol' => 'ريال'
+	)	
 );
 
 // Global currency filter

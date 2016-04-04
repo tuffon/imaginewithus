@@ -62,9 +62,13 @@ $this->delete_temp_postdata();
 						<div class="gwa-abox-title"><?php _e( 'Layout', 'go_pricing_textdomain' ); ?></div>	
 					</div>
 					<div class="gwa-abox-header-tab">
-						<div class="gwa-abox-header-icon"><i class="fa fa fa-columns"></i></div>
+						<div class="gwa-abox-header-icon"><i class="fa fa-columns"></i></div>
 						<div class="gwa-abox-title"><?php _e( 'Responsivity', 'go_pricing_textdomain' ); ?></div>	
-					</div>										
+					</div>
+					<div class="gwa-abox-header-tab">
+						<div class="gwa-abox-header-icon"><i class="fa fa-code"></i></div>
+						<div class="gwa-abox-title"><?php _e( 'Custom CSS', 'go_pricing_textdomain' ); ?></div>	
+					</div>												
 					<div class="gwa-abox-ctrl"></div>
 				</div>
 				<div class="gwa-abox-content-wrap gwa-abox-tab-contents">					
@@ -239,7 +243,17 @@ $this->delete_temp_postdata();
 							</tr>														
 						</table>
 						
-					</div>					
+					</div>
+					<div class="gwa-abox-content gwa-abox-tab-content">				
+						<table class="gwa-table">
+							<tr class="gwa-row-fullwidth">
+								<th><label><?php _e( 'Code', 'go_pricing_textdomain' ); ?></label></th>
+								<td><textarea name="custom-css" rows="10"><?php echo isset( $table_data['custom-css'] ) ? ( $table_data['custom-css'] ) : ''; ?></textarea></td>
+								<td class="gwa-abox-info"><p class="gwa-info"><i class="fa fa-info-circle"></i><?php _e( 'This code will be applied to the current table style.', 'go_pricing_textdomain' ); ?></p></td>
+							</tr>						
+						</table>
+						
+					</div>									
 										
 				 </div>
 			</div>

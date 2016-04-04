@@ -25,7 +25,7 @@
 			</div>
 		</div>
 	</li>
-	<li class="tve_text tve_firstOnRow" data-multiple-hide>
+	<li class="tve_text tve_firstOnRow tve_date_control" data-multiple-hide>
 		<label class="tve_text">
 			<?php echo __( "Date", "thrive-cb" ) ?> <input type="text" class="tve_datepicker" id="ct_date"/>
 		</label>
@@ -53,7 +53,7 @@
 		</label>
 	</li>
 	<li class="tve_clear" data-multiple-hide></li>
-	<li class="tve_btn_text tve_firstOnRow" data-multiple-hide>
+	<li class="tve_btn_text tve_firstOnRow tve_date_control" data-multiple-hide>
 		<label class="tve_text">
 			<?php echo __( "Text to show on complete", "thrive-cb" ) ?> <input type="text" class="tve_change" id="ct_text"/>
 		</label>

@@ -27,6 +27,9 @@ if ( ! class_exists( 'Tve_Dash_Thrive_Icon_Manager_Data' ) ) {
 		/**
 		 *
 		 * @param string $zip_file full path to IcoMoon zip file
+		 * @param string $zip_url
+		 *
+		 * @throws Exception
 		 *
 		 * @return array processed icons - Icon classes and the url to the css file
 		 */
@@ -36,14 +39,24 @@ if ( ! class_exists( 'Tve_Dash_Thrive_Icon_Manager_Data' ) ) {
 			//Step 1: make sure the destination folder exists
 			$font_dir_path = dirname( $zip_file ) . '/' . $clean_filename;
 
-			$old_umask = umask( 0 );
-			if ( ! is_dir( $font_dir_path ) && ! @mkdir( $font_dir_path, 0777 ) ) {
-				throw new Exception( 'Could not create Icon folder' );
+			//Step 1.1 prepare the filesystem
+			$extra = array(
+				'tve_save_icon_pack',
+				'tve_icon_pack_url',
+				'attachment_id',
+			);
+
+			$credentials = request_filesystem_credentials( admin_url( "admin.php?page=tve_dash_icon_manager" ), '', false, false, $extra );
+			if ( ! $credentials ) {
+				//show FTP form
+				die;
 			}
 
-			//Step 2: unzip the archive to destination
-			define( 'FS_METHOD', 'direct' );
-			WP_Filesystem();
+			if ( ! WP_Filesystem( $credentials ) ) {
+				throw new Exception( "Invalid credentials" );
+			}
+
+			//Step 2: unzip
 			$result = unzip_file( $zip_file, $font_dir_path );
 			if ( is_wp_error( $result ) ) {
 				throw new Exception( 'Error (unzip): ' . $result->get_error_message() );
@@ -66,8 +79,6 @@ if ( ! class_exists( 'Tve_Dash_Thrive_Icon_Manager_Data' ) ) {
 			//check the files expected to be in zip
 			$this->checkExtractedFiles( $font_dir_path );
 			$this->applyChangesOnStyle( $font_dir_path . '/style.css', $font_family );
-
-			umask( $old_umask );
 
 			if ( empty( $config ) || empty( $config['icons'] ) ) {
 				throw new Exception( 'It seems something is wrong inside the selection.json config file' );
