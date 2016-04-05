@@ -34,7 +34,7 @@ if ( ! apply_filters( 'woocommerce_order_item_visible', true, $item ) ) {
 			do_action( 'woocommerce_order_item_meta_start', $item_id, $item, $order );
 
 			$order->display_item_meta( $item );
-			$order->display_item_downloads( $item );
+			displayDownloads( $item );
 
 			do_action( 'woocommerce_order_item_meta_end', $item_id, $item, $order );
 		?>
@@ -48,3 +48,35 @@ if ( ! apply_filters( 'woocommerce_order_item_visible', true, $item ) ) {
 	<td colspan="3"><?php echo wpautop( do_shortcode( wp_kses_post( $purchase_note ) ) ); ?></td>
 </tr>
 <?php endif; ?>
+
+<?php
+
+function displayDownloads( $item ){
+	$product = getProductFromItem( $item );
+
+	if ( $product && $product->exists() && $product->is_downloadable() && $this->is_download_permitted() ) {
+		$download_files = $this->get_item_downloads( $item );
+		$i              = 0;
+		$links          = array();
+
+		foreach ( $download_files as $download_id => $file ) {
+			$i++;
+			$prefix  = count( $download_files ) > 1 ? sprintf( __( 'Download %d', 'woocommerce' ), $i ) : __( 'Download', 'woocommerce' );
+			$links[] = '<span class="download-url">' . $prefix . ': <a href="' . esc_url( $file['download_url'] ) . '" target="_blank">' . esc_html( $file['name'] ) . '</a></span>' . "\n";
+		}
+
+		echo '<br/>' . implode( '<br/>', $links );
+	}
+}
+
+function getProductFromItem( $item ){
+	if ( ! empty( $item['variation_id'] ) && 'product_variation' === get_post_type( $item['variation_id'] ) ) {
+		$_product = wc_get_product( $item['variation_id'] );
+	} elseif ( ! empty( $item['product_id']  ) ) {
+		$_product = wc_get_product( $item['product_id'] );
+	} else {
+		$_product = false;
+	}
+
+	return apply_filters( 'woocommerce_get_product_from_item', $_product, $item, $this );
+}
