@@ -14,6 +14,7 @@ $tooltip_text = "";
 ?>
 
 <?php if ( ! $product->is_in_stock() ) : ?>
+
 	<?php echo sf_wishlist_button(); ?>
 
 <?php else : ?>
