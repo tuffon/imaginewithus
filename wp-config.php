@@ -33,6 +33,10 @@ define('DB_CHARSET', 'utf8');
 /** The Database Collate type. Don't change this if in doubt. */
 define('DB_COLLATE', '');
 
+define('WP_HOME', 'wp.local/');
+
+define('WP_ADMIN_DIR', 'wp-admin');
+define( 'ADMIN_COOKIE_PATH', SITECOOKIEPATH . WP_ADMIN_DIR);
 /**#@+
  * Authentication Unique Keys and Salts.
  *
