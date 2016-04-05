@@ -53,6 +53,18 @@ if ( ! $product->is_purchasable() ) return;
 	<form class="cart" method="post" enctype='multipart/form-data'>
 	 	<?php do_action( 'woocommerce_before_add_to_cart_button' ); ?>
 
+	 	<?php
+	 		if ( ! $product->is_sold_individually() )
+	 			woocommerce_quantity_input( array(
+	 				'min_value' => apply_filters( 'woocommerce_quantity_input_min', 1, $product ),
+	 				'max_value' => apply_filters( 'woocommerce_quantity_input_max', $product->backorders_allowed() ? '' : $product->get_stock_quantity(), $product )
+	 			) );
+	 	?>
+
+	 	<input type="hidden" name="add-to-cart" value="<?php echo esc_attr( $product->id ); ?>" />
+
+	 	<button type="submit" data-product_id="<?php echo esc_attr($product->id); ?>" data-quantity="<?php echo esc_attr( $minimum_allowed_quantity ); ?>" data-default_text="<?php echo esc_attr($product->single_add_to_cart_text()); ?>" data-default_icon="sf-icon-add-to-cart" data-loading_text="<?php echo esc_attr($loading_text); ?>" data-added_text="<?php echo esc_attr($added_text); ?>" class="<?php echo $button_class; ?> ajax_add_to_cart product_type_simple button alt"><?php echo apply_filters('sf_add_to_cart_icon', '<i class="sf-icon-add-to-cart"></i>'); ?><span><?php echo esc_attr($product->single_add_to_cart_text()); ?></span></button>
+
 		<?php echo sf_wishlist_button(); ?>
 
 		<?php do_action( 'woocommerce_after_add_to_cart_button' ); ?>
