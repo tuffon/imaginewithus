@@ -34,21 +34,8 @@ if ( ! apply_filters( 'woocommerce_order_item_visible', true, $item ) ) {
 			do_action( 'woocommerce_order_item_meta_start', $item_id, $item, $order );
 
 			$order->display_item_meta( $item );
-			$product = $order->get_product_from_item( $item );
+			$order->display_item_downloads( $item );
 
-			if ( $product && $product->exists() && $product->is_downloadable() && $this->is_download_permitted() ) {
-				$download_files = $this->get_item_downloads( $item );
-				$i              = 0;
-				$links          = array();
-
-				foreach ( $download_files as $download_id => $file ) {
-					$i++;
-					$prefix  = count( $download_files ) > 1 ? sprintf( __( 'Download %d', 'woocommerce' ), $i ) : __( 'Download', 'woocommerce' );
-					$links[] = '<h4 class="download-url"><span>' . $prefix . ': <a href="' . esc_url( $file['download_url'] ) . '" target="_blank">' . esc_html( $file['name'] ) . '</a></span></h4>' . "\n";
-				}
-
-				echo '<br/>' . implode( '<br/>', $links );
-			}
 			do_action( 'woocommerce_order_item_meta_end', $item_id, $item, $order );
 		?>
 	</td>
