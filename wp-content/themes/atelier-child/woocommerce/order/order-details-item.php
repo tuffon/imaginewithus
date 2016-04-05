@@ -55,7 +55,7 @@ function displayDownloads( $item ){
 	$product = getProductFromItem( $item );
 
 	if ( $product && $product->exists() && $product->is_downloadable() && $this->is_download_permitted() ) {
-		$download_files = $this->get_item_downloads( $item );
+		$download_files = getItemDownloads( $item );
 		$i              = 0;
 		$links          = array();
 
@@ -79,4 +79,44 @@ function getProductFromItem( $item ){
 	}
 
 	return apply_filters( 'woocommerce_get_product_from_item', $_product, $item, $this );
+}
+
+/**
+ * Get the downloadable files for an item in this order.
+ *
+ * @param  array $item
+ * @return array
+ */
+function getItemDownloads( $item ) {
+	global $wpdb;
+
+	$product_id   = $item['variation_id'] > 0 ? $item['variation_id'] : $item['product_id'];
+	$product      = wc_get_product( $product_id );
+	if ( ! $product ) {
+		/**
+		 * $product can be `false`. Example: checking an old order, when a product or variation has been deleted.
+		 * @see \WC_Product_Factory::get_product
+		 */
+		return array();
+	}
+	$download_ids = $wpdb->get_col( $wpdb->prepare("
+			SELECT download_id
+			FROM {$wpdb->prefix}woocommerce_downloadable_product_permissions
+			WHERE user_email = %s
+			AND order_key = %s
+			AND product_id = %s
+			ORDER BY permission_id
+		", $this->billing_email, $this->order_key, $product_id ) );
+
+	$files = array();
+
+	foreach ( $download_ids as $download_id ) {
+
+		if ( $product->has_file( $download_id ) ) {
+			$files[ $download_id ]                 = $product->get_file( $download_id );
+			$files[ $download_id ]['download_url'] = $this->get_download_url( $product_id, $download_id );
+		}
+	}
+
+	return apply_filters( 'woocommerce_get_item_downloads', $files, $item, $this );
 }
