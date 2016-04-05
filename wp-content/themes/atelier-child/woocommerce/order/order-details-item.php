@@ -39,7 +39,7 @@ if ( ! apply_filters( 'woocommerce_order_item_visible', true, $item ) ) {
 			$order->display_item_downloads( $item );
 			$output = ob_get_contents();
 			ob_end_clean();
-			echo $output;
+			echo str_replace("small", "h4", $output);
 
 			do_action( 'woocommerce_order_item_meta_end', $item_id, $item, $order );
 		?>
