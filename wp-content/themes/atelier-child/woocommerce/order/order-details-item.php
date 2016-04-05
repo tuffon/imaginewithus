@@ -34,8 +34,7 @@ if ( ! apply_filters( 'woocommerce_order_item_visible', true, $item ) ) {
 			do_action( 'woocommerce_order_item_meta_start', $item_id, $item, $order );
 
 			$order->display_item_meta( $item );
-
-			$product = $this->get_product_from_item( $item );
+			$product = $order->get_product_from_item( $item );
 
 			if ( $product && $product->exists() && $product->is_downloadable() && $this->is_download_permitted() ) {
 				$download_files = $this->get_item_downloads( $item );
