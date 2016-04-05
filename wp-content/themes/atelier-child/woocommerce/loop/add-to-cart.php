@@ -70,6 +70,12 @@ $tooltip_text = "";
 		$added_text_short = __( 'Added', 'swiftframework' );
 		$added_tooltip_text = __( 'Added to cart', 'swiftframework' );
 
+		// Add to Cart
+		echo '<div class="add-to-cart-wrap" data-toggle="tooltip" data-placement="top" title="'.$tooltip_text.'" data-tooltip-added-text="'.$added_tooltip_text.'">';
+		echo apply_filters( 'woocommerce_loop_add_to_cart_link', sprintf('<a href="%s" rel="nofollow" data-product_id="%s" data-product_sku="%s" class="%s product_type_%s" data-default_icon="%s" data-loading_text="%s" data-added_text="%s" data-added_short="%s">%s</a>', esc_url( $link['url'] ), esc_attr( $product->id ), esc_attr( $product->get_sku() ), esc_attr( $link['class'] ), esc_attr( $product->product_type ), $link['icon_class'], $loading_text, $added_text, $added_text_short, $link['label'] ), $product, $link);
+		echo '</div>';
+
+
 		// Wishlist Button
 		echo sf_wishlist_button();
 
